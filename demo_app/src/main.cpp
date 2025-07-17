@@ -4,6 +4,7 @@
 
 int main() {
     Engine engine;
-    
+
     std::cout << "Demo app started" << std::endl;
+	engine.run();    
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine_export.h"
+#include "constants.h"
 
 struct SDL_Window;
 
@@ -9,6 +10,11 @@ public:
     Engine();
     ~Engine();
 
+    void run();
+
 private:
-    SDL_Window* windowHandle = nullptr;
+	bool m_isInitialized = false;
+
+    WindowSettings m_windowSettings;
+    SDL_Window* m_windowHandle = nullptr;
 };
