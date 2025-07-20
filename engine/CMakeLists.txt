@@ -1,3 +1,6 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_library(engine SHARED
     src/engine.cpp
 )
@@ -10,6 +13,7 @@ target_include_directories(engine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR} # for engine_export.h
 
+    ${CMAKE_SOURCE_DIR}/thirdparty/glm
     ${CMAKE_SOURCE_DIR}/thirdparty/SDL/include
     ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bgfx/include
 )

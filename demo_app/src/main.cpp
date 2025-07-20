@@ -1,9 +1,12 @@
 #include <iostream>
 
-#include "engine.h"
+#include "Engine.h"
+#include <Logger.h>
 
 int main() {
     Engine engine;
-    
-    std::cout << "Demo app started" << std::endl;
+
+    LOG_INFO("Demo app started");
+
+	engine.run();    
 }
