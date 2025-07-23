@@ -1,9 +1,14 @@
 #include <iostream>
+#include <format>
+#include <chrono>
 
-#include "engine.h"
+#include "Engine.h"
+#include <Logger.h>
 
 int main() {
     Engine engine;
-    
-    std::cout << "Demo app started" << std::endl;
+
+    LOG_INFO(std::format("Demo app started at: {}", std::chrono::system_clock::now()));
+
+	engine.run();    
 }
