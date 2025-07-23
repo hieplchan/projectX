@@ -10,7 +10,7 @@ Engine::Engine() {
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        LOG_ERROR("SDL_Init failed: " + std::string(SDL_GetError()));
+        LOG_ERROR(std::format("SDL_Init failed: {}", SDL_GetError()));
         return;
     }
 
@@ -21,7 +21,7 @@ Engine::Engine() {
         SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!m_windowHandle) {
-        LOG_ERROR("SDL_CreateWindow failed: " + std::string(SDL_GetError()));
+        LOG_ERROR(std::format("SDL_CreateWindow failed: {}", SDL_GetError()));
         return;
     }
 
@@ -29,7 +29,7 @@ Engine::Engine() {
     SDL_SysWMinfo wmi;
     SDL_VERSION(&wmi.version);
     if (!SDL_GetWindowWMInfo(m_windowHandle, &wmi)) {
-        LOG_ERROR("SDL_GetWindowWMInfo failed: " + std::string(SDL_GetError()));
+        LOG_ERROR(std::format("SDL_GetWindowWMInfo failed: {}", SDL_GetError()));
         return;
     }
 

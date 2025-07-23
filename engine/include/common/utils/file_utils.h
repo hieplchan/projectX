@@ -14,13 +14,13 @@
 std::optional<std::vector<uint8_t>> tryLoadFileWithSDL(const std::filesystem::path& path) {
     SDL_RWops *rw = SDL_RWFromFile(path.string().c_str(), "rb");
     if (!rw) {
-        LOG_ERROR("Cannot open file: {}", path.string());
+        LOG_ERROR(std::format("Cannot open file: {}", path.string()));
         return std::nullopt;
     }
 
     Sint64 size = SDL_RWsize(rw);
     if (size <= 0) {
-        LOG_ERROR("Invalid file size {}", path.string());
+        LOG_ERROR(std::format("Invalid file size {}", path.string()));
         SDL_RWclose(rw);
         return std::nullopt; 
     }
@@ -28,7 +28,7 @@ std::optional<std::vector<uint8_t>> tryLoadFileWithSDL(const std::filesystem::pa
     std::vector<uint8_t> buf(static_cast<size_t>(size));
     size_t readSize = SDL_RWread(rw, buf.data(), 1, buf.size());
     if (readSize != buf.size()) {
-        LOG_ERROR("Read error ({} of {} bytes): {}", readSize, buf.size(), path.string());
+        LOG_ERROR(std::format("Read error ({} of {} bytes): {}", readSize, buf.size(), path.string()));
         SDL_RWclose(rw);
         return std::nullopt;
     }

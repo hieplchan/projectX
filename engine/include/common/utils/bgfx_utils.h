@@ -18,7 +18,7 @@ inline bgfx::ShaderHandle loadShader(const std::string& name) {
     
     auto data = tryLoadFileWithSDL(shaderPath);
     if (!data) {
-        LOG_ERROR("Failed to load shader: {}", shaderPath.string());
+        LOG_ERROR(std::format("Failed to load shader: {}", shaderPath.string()));
         return BGFX_INVALID_HANDLE;
     }
 
@@ -28,20 +28,20 @@ inline bgfx::ShaderHandle loadShader(const std::string& name) {
 inline bgfx::ProgramHandle loadProgram(const std::string& vsName, const std::string& fsName) {
     bgfx::ShaderHandle vertexShader = loadShader(vsName);
     if (!bgfx::isValid(vertexShader)) {
-        LOG_ERROR("Vertex shader {} is invalid", vsName);
+        LOG_ERROR(std::format("Vertex shader {} is invalid", vsName));
         return BGFX_INVALID_HANDLE;
     }
 
     bgfx::ShaderHandle fragmentShader = loadShader(fsName);
     if (!bgfx::isValid(fragmentShader)) {
-        LOG_ERROR("Fragment shader {} is invalid", fsName);
+        LOG_ERROR(std::format("Fragment shader {} is invalid", fsName));
         bgfx::destroy(vertexShader);
         return BGFX_INVALID_HANDLE;
     }
 
     bgfx::ProgramHandle program = bgfx::createProgram(vertexShader, fragmentShader, true);
     if (!bgfx::isValid(program)) {
-        LOG_ERROR("Failed to create program from {} and {}", vsName, fsName);
+        LOG_ERROR(std::format("Failed to create program from {} and {}", vsName, fsName));
         BGFX_SAFE_DESTROY_HANDLE(vertexShader);
         BGFX_SAFE_DESTROY_HANDLE(fragmentShader);
         return BGFX_INVALID_HANDLE;

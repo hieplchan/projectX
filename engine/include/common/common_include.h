@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <vector>
 #include <memory>
+#include <format>
 
 #include <SDL.h>
 #include <bgfx/bgfx.h>
