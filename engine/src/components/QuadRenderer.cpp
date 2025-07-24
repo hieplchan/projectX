@@ -5,6 +5,7 @@
 #include "QuadRenderer.h"
 
 namespace {
+    // Define the vertex layout for the quad renderer, position only
     const bgfx::VertexLayout& getQuadLayout() {
         static const bgfx::VertexLayout layout = []() {
             bgfx::VertexLayout tmp;
@@ -16,13 +17,22 @@ namespace {
         return layout;
     }
 
-    // const bgfx::ProgramHandle quadPrograme() {
-    //     static const bgfx::ProgramHandle p = loadPro
-    // }
+    // Load the flat-colored quad shader program
+    bgfx::ProgramHandle quadProgram() {
+        static const bgfx::ProgramHandle p = loadProgram("vs_quad", "fs_quad");
+        return p;
+    }
+
+    // Uniform for the quad color
+    bgfx::UniformHandle quadColorUniform() {
+        static const bgfx::UniformHandle u = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+        return u;
+    }
 }
 
 QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) 
 {
+    // Top-left, bottom-left, bottom-right, top-right
     Pos2D vertices[4] = {
         {0.0f, 0.0f},
         {1.0f, 0.0f},
@@ -30,8 +40,7 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color)
         {0.0f, 1.0f},
     };
 
-    // Create index buffer for the quad
-    // Two triangles: (0, 1, 2) and (0, 2, 3)
+    // Quad = 2 triangles: (0, 1, 2) and (0, 2, 3)
     uint16_t indices[6] = { 0, 1, 2, 0, 2, 3 };
 
     m_vb = bgfx::createVertexBuffer(
@@ -54,9 +63,14 @@ void QuadRenderer::render(GameObject& owner)
     const auto* transform = owner.getComponent<Transform>();
     glm::mat4 mtx = transform ? transform->matrix() : glm::mat4(1.0f);
 
+    // set transform and color
     bgfx::setTransform(&mtx[0][0]);
     bgfx::setVertexBuffer(0, m_vb);
     bgfx::setIndexBuffer(m_ib);
-    // bgfx::setTexture(0, bgfx::UniformHandle(), m_tex);
-    // bgfx::submit(m_windowSettings.viewId, bgfx::ProgramHandle());
+
+    // Set color
+    bgfx::setUniform(quadColorUniform(), &m_color[0]);
+
+    // Submit the draw call
+    bgfx::submit(m_windowSettings.viewId, quadProgram());
 }

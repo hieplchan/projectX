@@ -92,3 +92,8 @@ void Engine::run() {
         bgfx::frame();
     }
 }
+
+void Engine::addGameObject(std::unique_ptr<GameObject> go)
+{
+    m_gameObjects.push_back(std::move(go));
+}

@@ -3,4 +3,4 @@
 #include <string>
 #include <filesystem>
 
-static inline constexpr auto shaderRootDir = "data/shader/";
+static inline constexpr auto shaderDir = "data/shaders/";

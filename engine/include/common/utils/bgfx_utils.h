@@ -14,7 +14,7 @@
     } while (0)
 
 inline bgfx::ShaderHandle loadShader(const std::string& name) {
-    std::filesystem::path shaderPath = shaderRootDir + name + ".bin";
+    std::filesystem::path shaderPath = shaderDir + name + ".bin";
     
     auto data = tryLoadFileWithSDL(shaderPath);
     if (!data) {
