@@ -11,7 +11,7 @@
  * @param path Path to the file.
  * @return File contents as a byte buffer, or std::nullopt on failure.
  */
-std::optional<std::vector<uint8_t>> tryLoadFileWithSDL(const std::filesystem::path& path) {
+inline std::optional<std::vector<uint8_t>> tryLoadFileWithSDL(const std::filesystem::path& path) {
     SDL_RWops *rw = SDL_RWFromFile(path.string().c_str(), "rb");
     if (!rw) {
         LOG_ERROR(std::format("Cannot open file: {}", path.string()));

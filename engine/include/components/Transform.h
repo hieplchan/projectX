@@ -21,4 +21,7 @@ public:
         M = glm::scale(M, scale);
         return M;
     };
+
+    void update(GameObject& owner, float deltaTime) override {}
+    void render(GameObject& owner) override {}
 };

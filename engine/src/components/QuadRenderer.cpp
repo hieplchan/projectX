@@ -1,8 +1,10 @@
+
+// #include "Renderer.h"
+
 #include "common/common_include.h"
 
-#include "Transform.h"
-#include "Renderer.h"
-#include "QuadRenderer.h"
+#include "components/Transform.h"
+#include "components/QuadRenderer.h"
 
 namespace {
     // Define the vertex layout for the quad renderer, position only

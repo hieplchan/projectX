@@ -32,3 +32,5 @@ public:
 private:
     std::vector<std::unique_ptr<Component>> m_components;
 };
+
+#include "GameObject.inl"

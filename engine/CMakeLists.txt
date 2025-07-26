@@ -1,9 +1,11 @@
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(engine SHARED
-    src/engine.cpp
+file(GLOB_RECURSE ENGINE_SOURCES CMAKE_CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
+
+add_library(engine SHARED ${ENGINE_SOURCES})
 
 set_target_properties(engine PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
