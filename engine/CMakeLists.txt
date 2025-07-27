@@ -18,6 +18,7 @@ target_include_directories(engine PUBLIC
     ${CMAKE_SOURCE_DIR}/thirdparty/glm
     ${CMAKE_SOURCE_DIR}/thirdparty/SDL/include
     ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bgfx/include
+    ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bx/include
 )
 
 target_link_libraries(engine PRIVATE SDL2 bgfx)

@@ -15,6 +15,7 @@
 
 inline bgfx::ShaderHandle loadShader(const std::string& name) {
     std::filesystem::path shaderPath = shaderDir + name + ".bin";
+    LOG_INFO(std::format("Loading shader from: {}", shaderPath.string()));
     
     auto data = tryLoadFileWithSDL(shaderPath);
     if (!data) {
@@ -26,6 +27,8 @@ inline bgfx::ShaderHandle loadShader(const std::string& name) {
 }
 
 inline bgfx::ProgramHandle loadProgram(const std::string& vsName, const std::string& fsName) {
+    LOG_INFO(std::format("Loading program with vertex shader: {} and fragment shader: {}", vsName, fsName));
+
     bgfx::ShaderHandle vertexShader = loadShader(vsName);
     if (!bgfx::isValid(vertexShader)) {
         LOG_ERROR(std::format("Vertex shader {} is invalid", vsName));

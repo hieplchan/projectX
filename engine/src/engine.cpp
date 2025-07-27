@@ -2,6 +2,7 @@
 
 #include <SDL_syswm.h>
 #include <bgfx/platform.h>
+#include <bx/math.h>
 
 #include "Engine.h"
 
@@ -79,6 +80,8 @@ Engine::~Engine() {
 void Engine::run() {
     LOG_INFO("Engine::run()");
 
+    auto lastFrameTime = std::chrono::high_resolution_clock::now();
+    
     bool running = true;
     while (running) {
         SDL_Event ev;
@@ -87,8 +90,42 @@ void Engine::run() {
                 running = false;
             }
         }
+
+        auto now = std::chrono::high_resolution_clock::now();
+        float deltaTime = std::chrono::duration<float>(now - lastFrameTime).count();
+        lastFrameTime = now;
+
+        // Set up view matrix (ortho)
+        float proj[16];
+        bx::mtxOrtho(
+            proj,
+            0.0f,
+            float(m_windowSettings.width),
+            float(m_windowSettings.height),
+            0.0f,
+            0.0f, 1000.0f,
+            0.0f, // homogeneousDepth
+            bgfx::getCaps()->homogeneousDepth
+        );
+
+        float view[16];
+        bx::mtxIdentity(view);
+
+        bgfx::setViewTransform(0, view, proj);
+        bgfx::setViewRect(0, 0, 0, uint16_t(m_windowSettings.width), uint16_t(m_windowSettings.height));
+        bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+
+        // Update and render all game objects
+        for (const auto& go : m_gameObjects) {
+            go->update(deltaTime);
+        }
+
+        for (const auto& go : m_gameObjects) {
+            go->render();
+        }
+
         // Ensure view 0 is cleared and rendered
-        bgfx::touch(0);
+        // bgfx::touch(0);
         bgfx::frame();
     }
 }
