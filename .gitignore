@@ -1,6 +1,7 @@
 # Visual Studio Folder
 /build
 /.vs
+/.vscode
 /out
 
 # Prerequisites
