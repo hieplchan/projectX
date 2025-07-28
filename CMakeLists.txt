@@ -18,3 +18,6 @@ add_subdirectory(engine)
 
 # Application
 add_subdirectory(demo_app)
+
+# Test code
+add_subdirectory(test_code)
