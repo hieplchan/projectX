@@ -20,4 +20,14 @@ add_custom_command(TARGET bgfx_quad POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:SDL2>
         $<TARGET_FILE_DIR:bgfx_quad>
+
+    # Vertex shader binary in project root
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/vs_quad.bin
+        $<TARGET_FILE_DIR:bgfx_quad>
+
+    # Fragment shader binary in project root
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/fs_quad.bin
+        $<TARGET_FILE_DIR:bgfx_quad>
 )
