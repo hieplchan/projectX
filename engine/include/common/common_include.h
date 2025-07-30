@@ -11,6 +11,7 @@
 
 #include <SDL.h>
 #include <bgfx/bgfx.h>
+#include <bx/math.h>
 
 #include "constants.h"
 #include "typedefs.h"

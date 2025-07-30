@@ -23,6 +23,7 @@ inline bgfx::ShaderHandle loadShader(const std::string& name) {
         return BGFX_INVALID_HANDLE;
     }
 
+	LOG_INFO(std::format("Shader {} loaded successfully, size: {} bytes", name, data->size()));
     return bgfx::createShader(bgfx::makeRef(data->data(), data->size()));
 }
 

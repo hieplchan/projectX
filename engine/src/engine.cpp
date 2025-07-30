@@ -19,7 +19,7 @@ Engine::Engine() {
     m_windowHandle = SDL_CreateWindow(m_windowSettings.title.c_str(), 
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
         m_windowSettings.width, m_windowSettings.height, 
-        SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
+        SDL_WINDOW_SHOWN);
 
     if (!m_windowHandle) {
         LOG_ERROR(std::format("SDL_CreateWindow failed: {}", SDL_GetError()));
@@ -37,7 +37,7 @@ Engine::Engine() {
     bgfx::PlatformData pd;
 #if defined(_WIN32)
     pd.ndt = nullptr;
-    pd.nwh = wmi.info.win.window;
+    pd.nwh = reinterpret_cast<void *>(wmi.info.win.window);
 #else
 	LOG("Unsupported platform for bgfx initialization");
 #endif
@@ -56,12 +56,12 @@ Engine::Engine() {
         return;
     }
 
-    // Setup default view 0
-    bgfx::setViewClear(m_windowSettings.viewId, 
-        BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 
-        0x303030ff, // dark gray background
-        1.0f, 0);
-    bgfx::setViewRect(m_windowSettings.viewId, 0, 0, init.resolution.width, init.resolution.height);
+    bgfx::reset(m_windowSettings.width, m_windowSettings.height, BGFX_RESET_VSYNC);
+    bgfx::setDebug(BGFX_DEBUG_TEXT /*| BGFX_DEBUG_STATS*/);
+    bgfx::setViewRect(0, 0, 0, uint16_t(m_windowSettings.width), uint16_t(m_windowSettings.height));
+    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+    // Set empty primitive on screen
+    bgfx::touch(0);
 
     m_isInitialized = true;
     LOG_INFO("Engine initialized successfully");
@@ -95,38 +95,18 @@ void Engine::run() {
         float deltaTime = std::chrono::duration<float>(now - lastFrameTime).count();
         lastFrameTime = now;
 
-        // Set up view matrix (ortho)
-        float proj[16];
-        bx::mtxOrtho(
-            proj,
-            0.0f,
-            float(m_windowSettings.width),
-            float(m_windowSettings.height),
-            0.0f,
-            0.0f, 1000.0f,
-            0.0f, // homogeneousDepth
-            bgfx::getCaps()->homogeneousDepth
-        );
+        // // Update and render all game objects
+        // for (const auto& go : m_gameObjects) {
+        //     go->update(deltaTime);
+        // }
 
-        float view[16];
-        bx::mtxIdentity(view);
-
-        bgfx::setViewTransform(0, view, proj);
-        bgfx::setViewRect(0, 0, 0, uint16_t(m_windowSettings.width), uint16_t(m_windowSettings.height));
-        bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
-
-        // Update and render all game objects
-        for (const auto& go : m_gameObjects) {
-            go->update(deltaTime);
-        }
-
-        for (const auto& go : m_gameObjects) {
-            go->render();
-        }
+         for (const auto& go : m_gameObjects) {
+             go->render();
+         }
 
         // Ensure view 0 is cleared and rendered
         // bgfx::touch(0);
-        bgfx::frame();
+        // bgfx::frame();
     }
 }
 
