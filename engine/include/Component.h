@@ -4,7 +4,7 @@ class GameObject;
 
 /**
  * @brief Base component class
- * 
+ *
  * Lifecycle: update -> render
  */
 class Component {

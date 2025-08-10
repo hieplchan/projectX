@@ -6,8 +6,7 @@
 #include "components/Transform.h"
 #include "components/QuadRenderer.h"
 
-namespace
-{
+namespace {
     struct PosColorVertex
     {
         float m_x;
@@ -15,8 +14,7 @@ namespace
         float m_z;
         uint32_t m_abgr;
 
-        static void init()
-        {
+        static void init() {
             ms_decl
                 .begin()
                 .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -29,36 +27,33 @@ namespace
     bgfx::VertexLayout PosColorVertex::ms_decl;
 
     static PosColorVertex s_cubeVertices[] =
-        {
-            {0.5f, 0.5f, 0.0f, 0xff0000ff},
-            {0.5f, -0.5f, 0.0f, 0xff0000ff},
-            {-0.5f, -0.5f, 0.0f, 0xff00ff00},
-            {-0.5f, 0.5f, 0.0f, 0xff00ff00}
-        };
+    {
+        {0.5f, 0.5f, 0.0f, 0xff0000ff},
+        {0.5f, -0.5f, 0.0f, 0xff0000ff},
+        {-0.5f, -0.5f, 0.0f, 0xff00ff00},
+        {-0.5f, 0.5f, 0.0f, 0xff00ff00}
+    };
 
     static const uint16_t s_cubeTriList[] =
-        {
-            0, 1, 3,
-            1, 2, 3
-        };
+    {
+        0, 1, 3,
+        1, 2, 3
+    };
 
     // Load the flat-colored quad shader program
-    bgfx::ProgramHandle quadProgram()
-    {
+    bgfx::ProgramHandle quadProgram() {
         static const bgfx::ProgramHandle p = loadProgram("vs_quad", "fs_quad");
         return p;
     }
 
     // Uniform for the quad color
-    bgfx::UniformHandle quadColorUniform()
-    {
+    bgfx::UniformHandle quadColorUniform() {
         static const bgfx::UniformHandle u = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
         return u;
     }
 }
 
-QuadRenderer::QuadRenderer(const glm::vec4 &color) : m_color(color)
-{
+QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) {
     LOG_INFO("QuadRenderer::QuadRenderer()");
 
 #pragma region Load Shaders
@@ -77,16 +72,14 @@ QuadRenderer::QuadRenderer(const glm::vec4 &color) : m_color(color)
 #pragma endregion
 }
 
-QuadRenderer::~QuadRenderer()
-{
+QuadRenderer::~QuadRenderer() {
     LOG_INFO("QuadRenderer::~QuadRenderer()");
     BGFX_SAFE_DESTROY_HANDLE(m_vb);
     BGFX_SAFE_DESTROY_HANDLE(m_ib);
 }
 
-void QuadRenderer::render(GameObject &owner)
-{
-    LOG_INFO("QuadRenderer::render()");
+void QuadRenderer::render(GameObject& owner) {
+    // LOG_INFO("QuadRenderer::render()");
     // const auto* transform = owner.getComponent<Transform>();
     // glm::mat4 mtx = transform ? transform->matrix() : glm::mat4(1.0f);
 
@@ -102,7 +95,7 @@ void QuadRenderer::render(GameObject &owner)
     // bgfx::submit(m_windowSettings.viewId, quadProgram());
 
 #pragma region Camera
-    const bx::Vec3 at  = { 0.0f, 0.0f,   0.0f };
+    const bx::Vec3 at = { 0.0f, 0.0f,   0.0f };
     const bx::Vec3 eye = { 0.0f, 0.0f, 10.0f };
 
     // Set view and projection matrix for view 0.
@@ -111,17 +104,17 @@ void QuadRenderer::render(GameObject &owner)
 
     float proj[16];
     bx::mtxProj(proj,
-                60.0f,
-                float(m_windowSettings.width)/float(m_windowSettings.height),
-                0.1f, 100.0f,
-                bgfx::getCaps()->homogeneousDepth);
+        60.0f,
+        float(m_windowSettings.width) / float(m_windowSettings.height),
+        0.1f, 100.0f,
+        bgfx::getCaps()->homogeneousDepth);
 
     bgfx::setViewTransform(0, view, proj);
 
     // Set view 0 default viewport.
     bgfx::setViewRect(0, 0, 0,
-                        m_windowSettings.width,
-                        m_windowSettings.height);
+        m_windowSettings.width,
+        m_windowSettings.height);
 
     bgfx::touch(0);
 #pragma endregion
@@ -149,5 +142,5 @@ void QuadRenderer::render(GameObject &owner)
     bgfx::submit(0, m_prog);
 #pragma endregion
 
-    bgfx::frame();
+    // bgfx::frame();
 }

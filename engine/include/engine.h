@@ -23,7 +23,7 @@ public:
     void addGameObject(std::unique_ptr<GameObject> go);
 
 private:
-	bool m_isInitialized = false;
+    bool m_isInitialized = false;
 
     WindowSettings m_windowSettings;
     SDL_Window* m_windowHandle = nullptr;

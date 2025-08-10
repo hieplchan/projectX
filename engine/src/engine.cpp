@@ -7,7 +7,7 @@
 #include "Engine.h"
 
 Engine::Engine() {
-    LOG_INFO("Engine::Engine()");
+    LOG_INFO("constructing...");
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -16,9 +16,9 @@ Engine::Engine() {
     }
 
     // Create a window
-    m_windowHandle = SDL_CreateWindow(m_windowSettings.title.c_str(), 
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        m_windowSettings.width, m_windowSettings.height, 
+    m_windowHandle = SDL_CreateWindow(m_windowSettings.title.c_str(),
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        m_windowSettings.width, m_windowSettings.height,
         SDL_WINDOW_SHOWN);
 
     if (!m_windowHandle) {
@@ -37,9 +37,9 @@ Engine::Engine() {
     bgfx::PlatformData pd;
 #if defined(_WIN32)
     pd.ndt = nullptr;
-    pd.nwh = reinterpret_cast<void *>(wmi.info.win.window);
+    pd.nwh = reinterpret_cast<void*>(wmi.info.win.window);
 #else
-	LOG("Unsupported platform for bgfx initialization");
+    LOG("Unsupported platform for bgfx initialization");
 #endif
     bgfx::setPlatformData(pd);
 
@@ -68,7 +68,9 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    LOG_INFO("Engine::~Engine()");
+    LOG_INFO("destructing...");
+
+    bgfx::shutdown();
 
     if (m_windowHandle) {
         SDL_DestroyWindow(m_windowHandle);
@@ -78,10 +80,10 @@ Engine::~Engine() {
 }
 
 void Engine::run() {
-    LOG_INFO("Engine::run()");
+    LOG_INFO("Game loop started");
 
     auto lastFrameTime = std::chrono::high_resolution_clock::now();
-    
+
     bool running = true;
     while (running) {
         SDL_Event ev;
@@ -100,17 +102,14 @@ void Engine::run() {
         //     go->update(deltaTime);
         // }
 
-         for (const auto& go : m_gameObjects) {
-             go->render();
-         }
+        for (const auto& go : m_gameObjects) {
+            go->render();
+        }
 
-        // Ensure view 0 is cleared and rendered
-        // bgfx::touch(0);
-        // bgfx::frame();
+        bgfx::frame();
     }
 }
 
-void Engine::addGameObject(std::unique_ptr<GameObject> go)
-{
+void Engine::addGameObject(std::unique_ptr<GameObject> go) {
     m_gameObjects.push_back(std::move(go));
 }

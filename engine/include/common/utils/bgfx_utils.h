@@ -16,14 +16,14 @@
 inline bgfx::ShaderHandle loadShader(const std::string& name) {
     std::filesystem::path shaderPath = shaderDir + name + ".bin";
     LOG_INFO(std::format("Loading shader from: {}", shaderPath.string()));
-    
+
     auto data = tryLoadFileWithSDL(shaderPath);
     if (!data) {
         LOG_ERROR(std::format("Failed to load shader: {}", shaderPath.string()));
         return BGFX_INVALID_HANDLE;
     }
 
-	LOG_INFO(std::format("Shader {} loaded successfully, size: {} bytes", name, data->size()));
+    LOG_INFO(std::format("Shader {} loaded successfully, size: {} bytes", name, data->size()));
     return bgfx::createShader(bgfx::makeRef(data->data(), data->size()));
 }
 

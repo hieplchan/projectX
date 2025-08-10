@@ -7,7 +7,7 @@
 
 /**
  * @brief Game object that manages components
- * 
+ *
  * Lifecycle: update -> render (applied to all components)
  */
 class GameObject {
@@ -17,7 +17,7 @@ public:
 
     /** Update all components */
     void update(float deltaTime);
-    
+
     /** Render all components */
     void render();
 
