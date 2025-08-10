@@ -6,7 +6,8 @@
 
 #include "Engine.h"
 
-Engine::Engine() {
+Engine::Engine()
+    : m_ctx(std::make_shared<RuntimeContext>()) {
     LOG_INFO("constructing...");
 
     // Initialize SDL
@@ -16,9 +17,9 @@ Engine::Engine() {
     }
 
     // Create a window
-    m_windowHandle = SDL_CreateWindow(m_windowSettings.title.c_str(),
+    m_windowHandle = SDL_CreateWindow(m_ctx->window.title.c_str(),
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        m_windowSettings.width, m_windowSettings.height,
+        m_ctx->window.width, m_ctx->window.height,
         SDL_WINDOW_SHOWN);
 
     if (!m_windowHandle) {
@@ -46,8 +47,8 @@ Engine::Engine() {
     // Initialize bgfx
     bgfx::Init init;
     init.type = bgfx::RendererType::Count; // Let bgfx choose the best renderer
-    init.resolution.width = m_windowSettings.width;
-    init.resolution.height = m_windowSettings.height;
+    init.resolution.width = m_ctx->window.width;
+    init.resolution.height = m_ctx->window.height;
     init.resolution.reset = BGFX_RESET_VSYNC;
     init.platformData = pd;
 
@@ -56,9 +57,9 @@ Engine::Engine() {
         return;
     }
 
-    bgfx::reset(m_windowSettings.width, m_windowSettings.height, BGFX_RESET_VSYNC);
+    bgfx::reset(m_ctx->window.width, m_ctx->window.height, BGFX_RESET_VSYNC);
     bgfx::setDebug(BGFX_DEBUG_TEXT /*| BGFX_DEBUG_STATS*/);
-    bgfx::setViewRect(0, 0, 0, uint16_t(m_windowSettings.width), uint16_t(m_windowSettings.height));
+    bgfx::setViewRect(0, 0, 0, uint16_t(m_ctx->window.width), uint16_t(m_ctx->window.height));
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
     // Set empty primitive on screen
     bgfx::touch(0);
@@ -113,5 +114,6 @@ void Engine::run() {
 }
 
 void Engine::addGameObject(std::unique_ptr<GameObject> go) {
+    go->setContext(m_ctx);
     m_gameObjects.push_back(std::move(go));
 }

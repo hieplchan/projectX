@@ -11,3 +11,10 @@ void GameObject::render() {
         component->render(*this);
     }
 }
+
+void GameObject::setContext(std::shared_ptr<RuntimeContext> ctx) {
+    m_ctx = ctx;
+    for (const auto& component : m_components) {
+        component->setContext(ctx);
+    }
+}

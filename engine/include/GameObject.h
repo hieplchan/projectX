@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+#include "common/runtime_context.h"
 #include "Component.h"
 
 /**
@@ -29,8 +30,11 @@ public:
     template<typename T>
     T* getComponent();
 
+    void setContext(std::shared_ptr<RuntimeContext> ctx);
+
 private:
     std::vector<std::unique_ptr<Component>> m_components;
+    std::shared_ptr<RuntimeContext> m_ctx;
 };
 
 #include "GameObject.inl"

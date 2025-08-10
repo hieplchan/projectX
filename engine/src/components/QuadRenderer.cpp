@@ -106,7 +106,7 @@ void QuadRenderer::render(GameObject& owner) {
     float proj[16];
     bx::mtxProj(proj,
         60.0f,
-        float(m_windowSettings.width) / float(m_windowSettings.height),
+        float(m_ctx->window.width) / float(m_ctx->window.height),
         0.1f, 100.0f,
         bgfx::getCaps()->homogeneousDepth);
 
@@ -114,8 +114,8 @@ void QuadRenderer::render(GameObject& owner) {
 
     // Set view 0 default viewport.
     bgfx::setViewRect(0, 0, 0,
-        m_windowSettings.width,
-        m_windowSettings.height);
+        m_ctx->window.width,
+        m_ctx->window.height);
 
     bgfx::touch(0);
 #pragma endregion
