@@ -54,7 +54,7 @@ namespace {
 }
 
 QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) {
-    LOG_INFO("QuadRenderer::QuadRenderer()");
+    LOG_INFO("constructing...");
 
 #pragma region Load Shaders
     PosColorVertex::init();
@@ -73,9 +73,10 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) {
 }
 
 QuadRenderer::~QuadRenderer() {
-    LOG_INFO("QuadRenderer::~QuadRenderer()");
     BGFX_SAFE_DESTROY_HANDLE(m_vb);
     BGFX_SAFE_DESTROY_HANDLE(m_ib);
+    BGFX_SAFE_DESTROY_HANDLE(m_prog);
+    LOG_INFO("destructed");
 }
 
 void QuadRenderer::render(GameObject& owner) {

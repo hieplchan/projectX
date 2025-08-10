@@ -39,7 +39,7 @@ Engine::Engine() {
     pd.ndt = nullptr;
     pd.nwh = reinterpret_cast<void*>(wmi.info.win.window);
 #else
-    LOG("Unsupported platform for bgfx initialization");
+    LOG_ERROR("Unsupported platform for bgfx initialization");
 #endif
     bgfx::setPlatformData(pd);
 
@@ -68,7 +68,7 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    LOG_INFO("destructing...");
+    m_gameObjects.clear();
 
     bgfx::shutdown();
 
@@ -77,12 +77,14 @@ Engine::~Engine() {
         m_windowHandle = nullptr;
     }
     SDL_Quit();
+
+    LOG_INFO("destructed");
 }
 
 void Engine::run() {
     LOG_INFO("Game loop started");
 
-    auto lastFrameTime = std::chrono::high_resolution_clock::now();
+    auto lastFrameTime = std::chrono::steady_clock::now();
 
     bool running = true;
     while (running) {
@@ -93,7 +95,7 @@ void Engine::run() {
             }
         }
 
-        auto now = std::chrono::high_resolution_clock::now();
+        auto now = std::chrono::steady_clock::now();
         float deltaTime = std::chrono::duration<float>(now - lastFrameTime).count();
         lastFrameTime = now;
 
