@@ -6,8 +6,9 @@
 
 #include "Engine.h"
 
-Engine::Engine() {
-    LOG_INFO("Engine::Engine()");
+Engine::Engine()
+    : m_ctx(std::make_shared<RuntimeContext>()) {
+    LOG_INFO("constructing...");
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -16,9 +17,9 @@ Engine::Engine() {
     }
 
     // Create a window
-    m_windowHandle = SDL_CreateWindow(m_windowSettings.title.c_str(), 
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        m_windowSettings.width, m_windowSettings.height, 
+    m_windowHandle = SDL_CreateWindow(m_ctx->window.title.c_str(),
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        m_ctx->window.width, m_ctx->window.height,
         SDL_WINDOW_SHOWN);
 
     if (!m_windowHandle) {
@@ -37,17 +38,17 @@ Engine::Engine() {
     bgfx::PlatformData pd;
 #if defined(_WIN32)
     pd.ndt = nullptr;
-    pd.nwh = reinterpret_cast<void *>(wmi.info.win.window);
+    pd.nwh = reinterpret_cast<void*>(wmi.info.win.window);
 #else
-	LOG("Unsupported platform for bgfx initialization");
+    LOG_ERROR("Unsupported platform for bgfx initialization");
 #endif
     bgfx::setPlatformData(pd);
 
     // Initialize bgfx
     bgfx::Init init;
     init.type = bgfx::RendererType::Count; // Let bgfx choose the best renderer
-    init.resolution.width = m_windowSettings.width;
-    init.resolution.height = m_windowSettings.height;
+    init.resolution.width = m_ctx->window.width;
+    init.resolution.height = m_ctx->window.height;
     init.resolution.reset = BGFX_RESET_VSYNC;
     init.platformData = pd;
 
@@ -56,9 +57,9 @@ Engine::Engine() {
         return;
     }
 
-    bgfx::reset(m_windowSettings.width, m_windowSettings.height, BGFX_RESET_VSYNC);
+    bgfx::reset(m_ctx->window.width, m_ctx->window.height, BGFX_RESET_VSYNC);
     bgfx::setDebug(BGFX_DEBUG_TEXT /*| BGFX_DEBUG_STATS*/);
-    bgfx::setViewRect(0, 0, 0, uint16_t(m_windowSettings.width), uint16_t(m_windowSettings.height));
+    bgfx::setViewRect(0, 0, 0, uint16_t(m_ctx->window.width), uint16_t(m_ctx->window.height));
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
     // Set empty primitive on screen
     bgfx::touch(0);
@@ -68,20 +69,24 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    LOG_INFO("Engine::~Engine()");
+    m_gameObjects.clear();
+
+    bgfx::shutdown();
 
     if (m_windowHandle) {
         SDL_DestroyWindow(m_windowHandle);
         m_windowHandle = nullptr;
     }
     SDL_Quit();
+
+    LOG_INFO("destructed");
 }
 
 void Engine::run() {
-    LOG_INFO("Engine::run()");
+    LOG_INFO("Game loop started");
 
-    auto lastFrameTime = std::chrono::high_resolution_clock::now();
-    
+    auto lastFrameTime = std::chrono::steady_clock::now();
+
     bool running = true;
     while (running) {
         SDL_Event ev;
@@ -91,7 +96,7 @@ void Engine::run() {
             }
         }
 
-        auto now = std::chrono::high_resolution_clock::now();
+        auto now = std::chrono::steady_clock::now();
         float deltaTime = std::chrono::duration<float>(now - lastFrameTime).count();
         lastFrameTime = now;
 
@@ -100,17 +105,15 @@ void Engine::run() {
         //     go->update(deltaTime);
         // }
 
-         for (const auto& go : m_gameObjects) {
-             go->render();
-         }
+        for (const auto& go : m_gameObjects) {
+            go->render();
+        }
 
-        // Ensure view 0 is cleared and rendered
-        // bgfx::touch(0);
-        // bgfx::frame();
+        bgfx::frame();
     }
 }
 
-void Engine::addGameObject(std::unique_ptr<GameObject> go)
-{
+void Engine::addGameObject(std::unique_ptr<GameObject> go) {
+    go->setContext(m_ctx);
     m_gameObjects.push_back(std::move(go));
 }

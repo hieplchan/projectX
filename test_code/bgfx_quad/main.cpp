@@ -12,8 +12,7 @@
 static const uint32_t WIDTH = 800;
 static const uint32_t HEIGHT = 600;
 
-bgfx::ShaderHandle loadShader(const char *_name)
-{
+bgfx::ShaderHandle loadShader(const char* _name) {
     std::ifstream file(_name, std::ios::binary);
     if (!file)
     {
@@ -25,8 +24,8 @@ bgfx::ShaderHandle loadShader(const char *_name)
     file.seekg(0, std::ios::beg);
 
     std::vector<uint8_t> data(fileSize);
-    file.read(reinterpret_cast<char *>(data.data()), fileSize);
-    const bgfx::Memory *mem = bgfx::copy(data.data(), fileSize);
+    file.read(reinterpret_cast<char*>(data.data()), fileSize);
+    const bgfx::Memory* mem = bgfx::copy(data.data(), fileSize);
 
     SDL_Log("Loading shader: %s, size: %zu bytes", _name, fileSize);
     return bgfx::createShader(mem);
@@ -39,8 +38,7 @@ struct PosColorVertex
     float m_z;
     uint32_t m_abgr;
 
-    static void init()
-    {
+    static void init() {
         ms_decl
             .begin()
             .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -53,25 +51,24 @@ struct PosColorVertex
 bgfx::VertexLayout PosColorVertex::ms_decl;
 
 static PosColorVertex s_cubeVertices[] =
-    {
-        {0.5f, 0.5f, 0.0f, 0xff0000ff},
-        {0.5f, -0.5f, 0.0f, 0xff0000ff},
-        {-0.5f, -0.5f, 0.0f, 0xff00ff00},
-        {-0.5f, 0.5f, 0.0f, 0xff00ff00}
-    };
+{
+    {0.5f, 0.5f, 0.0f, 0xff0000ff},
+    {0.5f, -0.5f, 0.0f, 0xff0000ff},
+    {-0.5f, -0.5f, 0.0f, 0xff00ff00},
+    {-0.5f, 0.5f, 0.0f, 0xff00ff00}
+};
 
 static const uint16_t s_cubeTriList[] =
-    {
-        0, 1, 3,
-        1, 2, 3
-    };
+{
+    0, 1, 3,
+    1, 2, 3
+};
 
 bgfx::VertexBufferHandle m_vbh;
 bgfx::IndexBufferHandle m_ibh;
 bgfx::ProgramHandle m_program;
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
     // SDL initialization
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -79,7 +76,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    SDL_Window *window = SDL_CreateWindow(
+    SDL_Window* window = SDL_CreateWindow(
         "BGFX test quad",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WIDTH, HEIGHT,
@@ -98,7 +95,7 @@ int main(int argc, char **argv)
 
     bgfx::PlatformData pd;
     pd.ndt = nullptr;
-    pd.nwh = reinterpret_cast<void *>(wmi.info.win.window);
+    pd.nwh = reinterpret_cast<void*>(wmi.info.win.window);
     bgfx::setPlatformData(pd);
 
     bgfx::Init init;
@@ -153,8 +150,8 @@ int main(int argc, char **argv)
         }
 
 #pragma region Camera
-        const bx::Vec3 at = {0.0f, 0.0f, 0.0f};
-        const bx::Vec3 eye = {0.0f, 0.0f, 10.0f};
+        const bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
+        const bx::Vec3 eye = { 0.0f, 0.0f, 10.0f };
 
         // Set view and projection matrix for view 0.
         float view[16];
@@ -162,17 +159,17 @@ int main(int argc, char **argv)
 
         float proj[16];
         bx::mtxProj(proj,
-                    60.0f,
-                    float(WIDTH) / float(HEIGHT),
-                    0.1f, 100.0f,
-                    bgfx::getCaps()->homogeneousDepth);
+            60.0f,
+            float(WIDTH) / float(HEIGHT),
+            0.1f, 100.0f,
+            bgfx::getCaps()->homogeneousDepth);
 
         bgfx::setViewTransform(0, view, proj);
 
         // Set view 0 default viewport.
         bgfx::setViewRect(0, 0, 0,
-                          WIDTH,
-                          HEIGHT);
+            WIDTH,
+            HEIGHT);
 
         bgfx::touch(0);
 #pragma endregion

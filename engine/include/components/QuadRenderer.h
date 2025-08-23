@@ -23,10 +23,7 @@ public:
 private:
     glm::vec4 m_color;
 
-    bgfx::VertexBufferHandle m_vb { bgfx::kInvalidHandle };
-    bgfx::IndexBufferHandle m_ib { bgfx::kInvalidHandle };
-    bgfx::ProgramHandle m_prog { bgfx::kInvalidHandle };
-
-    /// TODO: Temporary, get global window settings from Engine later
-    WindowSettings m_windowSettings;
+    bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
 };

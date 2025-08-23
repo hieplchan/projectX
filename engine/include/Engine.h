@@ -3,7 +3,7 @@
 #include "engine_export.h"
 
 #include "common/constants.h"
-#include "common/typedefs.h"
+#include "common/runtime_context.h"
 
 #include "GameObject.h"
 
@@ -23,9 +23,9 @@ public:
     void addGameObject(std::unique_ptr<GameObject> go);
 
 private:
-	bool m_isInitialized = false;
+    bool m_isInitialized = false;
 
-    WindowSettings m_windowSettings;
+    std::shared_ptr<RuntimeContext> m_ctx;
     SDL_Window* m_windowHandle = nullptr;
 
     std::vector<std::unique_ptr<GameObject>> m_gameObjects;
