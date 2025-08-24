@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE ENGINE_SOURCES CMAKE_CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/*.cpp
 )
 
 add_library(engine SHARED ${ENGINE_SOURCES})
@@ -13,6 +14,7 @@ set_target_properties(engine PROPERTIES
 
 target_include_directories(engine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/components
     ${CMAKE_CURRENT_BINARY_DIR} # for engine_export.h
 
     ${CMAKE_SOURCE_DIR}/thirdparty/glm

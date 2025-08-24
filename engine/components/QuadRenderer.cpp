@@ -1,10 +1,7 @@
-
-// #include "Renderer.h"
-
 #include "common/common_include.h"
 
-#include "components/Transform.h"
-#include "components/QuadRenderer.h"
+#include "Transform.h"
+#include "QuadRenderer.h"
 
 namespace {
     struct PosColorVertex
@@ -53,7 +50,7 @@ namespace {
     }
 }
 
-QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) {
+QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     LOG_INFO("constructing...");
 
 #pragma region Load Shaders

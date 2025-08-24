@@ -21,6 +21,15 @@ public:
         m_ctx = ctx;
     }
 
+    void setOwner(GameObject* owner) noexcept {
+        m_owner = owner;
+    }
+
+    [[nodiscard]] GameObject* owner() const noexcept {
+        return m_owner;
+    }
+
 protected:
     std::shared_ptr<RuntimeContext> m_ctx;
+    GameObject* m_owner = nullptr;
 };

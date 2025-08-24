@@ -6,6 +6,7 @@ T* GameObject::addComponent(Args&&... args) {
 
     auto component = std::make_unique<T>(std::forward<Args>(args)...);
     T* rawPtr = component.get();
+    rawPtr->setOwner(this);
     m_components.push_back(std::move(component));
     return rawPtr;
 }

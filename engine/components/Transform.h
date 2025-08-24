@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../Component.h"
+#include <Component.h>
 
 class Transform : public Component {
 public:
