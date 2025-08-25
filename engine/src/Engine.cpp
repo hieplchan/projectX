@@ -3,6 +3,7 @@
 #include <SDL_syswm.h>
 #include <bgfx/platform.h>
 #include <bx/math.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Engine.h"
 
@@ -99,6 +100,35 @@ void Engine::run() {
         auto now = std::chrono::steady_clock::now();
         float deltaTime = std::chrono::duration<float>(now - lastFrameTime).count();
         lastFrameTime = now;
+
+#pragma region Camera
+        const Camera* activeCam = nullptr;
+        const GameObject* camOwnerGO = nullptr;
+
+        for (auto& go: m_gameObjects) {
+            if (auto* cam = go->getComponent<Camera>()) {
+                activeCam = cam;
+                camOwnerGO = go.get();
+                break;
+            }
+        }
+
+        // first camera found is main camera
+        if (activeCam && camOwnerGO) {
+            const glm::mat4 view = activeCam->view();
+            const glm::mat4 proj = activeCam->proj();
+
+            bgfx::setViewTransform(
+                m_ctx->window.viewId,
+                glm::value_ptr(view),
+                glm::value_ptr(proj)
+            );
+        } else {
+            LOG_ERROR("No active camera found!!!");
+        }
+
+        bgfx::touch(0); // ensure view 0 is cleared even if nothing submits
+#pragma endregion
 
         // // Update and render all game objects
         // for (const auto& go : m_gameObjects) {

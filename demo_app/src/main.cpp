@@ -23,6 +23,7 @@ int main() {
     auto quadGOTF = quadGO->addComponent<Transform>();
     quadGO->addComponent<QuadRenderer>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
+    engine.addGameObject(std::move(cameraGO));
     engine.addGameObject(std::move(quadGO));
 
     engine.run();

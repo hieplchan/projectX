@@ -11,13 +11,33 @@ Camera::~Camera() {
     LOG_INFO("destructed...");
 }
 
-glm::mat4 Camera::view(uint32_t viewPortW, uint32_t viewPortH) const {
+// GL Camera: https://learnopengl.com/Getting-started/Camera
+glm::mat4 Camera::view() const {
     if (auto* tf = owner()->getComponent<Transform>()) {
+        const glm::vec3 eye = tf->position;
+        const glm::vec3 at = eye + glm::vec3(0.0f, 0.0f, 10.0f);
+        const glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
+        /// TODO: add roll rotation
+        glm::mat4 view = glm::lookAt(eye, at, up);
+        // return view;
     }
+
+    // Fallback if no Transform on the camera object
+    // return glm::lookAt(glm::vec3(0,0,10), glm::vec3(0,0,0), glm::vec3(0,1,0));
+
     return glm::mat4(1.0f);
 }
 
-glm::mat4 Camera::proj(uint32_t viewPortW, uint32_t viewPortH) const {
-    return glm::mat4(1.0f);
+glm::mat4 Camera::proj() const {
+    const float aspect = (m_ctx->window.height > 0)
+        ? static_cast<float>(m_ctx->window.width) / static_cast<float>(m_ctx->window.height)
+        : 1.0f;
+    // return glm::perspective( // Perspective projection matrix
+    //     glm::radians(fovDeg), // Vertical field of view
+    //     aspect, // keep image from being stretch
+    //     zNear, zFar
+    // );
+
+    return glm::perspective(glm::radians(60.0f), 1.0f, 0.1f, 100.0f);
 }

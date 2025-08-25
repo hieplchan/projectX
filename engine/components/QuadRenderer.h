@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glm/glm.hpp>
 #include <bgfx/bgfx.h>
 
 #include "engine_export.h"

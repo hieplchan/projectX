@@ -6,6 +6,8 @@
 #include "common/runtime_context.h"
 
 #include "GameObject.h"
+#include "Camera.h"
+#include "Transform.h"
 
 struct SDL_Window;
 

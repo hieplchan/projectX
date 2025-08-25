@@ -17,8 +17,11 @@ public:
     explicit Camera();
     ~Camera() override;
 
-    glm::mat4 view(uint32_t viewPortW, uint32_t viewPortH) const;
-    glm::mat4 proj(uint32_t viewPortW, uint32_t viewPortH) const;
+    // Transforms world space -> camera space.
+    glm::mat4 view() const;
+
+    // Transforms camera space -> clip space
+    glm::mat4 proj() const;
 
     void render(GameObject& owner) override {};
     void update(GameObject& owner, float deltaTime) override {}
