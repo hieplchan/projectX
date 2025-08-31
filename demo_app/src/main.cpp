@@ -16,12 +16,15 @@ int main() {
 
     auto cameraGO = std::make_unique<GameObject>();
     auto cameraGOTF = cameraGO->addComponent<Transform>();
-    cameraGO->addComponent<Camera>();
+    auto cameraGOCam = cameraGO->addComponent<Camera>();
+    cameraGOTF->position = glm::vec3{ 0.0f, 0.0f, -10.0f };
+    cameraGOCam->fovDeg = 30.0f;
 
     // Create simple game object with QuadRenderer component
     auto quadGO = std::make_unique<GameObject>();
     auto quadGOTF = quadGO->addComponent<Transform>();
     quadGO->addComponent<QuadRenderer>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+    quadGOTF->rotation.y = 45.0f;
 
     engine.addGameObject(std::move(cameraGO));
     engine.addGameObject(std::move(quadGO));
