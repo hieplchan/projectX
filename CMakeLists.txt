@@ -12,6 +12,7 @@ endif()
 # Third party
 add_subdirectory(thirdparty/SDL)
 add_subdirectory(thirdparty/bgfx.cmake)
+add_subdirectory(thirdparty/imgui.cmake)
 
 # Engine
 add_subdirectory(engine)

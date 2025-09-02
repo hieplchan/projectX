@@ -23,7 +23,7 @@ target_include_directories(engine PUBLIC
     ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bx/include
 )
 
-target_link_libraries(engine PRIVATE SDL2 bgfx)
+target_link_libraries(engine PRIVATE SDL2 bgfx imgui)
 
 # Generate "engine_export.h" for DLL export
 include(GenerateExportHeader)
