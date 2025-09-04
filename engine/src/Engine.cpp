@@ -2,8 +2,8 @@
 
 #include <SDL_syswm.h>
 #include <bgfx/platform.h>
-#include <bx/math.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
 #include "Engine.h"
 
