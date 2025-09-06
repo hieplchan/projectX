@@ -16,6 +16,8 @@
 #include "constants.h"
 #include "typedefs.h"
 
-#include "common/utils/bgfx_utils.h"
-#include "common/utils/file_utils.h"
-#include "../Logger.h"
+#include "utils/bgfx_utils.h"
+#include "utils/file_utils.h"
+#include <Logger.h>
+
+#include <GameObject.h>

@@ -9,11 +9,11 @@ set_target_properties(demo_app PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
-target_link_libraries(demo_app PRIVATE engine)
+target_link_libraries(demo_app PRIVATE engine imgui)
 
 # Copy DLLs to output directory
 add_custom_command(TARGET demo_app POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:engine>
-        $<TARGET_FILE_DIR:demo_app>
+      $<TARGET_FILE:engine>
+      $<TARGET_FILE_DIR:demo_app>
 )

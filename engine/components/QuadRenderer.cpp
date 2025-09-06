@@ -1,10 +1,8 @@
-
-// #include "Renderer.h"
-
 #include "common/common_include.h"
+#include <glm/gtc/type_ptr.hpp>
 
-#include "components/Transform.h"
-#include "components/QuadRenderer.h"
+#include "Transform.h"
+#include "QuadRenderer.h"
 
 namespace {
     struct PosColorVertex
@@ -53,7 +51,7 @@ namespace {
     }
 }
 
-QuadRenderer::QuadRenderer(const glm::vec4& color) : m_color(color) {
+QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     LOG_INFO("constructing...");
 
 #pragma region Load Shaders
@@ -80,57 +78,10 @@ QuadRenderer::~QuadRenderer() {
 }
 
 void QuadRenderer::render(GameObject& owner) {
-    // LOG_INFO("QuadRenderer::render()");
-    // const auto* transform = owner.getComponent<Transform>();
-    // glm::mat4 mtx = transform ? transform->matrix() : glm::mat4(1.0f);
+    auto* tf = m_owner->getComponent<Transform>();
+    const glm::mat4 model = tf ? tf->matrix() : glm::mat4(1.0f);
 
-    // // set transform and color
-    // bgfx::setTransform(&mtx[0][0]);
-    // bgfx::setVertexBuffer(0, m_vb);
-    // bgfx::setIndexBuffer(m_ib);
-
-    // // Set color
-    // bgfx::setUniform(quadColorUniform(), &m_color[0]);
-
-    // // Submit the draw call
-    // bgfx::submit(m_windowSettings.viewId, quadProgram());
-
-#pragma region Camera
-    const bx::Vec3 at = { 0.0f, 0.0f,   0.0f };
-    const bx::Vec3 eye = { 0.0f, 0.0f, 10.0f };
-
-    // Set view and projection matrix for view 0.
-    float view[16];
-    bx::mtxLookAt(view, eye, at);
-
-    float proj[16];
-    bx::mtxProj(proj,
-        60.0f,
-        float(m_ctx->window.width) / float(m_ctx->window.height),
-        0.1f, 100.0f,
-        bgfx::getCaps()->homogeneousDepth);
-
-    bgfx::setViewTransform(0, view, proj);
-
-    // Set view 0 default viewport.
-    bgfx::setViewRect(0, 0, 0,
-        m_ctx->window.width,
-        m_ctx->window.height);
-
-    bgfx::touch(0);
-#pragma endregion
-
-#pragma region Object
-    float mtx[16];
-    bx::mtxRotateY(mtx, 0.0f);
-
-    // position x,y,z
-    mtx[12] = 0.0f;
-    mtx[13] = 0.0f;
-    mtx[14] = 0.0f;
-
-    //// Set model matrix for rendering.
-    bgfx::setTransform(mtx);
+    bgfx::setTransform(glm::value_ptr(model));
 
     //// Set vertex and index buffer.
     bgfx::setVertexBuffer(0, m_vb);
@@ -140,8 +91,5 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(0, m_prog);
-#pragma endregion
-
-    // bgfx::frame();
+    bgfx::submit(m_ctx->window.viewId, m_prog);
 }

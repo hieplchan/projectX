@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE ENGINE_SOURCES CMAKE_CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/*.cpp
 )
 
 add_library(engine SHARED ${ENGINE_SOURCES})
@@ -12,16 +13,17 @@ set_target_properties(engine PROPERTIES
 )
 
 target_include_directories(engine PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_BINARY_DIR} # for engine_export.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/components
+  ${CMAKE_CURRENT_BINARY_DIR} # for engine_export.h
 
-    ${CMAKE_SOURCE_DIR}/thirdparty/glm
-    ${CMAKE_SOURCE_DIR}/thirdparty/SDL/include
-    ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bgfx/include
-    ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bx/include
+  ${CMAKE_SOURCE_DIR}/thirdparty/glm
+  ${CMAKE_SOURCE_DIR}/thirdparty/SDL/include
+  ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bgfx/include
+  ${CMAKE_SOURCE_DIR}/thirdparty/bgfx.cmake/bx/include
 )
 
-target_link_libraries(engine PRIVATE SDL2 bgfx)
+target_link_libraries(engine PRIVATE SDL2 bgfx imgui)
 
 # Generate "engine_export.h" for DLL export
 include(GenerateExportHeader)

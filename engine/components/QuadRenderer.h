@@ -1,12 +1,11 @@
 #pragma once
 
-#include <glm/glm.hpp>
 #include <bgfx/bgfx.h>
 
 #include "engine_export.h"
 
 #include "GameObject.h"
-#include "../Component.h"
+#include <Component.h>
 
 struct Pos2D {
     float x, y;
@@ -14,6 +13,8 @@ struct Pos2D {
 
 class ENGINE_EXPORT QuadRenderer : public Component {
 public:
+    glm::vec4 color;
+
     explicit QuadRenderer(const glm::vec4& color);
     ~QuadRenderer() override;
 
@@ -21,8 +22,6 @@ public:
     void update(GameObject& owner, float deltaTime) override {}
 
 private:
-    glm::vec4 m_color;
-
     bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };
     bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
