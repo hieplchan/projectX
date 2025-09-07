@@ -1,8 +1,10 @@
 #include "common/common_include.h"
 
 #include <SDL_syswm.h>
+
 #include <bgfx/platform.h>
 #include <glm/gtc/type_ptr.hpp>
+
 #include <imgui.h>
 #include <common/imgui/imgui.h>
 
@@ -12,6 +14,7 @@ Engine::Engine()
     : m_ctx(std::make_shared<RuntimeContext>()) {
     LOG_INFO("constructing...");
 
+#pragma region SDL
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         LOG_ERROR(std::format("SDL_Init failed: {}", SDL_GetError()));
@@ -36,7 +39,9 @@ Engine::Engine()
         LOG_ERROR(std::format("SDL_GetWindowWMInfo failed: {}", SDL_GetError()));
         return;
     }
+#pragma endregion
 
+#pragma region BGFX
     bgfx::PlatformData pd;
 #if defined(_WIN32)
     pd.ndt = nullptr;
@@ -65,6 +70,19 @@ Engine::Engine()
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
     // Set empty primitive on screen
     bgfx::touch(0);
+#pragma endregion
+
+#pragma region Imgui
+
+    // Set view 0 clear state.
+    bgfx::setViewClear(255
+        , BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
+        , 0x303030ff
+        , 1.0f
+        , 0
+        );
+    imguiCreate();
+#pragma endregion
 
     m_isInitialized = true;
     LOG_INFO("Engine initialized successfully");
@@ -72,6 +90,8 @@ Engine::Engine()
 
 Engine::~Engine() {
     m_gameObjects.clear();
+
+    imguiDestroy();
 
     bgfx::shutdown();
 
@@ -139,6 +159,35 @@ void Engine::run() {
         for (const auto& go : m_gameObjects) {
             go->render();
         }
+
+#pragma region Imgui
+        const uint16_t w = (uint16_t)m_ctx->window.width / 2;
+        const uint16_t h = (uint16_t)m_ctx->window.height / 2;
+
+        const uint8_t mouseButtons = 0;
+        const int32_t mouseX = 0, mouseY = 0, mouseWheel = 0;
+
+        // If your helper supports passing the view id, use it:
+        imguiBeginFrame(0
+            , 0
+            , 0
+            , 0
+            , w
+            , h
+            , -1
+            , 255
+            );
+
+        ImGui::Begin("Debugging");
+        ImGui::TextUnformatted("Demo App");
+        ImGui::End();
+
+        imguiEndFrame(); // submit drawcall to bgfx
+
+        // Set view 0 default viewport.
+        bgfx::setViewRect(255, 0, 0, uint16_t(w), uint16_t(h) );
+        bgfx::touch(255);
+#pragma endregion
 
         bgfx::frame();
     }
