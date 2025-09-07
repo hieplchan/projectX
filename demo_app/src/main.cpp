@@ -10,6 +10,7 @@
 #include <Camera.h>
 
 #include <imgui.h>
+#include <common/imgui/imgui.h>
 
 int main() {
     Engine engine;
