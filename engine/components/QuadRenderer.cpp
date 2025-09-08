@@ -91,5 +91,5 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(m_ctx->window.viewId, m_prog);
+    bgfx::submit(m_ctx->window.viewIds.world, m_prog);
 }

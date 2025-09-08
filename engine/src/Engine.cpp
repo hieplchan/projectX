@@ -66,21 +66,33 @@ Engine::Engine()
 
     bgfx::reset(m_ctx->window.width, m_ctx->window.height, BGFX_RESET_VSYNC);
     bgfx::setDebug(BGFX_DEBUG_TEXT /*| BGFX_DEBUG_STATS*/);
-    bgfx::setViewRect(0, 0, 0, uint16_t(m_ctx->window.width), uint16_t(m_ctx->window.height));
-    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
-    // Set empty primitive on screen
-    bgfx::touch(0);
-#pragma endregion
 
-#pragma region Imgui
+    // World View Layer
+    bgfx::setViewName(m_ctx->window.viewIds.world, "world");
+    bgfx::setViewRect(
+        m_ctx->window.viewIds.world,
+        0, 0,
+        m_ctx->window.width, m_ctx->window.height
+    );
+    bgfx::setViewClear(
+        m_ctx->window.viewIds.world,
+        BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH,
+        0x443355FF, 1.0f, 0
+    );
+    bgfx::touch(m_ctx->window.viewIds.world);
 
-    // Set view 0 clear state.
-    bgfx::setViewClear(255
-        , BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
-        , 0x303030ff
-        , 1.0f
-        , 0
-        );
+    // Imgui View Layer
+    bgfx::setViewName(m_ctx->window.viewIds.ui, "ui");
+    bgfx::setViewRect(
+        m_ctx->window.viewIds.ui,
+        0, 0,
+        m_ctx->window.width, m_ctx->window.height
+    );
+    // bgfx::setViewClear(
+    //     m_ctx->window.viewIds.ui,
+    //     BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH,
+    //     0x303030FF, 1.0f, 0
+    // );
     imguiCreate();
 #pragma endregion
 
@@ -140,7 +152,7 @@ void Engine::run() {
             const glm::mat4 proj = activeCam->proj();
 
             bgfx::setViewTransform(
-                m_ctx->window.viewId,
+                m_ctx->window.viewIds.world,
                 glm::value_ptr(view),
                 glm::value_ptr(proj)
             );
@@ -148,7 +160,7 @@ void Engine::run() {
             LOG_ERROR("No active camera found!!!");
         }
 
-        bgfx::touch(0); // ensure view 0 is cleared even if nothing submits
+        bgfx::touch(m_ctx->window.viewIds.world);
 #pragma endregion
 
         // // Update and render all game objects
@@ -161,32 +173,26 @@ void Engine::run() {
         }
 
 #pragma region Imgui
-        const uint16_t w = (uint16_t)m_ctx->window.width / 2;
-        const uint16_t h = (uint16_t)m_ctx->window.height / 2;
-
         const uint8_t mouseButtons = 0;
         const int32_t mouseX = 0, mouseY = 0, mouseWheel = 0;
 
-        // If your helper supports passing the view id, use it:
-        imguiBeginFrame(0
-            , 0
-            , 0
-            , 0
-            , w
-            , h
-            , -1
-            , 255
-            );
+        imguiBeginFrame(0, 0, 0, 0,
+            m_ctx->window.width, m_ctx->window.height,
+            -1, m_ctx->window.viewIds.ui
+        );
 
         ImGui::Begin("Debugging");
+
         ImGui::TextUnformatted("Demo App");
+        if (ImGui::Button("Click Me")) {
+            LOG_INFO("Button was clicked!");
+        }
+
         ImGui::End();
 
         imguiEndFrame(); // submit drawcall to bgfx
 
-        // Set view 0 default viewport.
-        bgfx::setViewRect(255, 0, 0, uint16_t(w), uint16_t(h) );
-        bgfx::touch(255);
+        bgfx::touch(m_ctx->window.viewIds.ui);
 #pragma endregion
 
         bgfx::frame();
