@@ -11,4 +11,7 @@ struct WindowSettings {
         uint16_t world = 1;
         uint16_t ui = 11;
     } viewIds;
+
+    int msaaSamples = 1;
+    bool bUsingVSync = true;
 };

@@ -5,8 +5,8 @@
 #include <bgfx/platform.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <imgui.h>
-#include <common/imgui/imgui.h>
+#include <imgui_impl_bgfx.h>
+#include <imgui_impl_sdl2.h>
 
 #include "Engine.h"
 
@@ -43,12 +43,19 @@ Engine::Engine()
 
 #pragma region BGFX
     bgfx::PlatformData pd;
-#if defined(_WIN32)
-    pd.ndt = nullptr;
-    pd.nwh = reinterpret_cast<void*>(wmi.info.win.window);
-#else
-    LOG_ERROR("Unsupported platform for bgfx initialization");
+    bgfx_renderer_type_t renderer_type = BGFX_RENDERER_TYPE_COUNT;
+#if BX_PLATFORM_WINDOWS
+    pd.nwh = wmi.info.win.window;
+    renderer_type = BGFX_RENDERER_TYPE_DIRECT3D11;
+#elif BX_PLATFORM_OSX
+    pd.nwh = wmi.info.cocoa.window;
+    renderer_type = BGFX_RENDERER_TYPE_METAL;
+#elif BX_PLATFORM_LINUX
+    pd.ndt = wmi.info.x11.display;
+    pd.nwh = (void*)(uintptr_t)wmi.info.x11.window;
+    renderer_type = BGFX_RENDERER_TYPE_OPENGL;
 #endif
+
     bgfx::setPlatformData(pd);
 
     // Initialize bgfx
@@ -80,20 +87,18 @@ Engine::Engine()
         0x443355FF, 1.0f, 0
     );
     bgfx::touch(m_ctx->window.viewIds.world);
+#pragma endregion
 
-    // Imgui View Layer
-    bgfx::setViewName(m_ctx->window.viewIds.ui, "ui");
-    bgfx::setViewRect(
-        m_ctx->window.viewIds.ui,
-        0, 0,
-        m_ctx->window.width, m_ctx->window.height
-    );
-    // bgfx::setViewClear(
-    //     m_ctx->window.viewIds.ui,
-    //     BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH,
-    //     0x303030FF, 1.0f, 0
-    // );
-    imguiCreate();
+#pragma region ImGUI
+    ImGui::CreateContext();
+    ImGui_Implbgfx_Init(static_cast<int>(m_ctx->window.viewIds.ui), m_ctx->window.msaaSamples, m_ctx->window.bUsingVSync);
+#if BX_PLATFORM_WINDOWS
+    ImGui_ImplSDL2_InitForD3D(m_windowHandle);
+#elif BX_PLATFORM_OSX
+    ImGui_ImplSDL2_InitForMetal(m_windowHandle);
+#elif BX_PLATFORM_LINUX
+    ImGui_ImplSDL2_InitForOpenGL(m_windowHandle, nullptr);
+#endif
 #pragma endregion
 
     m_isInitialized = true;
@@ -103,7 +108,9 @@ Engine::Engine()
 Engine::~Engine() {
     m_gameObjects.clear();
 
-    imguiDestroy();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui_Implbgfx_Shutdown();
+    ImGui::DestroyContext();
 
     bgfx::shutdown();
 
@@ -172,14 +179,10 @@ void Engine::run() {
             go->render();
         }
 
-#pragma region Imgui
-        const uint8_t mouseButtons = 0;
-        const int32_t mouseX = 0, mouseY = 0, mouseWheel = 0;
-
-        imguiBeginFrame(0, 0, 0, 0,
-            m_ctx->window.width, m_ctx->window.height,
-            -1, m_ctx->window.viewIds.ui
-        );
+#pragma region ImGUI
+        ImGui_Implbgfx_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
 
         ImGui::Begin("Debugging");
 
@@ -190,7 +193,8 @@ void Engine::run() {
 
         ImGui::End();
 
-        imguiEndFrame(); // submit drawcall to bgfx
+        ImGui::Render();
+        ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
 
         bgfx::touch(m_ctx->window.viewIds.ui);
 #pragma endregion

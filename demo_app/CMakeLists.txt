@@ -9,7 +9,7 @@ set_target_properties(demo_app PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
-target_link_libraries(demo_app PRIVATE engine imgui bgfx-imgui-helper)
+target_link_libraries(demo_app PRIVATE engine)
 
 # Copy DLLs to output directory
 add_custom_command(TARGET demo_app POST_BUILD
