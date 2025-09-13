@@ -130,11 +130,13 @@ void Engine::run() {
 
     bool running = true;
     while (running) {
-        SDL_Event ev;
-        while (SDL_PollEvent(&ev)) {
-            if (ev.type == SDL_QUIT) {
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
                 running = false;
             }
+
+            ImGui_ImplSDL2_ProcessEvent(&event);
         }
 
         auto now = std::chrono::steady_clock::now();
