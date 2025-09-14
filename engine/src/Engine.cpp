@@ -93,6 +93,8 @@ Engine::Engine()
 
 #if defined(ENABLE_IMGUI)
     ImGui::CreateContext();
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
     ImGui_Implbgfx_Init(static_cast<int>(m_ctx->window.viewIds.ui), m_ctx->window.msaaSamples, m_ctx->window.bUsingVSync);
 #if BX_PLATFORM_WINDOWS
     ImGui_ImplSDL2_InitForD3D(m_windowHandle);
