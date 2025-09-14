@@ -25,6 +25,10 @@ target_include_directories(engine PUBLIC
 
 target_link_libraries(engine PRIVATE SDL2 bgfx imgui bgfx-imgui-backend)
 
+target_compile_definitions(engine PRIVATE
+  $<$<CONFIG:Debug>:ENABLE_IMGUI>
+)
+
 # Generate "engine_export.h" for DLL export
 include(GenerateExportHeader)
 generate_export_header(engine)

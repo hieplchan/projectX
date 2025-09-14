@@ -5,8 +5,10 @@
 #include <bgfx/platform.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#if defined(ENABLE_IMGUI)
 #include <imgui_impl_bgfx.h>
 #include <imgui_impl_sdl2.h>
+#endif
 
 #include "Engine.h"
 
@@ -89,7 +91,7 @@ Engine::Engine()
     bgfx::touch(m_ctx->window.viewIds.world);
 #pragma endregion
 
-#pragma region ImGUI
+#if defined(ENABLE_IMGUI)
     ImGui::CreateContext();
     ImGui_Implbgfx_Init(static_cast<int>(m_ctx->window.viewIds.ui), m_ctx->window.msaaSamples, m_ctx->window.bUsingVSync);
 #if BX_PLATFORM_WINDOWS
@@ -99,8 +101,7 @@ Engine::Engine()
 #elif BX_PLATFORM_LINUX
     ImGui_ImplSDL2_InitForOpenGL(m_windowHandle, nullptr);
 #endif
-#pragma endregion
-
+#endif
     m_isInitialized = true;
     LOG_INFO("Engine initialized successfully");
 }
@@ -108,9 +109,11 @@ Engine::Engine()
 Engine::~Engine() {
     m_gameObjects.clear();
 
+#if defined(ENABLE_IMGUI)
     ImGui_ImplSDL2_Shutdown();
     ImGui_Implbgfx_Shutdown();
     ImGui::DestroyContext();
+#endif
 
     bgfx::shutdown();
 
@@ -136,7 +139,9 @@ void Engine::run() {
                 running = false;
             }
 
+#if defined(ENABLE_IMGUI)
             ImGui_ImplSDL2_ProcessEvent(&event);
+#endif
         }
 
         auto now = std::chrono::steady_clock::now();
@@ -181,7 +186,7 @@ void Engine::run() {
             go->render();
         }
 
-#pragma region ImGUI
+#if defined(ENABLE_IMGUI)
         ImGui_Implbgfx_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
@@ -197,7 +202,7 @@ void Engine::run() {
 
         ImGui::Render();
         ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
-
+#endif
         bgfx::touch(m_ctx->window.viewIds.ui);
 #pragma endregion
 
