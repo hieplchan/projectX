@@ -5,6 +5,10 @@
 
 #include <Component.h>
 
+#if defined(ENABLE_IMGUI)
+// #include <imgui.h>
+#endif
+
 class Transform : public Component {
 public:
     glm::vec3 position{ 0.0f, 0.0f, 0.0f };
@@ -24,4 +28,11 @@ public:
 
     void update(GameObject& owner, float deltaTime) override {}
     void render(GameObject& owner) override {}
+
+#if defined(ENABLE_IMGUI)
+    void onInspectorGUI() override {
+        LOG_INFO("onInspectorGUI of Transform");
+        // ImGui::SeparatorText(inspectorName().data());
+    }
+#endif
 };

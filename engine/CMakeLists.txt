@@ -25,7 +25,7 @@ target_include_directories(engine PUBLIC
 
 target_link_libraries(engine PRIVATE SDL2 bgfx imgui bgfx-imgui-backend)
 
-target_compile_definitions(engine PRIVATE
+target_compile_definitions(engine PUBLIC
   $<$<CONFIG:Debug>:ENABLE_IMGUI>
 )
 

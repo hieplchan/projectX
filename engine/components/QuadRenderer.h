@@ -4,7 +4,6 @@
 
 #include "engine_export.h"
 
-#include "GameObject.h"
 #include <Component.h>
 
 struct Pos2D {
@@ -20,6 +19,10 @@ public:
 
     void render(GameObject& owner) override;
     void update(GameObject& owner, float deltaTime) override {}
+
+#if defined(ENABLE_IMGUI)
+    void onInspectorGUI() override;
+#endif
 
 private:
     bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };

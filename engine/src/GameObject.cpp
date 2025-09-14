@@ -1,4 +1,17 @@
+#include <common/common_include.h>
 #include "GameObject.h"
+
+#if defined(ENABLE_IMGUI)
+#include <imgui.h>
+
+void GameObject::onInspectorGUI() {
+    if (ImGui::CollapsingHeader(m_name.c_str())) {
+       for (auto& component: m_components) {
+           component->onInspectorGUI();
+       }
+    }
+}
+#endif
 
 void GameObject::update(float deltaTime) {
     for (auto& component : m_components) {

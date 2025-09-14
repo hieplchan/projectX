@@ -188,23 +188,23 @@ void Engine::run() {
             go->render();
         }
 
+#pragma region ImGui
 #if defined(ENABLE_IMGUI)
         ImGui_Implbgfx_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Debugging");
-
-        ImGui::TextUnformatted("Demo App");
-        if (ImGui::Button("Click Me")) {
-            LOG_INFO("Button was clicked!");
+        ImGui::Begin("Inspector");
+        for (auto& go : m_gameObjects) {
+            go->onInspectorGUI();
         }
-
         ImGui::End();
 
         ImGui::Render();
         ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
 #endif
+#pragma endregion
+
         bgfx::touch(m_ctx->window.viewIds.ui);
 #pragma endregion
 

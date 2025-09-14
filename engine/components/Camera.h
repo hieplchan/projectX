@@ -5,7 +5,6 @@
 
 #include "engine_export.h"
 
-#include "GameObject.h"
 #include <Component.h>
 
 class ENGINE_EXPORT Camera : public Component {
@@ -25,4 +24,8 @@ public:
 
     void render(GameObject& owner) override {};
     void update(GameObject& owner, float deltaTime) override {}
+
+#if defined(ENABLE_IMGUI)
+    void onInspectorGUI() override;
+#endif
 };

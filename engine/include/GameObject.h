@@ -16,6 +16,13 @@ public:
     GameObject() = default;
     ~GameObject() = default;
 
+    const std::string& name() const noexcept {
+        return m_name;
+    }
+    void setName(const std::string& name) {
+        m_name = std::move(name);
+    }
+
     /** Update all components */
     void update(float deltaTime);
 
@@ -32,7 +39,13 @@ public:
 
     void setContext(std::shared_ptr<RuntimeContext> ctx);
 
+#if defined(ENABLE_IMGUI)
+    void onInspectorGUI();
+#endif
+
 private:
+    std::string m_name = "GameObject";
+
     std::vector<std::unique_ptr<Component>> m_components;
     std::shared_ptr<RuntimeContext> m_ctx;
 };

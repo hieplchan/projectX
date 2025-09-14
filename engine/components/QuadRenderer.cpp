@@ -4,6 +4,14 @@
 #include "Transform.h"
 #include "QuadRenderer.h"
 
+#if defined(ENABLE_IMGUI)
+#include <imgui.h>
+
+void QuadRenderer::onInspectorGUI() {
+    ImGui::SeparatorText(inspectorName().data());
+}
+#endif
+
 namespace {
     struct PosColorVertex
     {

@@ -29,6 +29,13 @@ public:
         return m_owner;
     }
 
+#if defined(ENABLE_IMGUI)
+    virtual void onInspectorGUI() {}
+    virtual std::string_view inspectorName() const {
+        return typeid(*this).name();
+    }
+#endif
+
 protected:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;

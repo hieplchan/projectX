@@ -3,6 +3,14 @@
 #include "Transform.h"
 #include "Camera.h"
 
+#if defined(ENABLE_IMGUI)
+#include <imgui.h>
+
+void Camera::onInspectorGUI() {
+    ImGui::SeparatorText(inspectorName().data());
+}
+#endif
+
 Camera::Camera() {
     LOG_INFO("constructing...");
 }
