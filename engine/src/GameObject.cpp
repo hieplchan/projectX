@@ -5,11 +5,15 @@
 #include <imgui.h>
 
 void GameObject::onInspectorGUI() {
-    if (ImGui::CollapsingHeader(m_name.c_str())) {
-       for (auto& component: m_components) {
-           component->onInspectorGUI();
-       }
+    ImGui::PushID(this);
+    if (ImGui::CollapsingHeader(m_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+        for (auto& component: m_components) {
+            ImGui::PushID(component.get());
+            component->onInspectorGUI();
+            ImGui::PopID();
+        }
     }
+    ImGui::PopID();
 }
 #endif
 

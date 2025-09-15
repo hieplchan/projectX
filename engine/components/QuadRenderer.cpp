@@ -1,5 +1,4 @@
 #include "common/common_include.h"
-#include <glm/gtc/type_ptr.hpp>
 
 #include "Transform.h"
 #include "QuadRenderer.h"
@@ -9,6 +8,7 @@
 
 void QuadRenderer::onInspectorGUI() {
     ImGui::SeparatorText(inspectorName().data());
+    ImGui::ColorEdit4("Color", glm::value_ptr(color));
 }
 #endif
 
