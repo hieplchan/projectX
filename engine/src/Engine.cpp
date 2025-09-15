@@ -188,26 +188,11 @@ void Engine::run() {
             go->render();
         }
 
-#pragma region ImGui
 #if defined(ENABLE_IMGUI)
-        ImGui_Implbgfx_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
-
-        ImGui::Begin("Inspector");
-        for (auto& go : m_gameObjects) {
-            go->onInspectorGUI();
-        }
-        ImGui::End();
-
-        ImGui::Render();
-        ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
+        onInspectorGUI();
 #endif
-#pragma endregion
 
         bgfx::touch(m_ctx->window.viewIds.ui);
-#pragma endregion
-
         bgfx::frame();
     }
 }
@@ -216,3 +201,36 @@ void Engine::addGameObject(std::unique_ptr<GameObject> go) {
     go->setContext(m_ctx);
     m_gameObjects.push_back(std::move(go));
 }
+
+#if defined(ENABLE_IMGUI)
+void Engine::onInspectorGUI() {
+    ImGui_Implbgfx_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Hierarchy");
+    for (int i = 0; i < m_gameObjects.size(); i++) {
+        bool selected = (m_selectedGOIdx == i);
+        if (ImGui::Selectable(m_gameObjects[i]->name().c_str(), selected)) {
+            m_selectedGOIdx = i;
+        }
+    }
+    ImGui::End();
+
+    ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    if (!m_gameObjects.empty()) {
+        m_selectedGOIdx = std::clamp(m_selectedGOIdx, 0, static_cast<int>(m_gameObjects.size()) - 1);
+
+        GameObject* selectedGO = m_gameObjects[m_selectedGOIdx].get();
+        ImGui::TextDisabled("%s", selectedGO->name().c_str());
+        ImGui::Separator();
+        selectedGO->onInspectorGUI();
+    } else {
+        ImGui::TextUnformatted("No GameObject");
+    }
+    ImGui::End();
+
+    ImGui::Render();
+    ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
+}
+#endif
