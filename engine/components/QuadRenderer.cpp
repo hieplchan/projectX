@@ -1,8 +1,16 @@
 #include "common/common_include.h"
-#include <glm/gtc/type_ptr.hpp>
 
 #include "Transform.h"
 #include "QuadRenderer.h"
+
+#if defined(ENABLE_IMGUI)
+#include <imgui.h>
+
+void QuadRenderer::onInspectorGUI() {
+    ImGui::SeparatorText(inspectorName().data());
+    ImGui::ColorEdit4("Color", glm::value_ptr(color));
+}
+#endif
 
 namespace {
     struct PosColorVertex
@@ -91,5 +99,5 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(m_ctx->window.viewId, m_prog);
+    bgfx::submit(m_ctx->window.viewIds.world, m_prog);
 }

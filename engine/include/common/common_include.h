@@ -11,7 +11,10 @@
 
 #include <SDL.h>
 #include <bgfx/bgfx.h>
+#include <bgfx/c99/bgfx.h>
 #include <bx/math.h>
+
+#include <glm/gtc/type_ptr.hpp>
 
 #include "constants.h"
 #include "typedefs.h"

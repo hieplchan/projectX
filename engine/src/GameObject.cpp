@@ -1,4 +1,21 @@
+#include <common/common_include.h>
 #include "GameObject.h"
+
+#if defined(ENABLE_IMGUI)
+#include <imgui.h>
+
+void GameObject::onInspectorGUI() {
+    ImGui::PushID(this);
+    if (ImGui::CollapsingHeader(m_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+        for (auto& component: m_components) {
+            ImGui::PushID(component.get());
+            component->onInspectorGUI();
+            ImGui::PopID();
+        }
+    }
+    ImGui::PopID();
+}
+#endif
 
 void GameObject::update(float deltaTime) {
     for (auto& component : m_components) {

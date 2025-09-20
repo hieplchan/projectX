@@ -7,6 +7,7 @@
 [submodule "thirdparty/glm"]
 	path = thirdparty/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "thirdparty/imgui.cmake/imgui"]
-	path = thirdparty/imgui.cmake/imgui
+[submodule "thirdparty/imgui.cmake/dear-imgui"]
+	path = thirdparty/imgui.cmake/dear-imgui
 	url = https://github.com/ocornut/imgui.git
+	branch = docking

@@ -31,4 +31,9 @@ private:
     SDL_Window* m_windowHandle = nullptr;
 
     std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+
+#if defined(ENABLE_IMGUI)
+    int m_selectedGOIdx = 0;
+    void onInspectorGUI();
+#endif
 };
