@@ -2,9 +2,9 @@
 #include <Transform.h>
 #include <Component.h>
 
-#if defined(ENABLE_IMGUI)
-#include <imgui.h>
-#endif
+// #if defined(ENABLE_IMGUI)
+// #include <imgui.h>
+// #endif
 
 class Rotator : public Component {
 public:
@@ -31,18 +31,18 @@ public:
         }
     }
 
-#if defined(ENABLE_IMGUI)
-    void onInspectorGUI() override {
-        ImGui::SeparatorText(inspectorName().data());
-        // ImGui::Checkbox("Enabled", &enabled);
+// #if defined(ENABLE_IMGUI)
+//     void onInspectorGUI() override {
+//         ImGui::SeparatorText(inspectorName().data());
+//         // ImGui::Checkbox("Enabled", &enabled);
 
-        // const char* items[] = { "X", "Y", "Z" };
-        // int curr = static_cast<int>(axis);
-        // if (ImGui::Combo("Axis", &curr, items, IM_ARRAYSIZE(items))) {
-        //     axis = static_cast<Axis>(curr);
-        // }
+//         // const char* items[] = { "X", "Y", "Z" };
+//         // int curr = static_cast<int>(axis);
+//         // if (ImGui::Combo("Axis", &curr, items, IM_ARRAYSIZE(items))) {
+//         //     axis = static_cast<Axis>(curr);
+//         // }
 
-        // ImGui::SliderFloat("Speed", &speed, -360.0f, 360.0f, "%.3f");
-    }
-#endif
+//         // ImGui::SliderFloat("Speed", &speed, -360.0f, 360.0f, "%.3f");
+//     }
+// #endif
 };
