@@ -1,8 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <concepts>
 
 #include "common/runtime_context.h"
+
+template<typename T>
+concept ComponentType = std::derived_from<T, class Component>;
 
 class GameObject;
 
