@@ -30,11 +30,11 @@ public:
     void render();
 
     /** Add a component to the game object */
-    template<typename T, typename... Args>
+    template<ComponentType T, typename... Args>
     T* addComponent(Args&&... args);
 
     /** Get first component of specified type */
-    template<typename T>
+    template<ComponentType T>
     T* getComponent();
 
     void setContext(std::shared_ptr<RuntimeContext> ctx);

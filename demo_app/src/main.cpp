@@ -9,6 +9,8 @@
 #include <QuadRenderer.h>
 #include <Camera.h>
 
+#include <components/RotatorComp.h>
+
 int main() {
     Engine engine;
 
@@ -26,6 +28,7 @@ int main() {
     auto quadGOTF = quadGO->addComponent<Transform>();
     quadGO->setName("Test Quad");
     quadGO->addComponent<QuadRenderer>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+    quadGO->addComponent<Rotator>();
     quadGOTF->rotation.y = 45.0f;
 
     engine.addGameObject(std::move(cameraGO));

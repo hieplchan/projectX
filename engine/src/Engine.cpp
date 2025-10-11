@@ -179,10 +179,9 @@ void Engine::run() {
         bgfx::touch(m_ctx->window.viewIds.world);
 #pragma endregion
 
-        // // Update and render all game objects
-        // for (const auto& go : m_gameObjects) {
-        //     go->update(deltaTime);
-        // }
+        for (const auto& go : m_gameObjects) {
+            go->update(deltaTime);
+        }
 
         for (const auto& go : m_gameObjects) {
             go->render();

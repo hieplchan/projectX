@@ -4,6 +4,7 @@
 
 | Version                                                                | From     | To       | Screenshot                                         |
 | ---------------------------------------------------------------------- | -------- | -------- | -------------------------------------------------- |
+| [v0.0.14](https://github.com/hieplchan/projectX/releases/tag/v0.0.14)  | 22-09-25 | 12-10-25 | ![v0.0.14](Screenshots/v0.0.14_2209_1210_2025.png) |
 | [v0.0.13](https://github.com/hieplchan/projectX/releases/tag/v0.0.13)  | 08-09-25 | 21-09-25 | ![v0.0.13](Screenshots/v0.0.13_0809_2109_2025.png) |
 | [v0.0.12](https://github.com/hieplchan/projectX/releases/tag/v0.0.12)  | 25-08-25 | 07-09-25 | ![v0.0.12](Screenshots/v0.0.12_2508_0709_2025.png) |
 | [v0.0.11](https://github.com/hieplchan/projectX/releases/tag/v0.0.11)  | 11-08-25 | 24-08-25 | ![v0.0.11](Screenshots/v0.0.11_1108_2408_2025.png) |
