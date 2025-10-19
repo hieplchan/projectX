@@ -1,28 +1,10 @@
 #pragma once
 #include <concepts>
+#include <string_view>
+#include <span>
 
+// Owner: our engine object, mimic Unreal UObject
 namespace Inspector {
-
-template <typename Object>
-struct Property {
-    std::string_view name;
-
-    std::span<const BoolField<Object>>               bools   {};
-    std::span<const NumericField<Object, int>>       ints    {};
-    std::span<const NumericField<Object, float>>     floats  {};
-    std::span<const Vec3Field<Object>                vec3    {};
-};
-
-// user define their own type specification in "Component code"
-template <typename Object>
-constexpr Property<Object> buildMetadata();
-
-// "Engine code" call this to get type info, just wrapper about buildMetadata
-template <typename Object>
-[[nodiscard]] inline const Property<Object>& reflect() {
-    static constinit Property<Object> prop = buildMetadata<Object>();
-    return prop;
-}
 
 #pragma region Field Definition
 template <typename T>
@@ -34,10 +16,10 @@ BoolField<RotatorComp> {
     &RotatorComp::enabled,
 }
 */
-template <typename Object>
+template <typename Owner>
 struct BoolField {
     std::string_view label;
-    bool Object::* member;
+    bool Owner::* member;
 };
 
 /* DragFloat(), DragInt()
@@ -47,10 +29,10 @@ NumericField<RotatorComp, float> {
     -90.0f, 90.0f, 1.0f
 }
 */
-template <typename Object, EditableScalar T>
+template <typename Owner, EditableScalar T>
 struct NumericField {
     std::string_view label;
-    T Object::* member;
+    T Owner::* member;
     T min, max, step;
 };
 
@@ -63,13 +45,33 @@ Vec3Field<Transform> posField {
     -100.0f, 100.0f, 0.05f
 }
 */
-template <typename Object>
+template <typename Owner>
 struct Vec3Field {
     std::string_view label;
-    float Object::* x;
-    float Object::* y;
-    float Object::* z;
+    float Owner::* x;
+    float Owner::* y;
+    float Owner::* z;
     float min, max, step;
 };
 #pragma endregion
+
+template <typename Owner>
+struct Property {
+    std::string_view name;
+    std::span<const BoolField<Owner>>               bools   {};
+    std::span<const NumericField<Owner, int>>       ints    {};
+    std::span<const NumericField<Owner, float>>     floats  {};
+    std::span<const Vec3Field<Owner>>               vec3    {};
+};
+
+// user define their own type specification in "Component code"
+template <typename Owner>
+constexpr Property<Owner> buildMetadata();
+
+// "Engine code" call this to get type info, just wrapper about buildMetadata
+template <typename Owner>
+[[nodiscard]] inline const Property<Owner>& reflect() {
+    static constinit Property<Owner> prop = buildMetadata<Owner>();
+    return prop;
+}
 } // namespace Inspector

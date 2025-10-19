@@ -1,12 +1,9 @@
 #pragma once
 #include <Transform.h>
 #include <Component.h>
+#include <Inspector.h>
 
-// #if defined(ENABLE_IMGUI)
-// #include <imgui.h>
-// #endif
-
-class Rotator : public Component {
+class RotatorComp : public Component {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 
@@ -14,7 +11,7 @@ public:
     Axis axis;
     float speed;
 
-    explicit Rotator(Axis axis = Axis::Y, float speed = 45.0f)
+    explicit RotatorComp(Axis axis = Axis::Y, float speed = 45.0f)
         : axis(axis), speed(speed) {}
 
     void render(GameObject& owner) override {}
@@ -30,19 +27,20 @@ public:
             }
         }
     }
-
-// #if defined(ENABLE_IMGUI)
-//     void onInspectorGUI() override {
-//         ImGui::SeparatorText(inspectorName().data());
-//         // ImGui::Checkbox("Enabled", &enabled);
-
-//         // const char* items[] = { "X", "Y", "Z" };
-//         // int curr = static_cast<int>(axis);
-//         // if (ImGui::Combo("Axis", &curr, items, IM_ARRAYSIZE(items))) {
-//         //     axis = static_cast<Axis>(curr);
-//         // }
-
-//         // ImGui::SliderFloat("Speed", &speed, -360.0f, 360.0f, "%.3f");
-//     }
-// #endif
 };
+
+#ifdef ENABLE_IMGUI
+namespace Inspector {
+inline constexpr BoolField<RotatorComp> kBools[] = {
+    { .label = "Enabled", .member = &RotatorComp::enabled }
+};
+
+template <>
+constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
+    return Property<RotatorComp> {
+        .name = "RotatorComp",
+        .bools = std::span{kBools}
+    };
+}
+} // namespace Inspector
+#endif
