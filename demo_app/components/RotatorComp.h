@@ -3,7 +3,7 @@
 #include <Component.h>
 #include <Inspector.h>
 
-class RotatorComp : public Component {
+class RotatorComp : public ComponentBase<RotatorComp> {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 

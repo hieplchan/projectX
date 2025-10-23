@@ -44,3 +44,14 @@ protected:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;
 };
+
+/**
+ * @brief CRTP Helper: setup static reflection pointer automatically
+ */
+template<typename Derived>
+class ComponentBase : public Component {
+public:
+    ComponentBase() {
+        /// TODO: setup static reflection pointer
+    }
+};

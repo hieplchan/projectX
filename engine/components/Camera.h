@@ -7,7 +7,7 @@
 
 #include <Component.h>
 
-class ENGINE_EXPORT Camera : public Component {
+class ENGINE_EXPORT Camera : public ComponentBase<Camera> {
 public:
     float fovDeg = 60.0f;
     float zNear = 0.1f;

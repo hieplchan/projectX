@@ -10,7 +10,7 @@ struct Pos2D {
     float x, y;
 };
 
-class ENGINE_EXPORT QuadRenderer : public Component {
+class ENGINE_EXPORT QuadRenderer : public ComponentBase<QuadRenderer> {
 public:
     glm::vec4 color;
 

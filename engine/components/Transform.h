@@ -7,7 +7,7 @@
 
 #include <Component.h>
 
-class ENGINE_EXPORT Transform : public Component {
+class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
 public:
 
     explicit Transform();
