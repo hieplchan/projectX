@@ -27,3 +27,12 @@ public:
     void onInspectorGUI() override;
 #endif
 };
+
+#ifdef ENABLE_IMGUI
+template <>
+constexpr Inspector::Property<Transform> Inspector::buildMetadata<Transform>() {
+    return Property<Transform> {
+        .name = "Camera"
+    };
+}
+#endif

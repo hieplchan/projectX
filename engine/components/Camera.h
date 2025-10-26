@@ -25,7 +25,16 @@ public:
     void render(GameObject& owner) override {};
     void update(GameObject& owner, float deltaTime) override {}
 
-#if defined(ENABLE_IMGUI)
+#ifdef ENABLE_IMGUI
     void onInspectorGUI() override;
 #endif
 };
+
+#ifdef ENABLE_IMGUI
+template <>
+constexpr Inspector::Property<Camera> Inspector::buildMetadata<Camera>() {
+    return Property<Camera> {
+        .name = "Camera"
+    };
+}
+#endif

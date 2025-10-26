@@ -29,3 +29,12 @@ private:
     bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
 };
+
+#ifdef ENABLE_IMGUI
+template <>
+constexpr Inspector::Property<QuadRenderer> Inspector::buildMetadata<QuadRenderer>() {
+    return Property<QuadRenderer> {
+        .name = "Camera"
+    };
+}
+#endif
