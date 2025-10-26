@@ -1,5 +1,6 @@
 #include <common/common_include.h>
-#include "GameObject.h"
+#include <GameObject.h>
+#include <editor/InspectorRenderer.h>
 
 #if defined(ENABLE_IMGUI)
 #include <imgui.h>
@@ -8,9 +9,10 @@ void GameObject::onInspectorGUI() {
     ImGui::PushID(this);
     if (ImGui::CollapsingHeader(m_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
         for (auto& component: m_components) {
-            ImGui::PushID(component.get());
-            component->onInspectorGUI();
-            ImGui::PopID();
+            const void* prop = component->getPropertyPointer();
+            if (prop) {
+                Inspector::drawFromProperty(component, prop);
+            }
         }
     }
     ImGui::PopID();
