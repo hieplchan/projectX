@@ -2,13 +2,11 @@
 
 #ifdef ENABLE_IMGUI
 #include <Inspector.h>
-#include <imgui.h>
 
 namespace Inspector {
 
 template<typename Object>
-void drawInspector(Object& obj);
-
+void drawFromProperty(Object& instance, const Property<Object>& prop);
 } // namespace Inspector
 
 #endif

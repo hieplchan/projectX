@@ -5,6 +5,7 @@
 
 #include <common/runtime_context.h>
 #include <editor/Inspector.h>
+#include <editor/InspectorRenderer.h>
 
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;
@@ -34,24 +35,26 @@ public:
         return m_owner;
     }
 
-#ifdef ENABLE_IMGUI
-    void setProperyPointer(const void* ptr) noexcept {
-        m_property = ptr;
-    }
-    [[nodiscard]] const void* getPropertyPointer() const noexcept {
-        return m_property;
-    }
-    virtual void onInspectorGUI() {}
-    virtual std::string_view inspectorName() const {
-        return typeid(*this).name();
-    }
-private:
-    const void* m_property = nullptr;
-#endif
-
 protected:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;
+
+#ifdef ENABLE_IMGUI
+public:
+    virtual void onInspectorGUI() = 0;
+    virtual std::string_view inspectorName() const = 0;
+
+    void setProperyPointer(const void* ptr) noexcept {
+        m_property = ptr;
+    }
+
+    [[nodiscard]] const void* getPropertyPointer() const noexcept {
+        return m_property;
+    }
+
+private:
+    const void* m_property = nullptr;
+#endif
 };
 
 /**
@@ -65,4 +68,15 @@ public:
         setProperyPointer(&Inspector::reflect<T>());
 #endif
     }
+
+#ifdef ENABLE_IMGUI
+    std::string_view inspectorName() const override {
+        return Inspector::reflect<T>().name;
+    }
+
+    void onInspectorGUI() override {
+        const Inspector::Property<T>& prop = Inspector::reflect<T>();
+        Inspector::drawFromProperty<T>(*static_cast<T*>(this), prop);
+    }
+#endif
 };

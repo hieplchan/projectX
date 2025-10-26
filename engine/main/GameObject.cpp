@@ -1,5 +1,6 @@
 #include <common/common_include.h>
-#include "GameObject.h"
+#include <GameObject.h>
+#include <editor/InspectorRenderer.h>
 
 #if defined(ENABLE_IMGUI)
 #include <imgui.h>

@@ -20,10 +20,6 @@ public:
     void render(GameObject& owner) override;
     void update(GameObject& owner, float deltaTime) override {}
 
-#if defined(ENABLE_IMGUI)
-    void onInspectorGUI() override;
-#endif
-
 private:
     bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };
     bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };

@@ -3,8 +3,8 @@
 #include <vector>
 #include <memory>
 
-#include "common/runtime_context.h"
-#include "Component.h"
+#include <common/runtime_context.h>
+#include <Component.h>
 
 /**
  * @brief Game object that manages components
