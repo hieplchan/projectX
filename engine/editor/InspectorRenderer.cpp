@@ -1,19 +1,25 @@
 #ifdef ENABLE_IMGUI
-#include "InspectorRenderer.h"
+#include <imgui.h>
 
-namespace Inspector{
-template <typename Object>
-void drawFromProperty(const Object& instance, const Property<Object>& prop) {
+#include "InspectorMetadata.h"
+#include "Inspector.h"
+
+namespace Inspector {
+
+template<typename T>
+void drawInspector(T* instance) {
     ImGui::PushID(instance);
 
+    const auto& prop = reflect<T>();
     ImGui::SeparatorText(prop.name.data());
 
-    for (const BoolField& field : prop.bools) {
-        ImGui::Checkbox(field.label.data(), &(instance.*(field.member)));
+    for (const auto& field : prop.bools) {
+        bool& v = instance.*(field.member);
+        ImGui::Checkbox(field.label.data(), &v);
     }
 
     ImGui::PopID();
 }
-} // namespace Inspector
 
+} // namepsace Inspector
 #endif

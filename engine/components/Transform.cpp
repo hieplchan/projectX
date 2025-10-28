@@ -4,17 +4,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Transform.h"
+#include <editor/Inspector.h>
 
-#if defined(ENABLE_IMGUI)
-#include <imgui.h>
-
-void Transform::onInspectorGUI() {
-    ImGui::SeparatorText(inspectorName().data());
-    ImGui::DragFloat3("Position", glm::value_ptr(position), 0.05f);
-    ImGui::DragFloat3("Rotation", glm::value_ptr(rotation), 0.2f);
-    ImGui::DragFloat3("Scale", glm::value_ptr(scale), 0.01f, 0.01f, 100.0f);
+namespace {
+    template class ComponentBase<Transform>;
+    template void Inspector::drawInspector<Transform>(Transform*);
 }
-#endif
 
 Transform::Transform() {
     LOG_INFO("constructing...");

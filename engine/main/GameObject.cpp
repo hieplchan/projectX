@@ -1,18 +1,16 @@
 #include <common/common_include.h>
 #include <GameObject.h>
-#include <editor/InspectorRenderer.h>
+#include <editor/Inspector.h>
 
 #if defined(ENABLE_IMGUI)
 #include <imgui.h>
 
-void GameObject::onInspectorGUI() {
+void GameObject::onDrawInspector() {
     ImGui::PushID(this);
     if (ImGui::CollapsingHeader(m_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
         for (auto& component: m_components) {
-            const void* prop = component->getPropertyPointer();
-            if (prop) {
-                Inspector::drawFromProperty(component, prop);
-            }
+            // vtable dispatch -> ComponentBase<T>::onDrawInspector()
+            component->onDrawInspector();
         }
     }
     ImGui::PopID();

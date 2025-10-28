@@ -22,17 +22,13 @@ public:
 
     void update(GameObject& owner, float deltaTime) override {}
     void render(GameObject& owner) override {}
-
-#if defined(ENABLE_IMGUI)
-    void onInspectorGUI() override;
-#endif
 };
 
 #ifdef ENABLE_IMGUI
 template <>
 constexpr Inspector::Property<Transform> Inspector::buildMetadata<Transform>() {
     return Property<Transform> {
-        .name = "Camera"
+        .name = "Transform"
     };
 }
 #endif

@@ -24,10 +24,6 @@ public:
 
     void render(GameObject& owner) override {};
     void update(GameObject& owner, float deltaTime) override {}
-
-#ifdef ENABLE_IMGUI
-    void onInspectorGUI() override;
-#endif
 };
 
 #ifdef ENABLE_IMGUI
