@@ -3,7 +3,7 @@
 #include <Component.h>
 #include <Inspector.h>
 
-class Rotator : public ComponentBase<Rotator> {
+class RotatorComp : public ComponentBase<RotatorComp> {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 
@@ -11,7 +11,7 @@ public:
     Axis axis;
     float speed;
 
-    explicit Rotator(Axis axis = Axis::Y, float speed = 45.0f)
+    explicit RotatorComp(Axis axis = Axis::Y, float speed = 45.0f)
         : axis(axis), speed(speed) {}
 
     void render(GameObject& owner) override {}
@@ -31,14 +31,14 @@ public:
 
 #ifdef ENABLE_IMGUI
 namespace Inspector {
-inline constexpr BoolField<Rotator> kBools[] = {
-    { .label = "Enabled", .member = &Rotator::enabled }
+inline constexpr BoolField<RotatorComp> kBools[] = {
+    { .label = "Enabled", .member = &RotatorComp::enabled }
 };
 
 template <>
-constexpr Property<Rotator> buildMetadata<Rotator>() {
-    return Property<Rotator> {
-        .name = "Rotator",
+constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
+    return Property<RotatorComp> {
+        .name = "RotatorComp",
         .bools = std::span{kBools}
     };
 }

@@ -3,6 +3,7 @@
 #include <string_view>
 #include <span>
 
+// Owner: our engine object, mimic Unreal UObject
 namespace Inspector {
 
 #pragma region Field Definition
