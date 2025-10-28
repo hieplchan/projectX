@@ -4,13 +4,12 @@
 #include <concepts>
 
 #include <common/runtime_context.h>
-#include <editor/InspectorMetadata.h>
 #include <editor/Inspector.h>
-
-class GameObject;
 
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;
+
+class GameObject;
 
 /**
  * @brief Base component class
@@ -35,14 +34,24 @@ public:
         return m_owner;
     }
 
+#ifdef ENABLE_IMGUI
+    void setProperyPointer(const void* ptr) noexcept {
+        m_property = ptr;
+    }
+    [[nodiscard]] const void* getPropertyPointer() const noexcept {
+        return m_property;
+    }
+    virtual void onInspectorGUI() {}
+    virtual std::string_view inspectorName() const {
+        return typeid(*this).name();
+    }
+private:
+    const void* m_property = nullptr;
+#endif
+
 protected:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;
-
-#ifdef ENABLE_IMGUI
-    // vtable entry, let editor TU override drawing code
-    virtual void onDrawInspector() const = 0;
-#endif
 };
 
 /**
@@ -50,24 +59,10 @@ protected:
  */
 template<typename T>
 class ComponentBase : public Component {
-#ifdef ENABLE_IMGUI
 public:
-    // declare override, no impl
-    void onDrawInspector() const override;
+    ComponentBase() {
+#ifdef ENABLE_IMGUI
+        setProperyPointer(&Inspector::reflect<T>());
 #endif
+    }
 };
-
-// #ifdef ENABLE_IMGUI
-// #define REGISTER_COMPONENT_FOR_EDITOR(Type)           \
-//     namespace {                                       \
-//         /* Force instantiation of ComponentBase<Type> */ \
-//         template class ComponentBase<Type>;           \
-//         /* Force instantiation of Inspector::drawInspector<Type> */ \
-//         template void Inspector::drawInspector<Type>(Type*); \
-//     }
-
-// #else
-
-// #define REGISTER_COMPONENT_FOR_EDITOR(Type) do {} while(0)
-
-// #endif

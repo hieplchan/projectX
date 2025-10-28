@@ -40,7 +40,7 @@ public:
     void setContext(std::shared_ptr<RuntimeContext> ctx);
 
 #if defined(ENABLE_IMGUI)
-    void onDrawInspector();
+    void onInspectorGUI();
 #endif
 
 private:
