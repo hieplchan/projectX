@@ -20,7 +20,7 @@ public:
         return m_name;
     }
     void setName(const std::string& name) {
-        m_name = std::move(name);
+        m_name = name;
     }
 
     /** Update all components */

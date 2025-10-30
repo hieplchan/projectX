@@ -8,10 +8,7 @@ void GameObject::onInspectorGUI() {
     ImGui::PushID(this);
     if (ImGui::CollapsingHeader(m_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
         for (auto& component: m_components) {
-            const void* prop = component->getPropertyPointer();
-            if (prop) {
-                Inspector::drawFromProperty(component, prop);
-            }
+            component->onInspectorGUI();
         }
     }
     ImGui::PopID();

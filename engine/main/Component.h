@@ -4,7 +4,7 @@
 #include <concepts>
 
 #include <common/runtime_context.h>
-#include <editor/Inspector.h>
+#include <editor/InspectorMetadata.h>
 
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;

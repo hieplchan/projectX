@@ -32,7 +32,7 @@ public:
 template <>
 constexpr Inspector::Property<Transform> Inspector::buildMetadata<Transform>() {
     return Property<Transform> {
-        .name = "Camera"
+        .name = "Transform"
     };
 }
 #endif

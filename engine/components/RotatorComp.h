@@ -1,9 +1,14 @@
 #pragma once
-#include <Transform.h>
-#include <Component.h>
-#include <Inspector.h>
 
-class RotatorComp : public ComponentBase<RotatorComp> {
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "engine_export.h"
+
+#include <Component.h>
+#include "Transform.h"
+
+class ENGINE_EXPORT RotatorComp : public ComponentBase<RotatorComp> {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 
@@ -14,19 +19,23 @@ public:
     explicit RotatorComp(Axis axis = Axis::Y, float speed = 45.0f)
         : axis(axis), speed(speed) {}
 
-    void render(GameObject& owner) override {}
-
     void update(GameObject& owner, float deltaTime) override {
         if (!enabled) return;
 
-        if (Transform* tf = owner.getComponent<Transform>()) {
-            switch (axis) {
-                case Axis::X: tf->rotation.x += speed * deltaTime; break;
-                case Axis::Y: tf->rotation.y += speed * deltaTime; break;
-                case Axis::Z: tf->rotation.z += speed * deltaTime; break;
-            }
-        }
+        //if (Transform* tf = owner.getComponent<Transform>()) {
+        //    switch (axis) {
+        //        case Axis::X: tf->rotation.x += speed * deltaTime; break;
+        //        case Axis::Y: tf->rotation.y += speed * deltaTime; break;
+        //        case Axis::Z: tf->rotation.z += speed * deltaTime; break;
+        //    }
+        //}
     }
+
+    void render(GameObject& owner) override {}
+
+#if defined(ENABLE_IMGUI)
+    void onInspectorGUI() override;
+#endif
 };
 
 #ifdef ENABLE_IMGUI
