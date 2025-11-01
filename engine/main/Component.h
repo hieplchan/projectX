@@ -4,7 +4,7 @@
 #include <concepts>
 
 #include <common/runtime_context.h>
-#include <editor/InspectorMetadata.h>
+#include <Metadata.h>
 
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;
@@ -24,6 +24,8 @@ public:
         m_ctx = ctx;
     }
 
+    virtual std::string_view name() const { return ""; }
+
     virtual void update(GameObject& owner, float deltaTime) = 0;
     virtual void render(GameObject& owner) = 0;
 
@@ -35,18 +37,7 @@ public:
     }
 
 #ifdef ENABLE_IMGUI
-    void setProperyPointer(const void* ptr) noexcept {
-        m_property = ptr;
-    }
-    [[nodiscard]] const void* getPropertyPointer() const noexcept {
-        return m_property;
-    }
     virtual void onInspectorGUI() {}
-    virtual std::string_view inspectorName() const {
-        return typeid(*this).name();
-    }
-private:
-    const void* m_property = nullptr;
 #endif
 
 protected:
@@ -60,9 +51,7 @@ protected:
 template<typename T>
 class ComponentBase : public Component {
 public:
-    ComponentBase() {
-#ifdef ENABLE_IMGUI
-        setProperyPointer(&Inspector::reflect<T>());
-#endif
+    constexpr std::string_view name() const override {
+        return reflect<T>().name;
     }
 };

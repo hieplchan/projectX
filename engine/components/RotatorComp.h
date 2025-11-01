@@ -5,6 +5,7 @@
 
 #include "engine_export.h"
 
+#include <GameObject.h>
 #include <Component.h>
 #include "Transform.h"
 
@@ -22,13 +23,13 @@ public:
     void update(GameObject& owner, float deltaTime) override {
         if (!enabled) return;
 
-        //if (Transform* tf = owner.getComponent<Transform>()) {
-        //    switch (axis) {
-        //        case Axis::X: tf->rotation.x += speed * deltaTime; break;
-        //        case Axis::Y: tf->rotation.y += speed * deltaTime; break;
-        //        case Axis::Z: tf->rotation.z += speed * deltaTime; break;
-        //    }
-        //}
+        if (Transform* tf = owner.getComponent<Transform>()) {
+            switch (axis) {
+                case Axis::X: tf->rotation.x += speed * deltaTime; break;
+                case Axis::Y: tf->rotation.y += speed * deltaTime; break;
+                case Axis::Z: tf->rotation.z += speed * deltaTime; break;
+            }
+        }
     }
 
     void render(GameObject& owner) override {}
@@ -38,18 +39,19 @@ public:
 #endif
 };
 
-#ifdef ENABLE_IMGUI
-namespace Inspector {
 inline constexpr BoolField<RotatorComp> kBools[] = {
     { .label = "Enabled", .member = &RotatorComp::enabled }
 };
 
+inline constexpr NumericField<RotatorComp, float> kFloats[] = {
+    { .label = "Speed", .member = &RotatorComp::speed, .min = 0.0f, .max = 360.0f }
+};
+
 template <>
-constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
+inline constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
     return Property<RotatorComp> {
         .name = "RotatorComp",
-        .bools = std::span{kBools}
+        .bools = std::span{kBools},
+        .floats = std::span{kFloats}
     };
 }
-} // namespace Inspector
-#endif

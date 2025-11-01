@@ -7,7 +7,7 @@
 #include <imgui.h>
 
 void Camera::onInspectorGUI() {
-    ImGui::SeparatorText(inspectorName().data());
+    ImGui::SeparatorText("Camera");
     ImGui::SliderFloat("FOV", &fovDeg, 10.0f, 120.0f);
     ImGui::DragFloat("Near", &zNear, 0.01f, 0.001f, 10.0f);
     ImGui::DragFloat("Far", &zFar, 1.0f, 10.0f, 10000.0f);

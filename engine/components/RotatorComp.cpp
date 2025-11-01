@@ -4,7 +4,7 @@
 #include <InspectorRenderer.h>
 
 void RotatorComp::onInspectorGUI() {
-    Inspector::drawFromProperty<RotatorComp>(this, Inspector::reflect<RotatorComp>());
+    Inspector::drawFromProperty<RotatorComp>(this, reflect<RotatorComp>());
 }
 
 #endif

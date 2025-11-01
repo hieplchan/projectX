@@ -30,11 +30,9 @@ private:
     bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
 };
 
-#ifdef ENABLE_IMGUI
 template <>
-constexpr Inspector::Property<QuadRenderer> Inspector::buildMetadata<QuadRenderer>() {
+constexpr Property<QuadRenderer> buildMetadata<QuadRenderer>() {
     return Property<QuadRenderer> {
         .name = "Camera"
     };
 }
-#endif

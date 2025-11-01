@@ -9,7 +9,7 @@
 #include <InspectorRenderer.h>
 
 void Transform::onInspectorGUI() {
-    Inspector::drawFromProperty<Transform>(this, Inspector::reflect<Transform>());
+    Inspector::drawFromProperty<Transform>(this, reflect<Transform>());
 }
 
 #endif

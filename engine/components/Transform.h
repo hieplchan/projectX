@@ -28,11 +28,9 @@ public:
 #endif
 };
 
-#ifdef ENABLE_IMGUI
 template <>
-constexpr Inspector::Property<Transform> Inspector::buildMetadata<Transform>() {
+constexpr Property<Transform> buildMetadata<Transform>() {
     return Property<Transform> {
         .name = "Transform"
     };
 }
-#endif

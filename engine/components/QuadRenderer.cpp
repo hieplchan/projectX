@@ -7,7 +7,7 @@
 #include <imgui.h>
 
 void QuadRenderer::onInspectorGUI() {
-    ImGui::SeparatorText(inspectorName().data());
+    ImGui::SeparatorText("QuadRenderer");
     ImGui::ColorEdit4("Color", glm::value_ptr(color));
 }
 #endif

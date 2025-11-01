@@ -30,11 +30,9 @@ public:
 #endif
 };
 
-#ifdef ENABLE_IMGUI
 template <>
-constexpr Inspector::Property<Camera> Inspector::buildMetadata<Camera>() {
+constexpr Property<Camera> buildMetadata<Camera>() {
     return Property<Camera> {
         .name = "Camera"
     };
 }
-#endif

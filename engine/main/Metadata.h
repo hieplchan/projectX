@@ -4,47 +4,23 @@
 #include <span>
 
 // Owner: our engine object, mimic Unreal UObject
-namespace Inspector {
-
 #pragma region Field Definition
 template <typename T>
 concept EditableScalar = std::same_as<T, float> || std::same_as<T, int>;
 
-/* Checkbox()
-BoolField<RotatorComp> {
-    "Enabled",
-    &RotatorComp::enabled,
-}
-*/
 template <typename Owner>
 struct BoolField {
     std::string_view label;
     bool Owner::* member;
 };
 
-/* DragFloat(), DragInt()
-NumericField<RotatorComp, float> {
-    "Speed",
-    &RotatorComp::speed,
-    -90.0f, 90.0f, 1.0f
-}
-*/
 template <typename Owner, EditableScalar T>
 struct NumericField {
     std::string_view label;
     T Owner::* member;
-    T min, max, step;
+    T min{ 0.0f }, max{ 100.0f };
 };
 
-/* DragFloat3()
-Vec3Field<Transform> posField {
-    "Position",
-    &Transform::position.x,
-    &Transform::position.y,
-    &Transform::position.z,
-    -100.0f, 100.0f, 0.05f
-}
-*/
 template <typename Owner>
 struct Vec3Field {
     std::string_view label;
@@ -74,4 +50,3 @@ template <typename Owner>
     static constinit Property<Owner> prop = buildMetadata<Owner>();
     return prop;
 }
-} // namespace Inspector
