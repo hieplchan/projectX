@@ -4,7 +4,7 @@
 #include <optional>
 
 #include <SDL.h>
-#include "../Logger.h"
+#include <Logger.h>
 
 /**
  * @brief Loads a file into a byte buffer using SDL_RWops.

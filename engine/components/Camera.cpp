@@ -3,24 +3,13 @@
 #include "Transform.h"
 #include "Camera.h"
 
-#if defined(ENABLE_IMGUI)
-#include <imgui.h>
+#ifdef ENABLE_IMGUI
+#include <InspectorRenderer.h>
 
 void Camera::onInspectorGUI() {
-    ImGui::SeparatorText(inspectorName().data());
-    ImGui::SliderFloat("FOV", &fovDeg, 10.0f, 120.0f);
-    ImGui::DragFloat("Near", &zNear, 0.01f, 0.001f, 10.0f);
-    ImGui::DragFloat("Far", &zFar, 1.0f, 10.0f, 10000.0f);
+    Inspector::drawFromProperty<Camera>(this, reflect<Camera>());
 }
 #endif
-
-Camera::Camera() {
-    LOG_INFO("constructing...");
-}
-
-Camera::~Camera() {
-    LOG_INFO("destructed...");
-}
 
 // GL Camera: https://learnopengl.com/Getting-started/Camera
 glm::mat4 Camera::view() const {

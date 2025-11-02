@@ -7,7 +7,7 @@
 
 #include <common/constants.h>
 #include <utils/file_utils.h>
-#include "../Logger.h"
+#include <Logger.h>
 
 #define BGFX_SAFE_DESTROY_HANDLE(handle) \
     do { \

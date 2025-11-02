@@ -10,7 +10,7 @@ struct Pos2D {
     float x, y;
 };
 
-class ENGINE_EXPORT QuadRenderer : public Component {
+class ENGINE_EXPORT QuadRenderer : public ComponentBase<QuadRenderer> {
 public:
     glm::vec4 color;
 
@@ -29,3 +29,15 @@ private:
     bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
 };
+
+inline constexpr ColorField<QuadRenderer> kQuadRendererColors[] = {
+    { .label = "Color", .color = &QuadRenderer::color}
+};
+
+template <>
+constexpr Property<QuadRenderer> buildMetadata<QuadRenderer>() {
+    return Property<QuadRenderer> {
+        .name = "QuadRenderer",
+        .colors = std::span{kQuadRendererColors}
+    };
+}

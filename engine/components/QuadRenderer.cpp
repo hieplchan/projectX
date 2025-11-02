@@ -1,14 +1,13 @@
-#include "common/common_include.h"
+#include <common/common_include.h>
 
 #include "Transform.h"
 #include "QuadRenderer.h"
 
 #if defined(ENABLE_IMGUI)
-#include <imgui.h>
+#include <InspectorRenderer.h>
 
 void QuadRenderer::onInspectorGUI() {
-    ImGui::SeparatorText(inspectorName().data());
-    ImGui::ColorEdit4("Color", glm::value_ptr(color));
+    Inspector::drawFromProperty<QuadRenderer>(this, reflect<QuadRenderer>());
 }
 #endif
 
@@ -60,8 +59,6 @@ namespace {
 }
 
 QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
-    LOG_INFO("constructing...");
-
 #pragma region Load Shaders
     PosColorVertex::init();
     m_vb = bgfx::createVertexBuffer(
@@ -82,7 +79,6 @@ QuadRenderer::~QuadRenderer() {
     BGFX_SAFE_DESTROY_HANDLE(m_vb);
     BGFX_SAFE_DESTROY_HANDLE(m_ib);
     BGFX_SAFE_DESTROY_HANDLE(m_prog);
-    LOG_INFO("destructed");
 }
 
 void QuadRenderer::render(GameObject& owner) {

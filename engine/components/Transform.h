@@ -7,11 +7,11 @@
 
 #include <Component.h>
 
-class ENGINE_EXPORT Transform : public Component {
+class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
 public:
 
-    explicit Transform();
-    ~Transform() override;
+    explicit Transform() = default;
+    ~Transform() override = default;
 
     glm::vec3 position{ 0.0f, 0.0f, 0.0f };
     glm::vec3 rotation{ 0.0f, 0.0f, 0.0f }; // Euler angles in degrees
@@ -27,3 +27,17 @@ public:
     void onInspectorGUI() override;
 #endif
 };
+
+inline constexpr Vec3Field<Transform> kTransformVec3s[] = {
+    { .label = "Position", .vec3 = &Transform::position, .step = 0.1f, .min = -1000.0f, .max = 1000.0f },
+    { .label = "Rotation", .vec3 = &Transform::rotation, .step = 0.1f, .min = 0.0f, .max = 360.0f },
+    { .label = "Scale", .vec3 = &Transform::scale, .step = 0.1f, .min = 0.0f, .max = 1000.0f },
+};
+
+template <>
+constexpr Property<Transform> buildMetadata<Transform>() {
+    return Property<Transform> {
+        .name = "Transform",
+        .vec3s = std::span{kTransformVec3s}
+    };
+}
