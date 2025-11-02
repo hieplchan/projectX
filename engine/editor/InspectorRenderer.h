@@ -3,6 +3,7 @@
 #ifdef ENABLE_IMGUI
 #include <Metadata.h>
 #include <imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Inspector {
 
@@ -20,18 +21,30 @@ void drawFromProperty(Object* obj, const Property<Object>& prop) {
     }
 
     for (const auto& field : prop.floats) {
-        ImGui::SliderFloat(
+        ImGui::DragFloat(
             field.label.data(),
             &(obj->*(field.member)),
+            field.step,
             field.min,
             field.max
         );
     }
 
     for (const auto& field : prop.ints) {
-        ImGui::SliderInt(
+        ImGui::DragInt(
             field.label.data(),
             &(obj->*(field.member)),
+            field.step,
+            field.min,
+            field.max
+        );
+    }
+
+    for (const auto& field : prop.vec3) {
+        ImGui::DragFloat3(
+            field.label.data(),
+            glm::value_ptr((obj->*(field.vec3))),
+            field.step,
             field.min,
             field.max
         );

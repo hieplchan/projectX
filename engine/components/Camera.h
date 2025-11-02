@@ -31,9 +31,9 @@ public:
 };
 
 inline constexpr NumericField<Camera, float> kCameraFloats[] = {
-    { .label = "FOV", .member = &Camera::fovDeg, .min = 0.0f, .max = 180.0f },
-    { .label = "ZNear", .member = &Camera::zNear, .min = 0.1f, .max = 100.0f },
-    { .label = "ZFar", .member = &Camera::zFar, .min = 0.1f, .max = 100.0f }
+    { .label = "FOV", .member = &Camera::fovDeg, .step = 1.0f, .min = 0.0f, .max = 180.0f },
+    { .label = "ZNear", .member = &Camera::zNear, .step = 1.0f, .min = 0.1f, .max = 100.0f },
+    { .label = "ZFar", .member = &Camera::zFar, .step = 1.0f, .min = 0.1f, .max = 100.0f }
 };
 
 template <>

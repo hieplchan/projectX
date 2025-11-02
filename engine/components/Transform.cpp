@@ -11,16 +11,7 @@
 void Transform::onInspectorGUI() {
     Inspector::drawFromProperty<Transform>(this, reflect<Transform>());
 }
-
 #endif
-
-Transform::Transform() {
-    LOG_INFO("constructing...");
-}
-
-Transform::~Transform() {
-    LOG_INFO("destructed...");
-}
 
 glm::mat4 Transform::matrix() const {
     glm::mat4 M(1.0f);

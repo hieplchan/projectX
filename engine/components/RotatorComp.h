@@ -44,7 +44,7 @@ inline constexpr BoolField<RotatorComp> kRotatorCompBools[] = {
 };
 
 inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
-    { .label = "Speed", .member = &RotatorComp::speed, .min = 0.0f, .max = 360.0f }
+    { .label = "Speed", .member = &RotatorComp::speed, .step = 1.0f, .min = 0.0f, .max = 360.0f }
 };
 
 template <>

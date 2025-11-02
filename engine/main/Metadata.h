@@ -2,6 +2,7 @@
 #include <concepts>
 #include <string_view>
 #include <span>
+#include <glm/glm.hpp>
 
 // Owner: our engine object, mimic Unreal UObject
 #pragma region Field Definition
@@ -18,16 +19,14 @@ template <typename Owner, EditableScalar T>
 struct NumericField {
     std::string_view label;
     T Owner::* member;
-    T min{ 0.0f }, max{ 100.0f };
+    T step, min, max;
 };
 
 template <typename Owner>
 struct Vec3Field {
     std::string_view label;
-    float Owner::* x;
-    float Owner::* y;
-    float Owner::* z;
-    float min, max, step;
+    glm::vec3 Owner::* vec3;
+    float step, min, max;
 };
 #pragma endregion
 

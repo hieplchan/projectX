@@ -33,6 +33,6 @@ private:
 template <>
 constexpr Property<QuadRenderer> buildMetadata<QuadRenderer>() {
     return Property<QuadRenderer> {
-        .name = "Camera"
+        .name = "QuadRenderer"
     };
 }
