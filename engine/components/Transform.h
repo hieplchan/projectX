@@ -38,6 +38,6 @@ template <>
 constexpr Property<Transform> buildMetadata<Transform>() {
     return Property<Transform> {
         .name = "Transform",
-        .vec3 = std::span{kTransformVec3s}
+        .vec3s = std::span{kTransformVec3s}
     };
 }

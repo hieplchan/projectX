@@ -40,13 +40,20 @@ void drawFromProperty(Object* obj, const Property<Object>& prop) {
         );
     }
 
-    for (const auto& field : prop.vec3) {
+    for (const auto& field : prop.vec3s) {
         ImGui::DragFloat3(
             field.label.data(),
             glm::value_ptr((obj->*(field.vec3))),
             field.step,
             field.min,
             field.max
+        );
+    }
+
+    for (const auto& field : prop.colors) {
+        ImGui::ColorEdit4(
+            field.label.data(),
+            glm::value_ptr((obj->*(field.color)))
         );
     }
 

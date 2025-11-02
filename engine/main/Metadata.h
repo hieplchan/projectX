@@ -28,6 +28,12 @@ struct Vec3Field {
     glm::vec3 Owner::* vec3;
     float step, min, max;
 };
+
+template <typename Owner>
+struct ColorField {
+    std::string_view label;
+    glm::vec4 Owner::* color;
+};
 #pragma endregion
 
 template <typename Owner>
@@ -36,7 +42,8 @@ struct Property {
     std::span<const BoolField<Owner>>               bools   {};
     std::span<const NumericField<Owner, int>>       ints    {};
     std::span<const NumericField<Owner, float>>     floats  {};
-    std::span<const Vec3Field<Owner>>               vec3    {};
+    std::span<const Vec3Field<Owner>>               vec3s   {};
+    std::span<const ColorField<Owner>>              colors  {};
 };
 
 // user define their own type specification in "Component code"

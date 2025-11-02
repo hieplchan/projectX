@@ -30,9 +30,14 @@ private:
     bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
 };
 
+inline constexpr ColorField<QuadRenderer> kQuadRendererColors[] = {
+    { .label = "Color", .color = &QuadRenderer::color}
+};
+
 template <>
 constexpr Property<QuadRenderer> buildMetadata<QuadRenderer>() {
     return Property<QuadRenderer> {
-        .name = "QuadRenderer"
+        .name = "QuadRenderer",
+        .colors = std::span{kQuadRendererColors}
     };
 }
