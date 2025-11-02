@@ -47,11 +47,16 @@ inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
     { .label = "Speed", .member = &RotatorComp::speed, .step = 1.0f, .min = 0.0f, .max = 360.0f }
 };
 
+inline const EnumField<RotatorComp> kRotatorEnumsComp[] = {
+    make_enum_field<RotatorComp>("Axis", &RotatorComp::axis)
+};
+
 template <>
 inline constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
     return Property<RotatorComp> {
         .name = "RotatorComp",
         .bools = std::span{kRotatorCompBools},
+        .enums = std::span{kRotatorEnumsComp},
         .floats = std::span{kRotatorCompFloats}
     };
 }

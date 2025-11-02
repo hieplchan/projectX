@@ -11,3 +11,6 @@
 	path = thirdparty/imgui.cmake/dear-imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
+[submodule "thirdparty/magic_enum"]
+	path = thirdparty/magic_enum
+	url = https://github.com/Neargye/magic_enum.git
