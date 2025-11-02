@@ -39,11 +39,11 @@ public:
 #endif
 };
 
-inline constexpr BoolField<RotatorComp> kBools[] = {
+inline constexpr BoolField<RotatorComp> kRotatorCompBools[] = {
     { .label = "Enabled", .member = &RotatorComp::enabled }
 };
 
-inline constexpr NumericField<RotatorComp, float> kFloats[] = {
+inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
     { .label = "Speed", .member = &RotatorComp::speed, .min = 0.0f, .max = 360.0f }
 };
 
@@ -51,7 +51,7 @@ template <>
 inline constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
     return Property<RotatorComp> {
         .name = "RotatorComp",
-        .bools = std::span{kBools},
-        .floats = std::span{kFloats}
+        .bools = std::span{kRotatorCompBools},
+        .floats = std::span{kRotatorCompFloats}
     };
 }
