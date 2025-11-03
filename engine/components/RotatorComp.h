@@ -48,7 +48,7 @@ inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
 };
 
 inline const EnumField<RotatorComp> kRotatorEnumsComp[] = {
-    make_enum_field<RotatorComp>("Axis", &RotatorComp::axis)
+    make_enum_field("Axis", &RotatorComp::axis)
 };
 
 template <>
