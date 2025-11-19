@@ -4,7 +4,7 @@
 
 #include "engine_export.h"
 
-#include <Component.h>
+#include <ComponentBase.h>
 
 struct Pos2D {
     float x, y;

@@ -5,7 +5,7 @@
 
 #include "engine_export.h"
 
-#include <Component.h>
+#include <ComponentBase.h>
 
 class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
 public:

@@ -6,7 +6,7 @@
 #include "engine_export.h"
 
 #include <GameObject.h>
-#include <Component.h>
+#include <ComponentBase.h>
 #include "Transform.h"
 
 class ENGINE_EXPORT RotatorComp : public ComponentBase<RotatorComp> {
