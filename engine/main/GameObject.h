@@ -21,7 +21,7 @@ public:
     const std::string& name() const noexcept {
         return m_name;
     }
-    void setName(const std::string& name) {
+    void setName(std::string_view name) {
         m_name = name;
     }
 

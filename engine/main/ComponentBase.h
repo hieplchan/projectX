@@ -37,10 +37,19 @@ public:
     }
 
 #ifdef ENABLE_IMGUI
-    virtual void onInspectorGUI() {}
+    virtual void onInspectorGUI() = 0;
 #endif
 
 protected:
+    WindowSettings getCtxSettings() const {
+        return m_ctx->window;
+    }
+
+    GameObject* getOwner() const {
+        return m_owner;
+    }
+
+private:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;
 };

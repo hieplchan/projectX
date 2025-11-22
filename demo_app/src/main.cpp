@@ -5,14 +5,10 @@
 #include <Logger.h>
 #include <Engine.h>
 #include <GameObject.h>
-#include <Transform.h>
-#include <QuadRenderer.h>
-#include <Camera.h>
+#include <ComponentTypes.h>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-
-#include <components/RotatorComp.h>
 
 int main() {
     Engine engine;
