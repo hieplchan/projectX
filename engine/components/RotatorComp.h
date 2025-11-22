@@ -6,7 +6,7 @@
 #include "engine_export.h"
 
 #include <GameObject.h>
-#include <Component.h>
+#include <ComponentBase.h>
 #include "Transform.h"
 
 class ENGINE_EXPORT RotatorComp : public ComponentBase<RotatorComp> {
@@ -48,7 +48,7 @@ inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
 };
 
 inline const EnumField<RotatorComp> kRotatorEnumsComp[] = {
-    make_enum_field<RotatorComp>("Axis", &RotatorComp::axis)
+    make_enum_field("Axis", &RotatorComp::axis)
 };
 
 template <>

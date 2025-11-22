@@ -30,7 +30,7 @@ target_include_directories(engine PUBLIC
     ${CMAKE_SOURCE_DIR}/thirdparty/magic_enum/include
 )
 
-target_link_libraries(engine PRIVATE SDL2 bgfx imgui bgfx-imgui-backend)
+target_link_libraries(engine PRIVATE SDL2 bgfx imgui bgfx-imgui-backend nlohmann_json::nlohmann_json)
 
 target_compile_definitions(engine PUBLIC
     $<$<CONFIG:Debug>:ENABLE_IMGUI>

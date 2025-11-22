@@ -31,15 +31,15 @@ namespace {
     };
     bgfx::VertexLayout PosColorVertex::ms_decl;
 
-    static PosColorVertex s_cubeVertices[] =
+    constexpr std::array<PosColorVertex, 4> s_cubeVertices
     {
-        {0.5f, 0.5f, 0.0f, 0xff0000ff},
-        {0.5f, -0.5f, 0.0f, 0xff0000ff},
-        {-0.5f, -0.5f, 0.0f, 0xff00ff00},
-        {-0.5f, 0.5f, 0.0f, 0xff00ff00}
+        PosColorVertex{0.5f, 0.5f, 0.0f, 0xff0000ff},
+        PosColorVertex{0.5f, -0.5f, 0.0f, 0xff0000ff},
+        PosColorVertex{-0.5f, -0.5f, 0.0f, 0xff00ff00},
+        PosColorVertex{-0.5f, 0.5f, 0.0f, 0xff00ff00}
     };
 
-    static const uint16_t s_cubeTriList[] =
+    constexpr std::array<uint16_t, 6> s_cubeTriList
     {
         0, 1, 3,
         1, 2, 3
@@ -63,12 +63,12 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     PosColorVertex::init();
     m_vb = bgfx::createVertexBuffer(
         // Static data can be passed with bgfx::makeRef
-        bgfx::makeRef(s_cubeVertices, sizeof(s_cubeVertices)),
+        bgfx::makeRef(s_cubeVertices.data(), sizeof(s_cubeVertices)),
         PosColorVertex::ms_decl);
 
     m_ib = bgfx::createIndexBuffer(
         // Static data can be passed with bgfx::makeRef
-        bgfx::makeRef(s_cubeTriList, sizeof(s_cubeTriList)));
+        bgfx::makeRef(s_cubeTriList.data(), sizeof(s_cubeTriList)));
     bgfx::ShaderHandle vsh = loadShader("vs_quad");
     bgfx::ShaderHandle fsh = loadShader("fs_quad");
     m_prog = bgfx::createProgram(vsh, fsh, true);
@@ -82,7 +82,7 @@ QuadRenderer::~QuadRenderer() {
 }
 
 void QuadRenderer::render(GameObject& owner) {
-    auto* tf = m_owner->getComponent<Transform>();
+    const auto* tf = getOwner()->getComponent<Transform>();
     const glm::mat4 model = tf ? tf->matrix() : glm::mat4(1.0f);
 
     bgfx::setTransform(glm::value_ptr(model));
@@ -95,5 +95,5 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(m_ctx->window.viewIds.world, m_prog);
+    bgfx::submit(getCtxSettings().viewIds.world, m_prog);
 }

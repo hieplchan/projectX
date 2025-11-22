@@ -13,7 +13,7 @@ target_include_directories(demo_app PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(demo_app PRIVATE engine)
+target_link_libraries(demo_app PRIVATE engine nlohmann_json::nlohmann_json)
 
 # Copy DLLs to output directory
 add_custom_command(TARGET demo_app POST_BUILD

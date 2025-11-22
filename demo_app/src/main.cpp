@@ -5,16 +5,22 @@
 #include <Logger.h>
 #include <Engine.h>
 #include <GameObject.h>
-#include <Transform.h>
-#include <QuadRenderer.h>
-#include <Camera.h>
+#include <ComponentTypes.h>
 
-#include <components/RotatorComp.h>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 int main() {
     Engine engine;
 
     LOG_INFO(std::format("Demo app started at: {}", std::chrono::system_clock::now()));
+
+    json jTest = {"key", "value"};
+    std::string out = jTest.dump();
+    LOG_INFO(std::format("JSON test output: {}", out));
+    std::vector<uint8_t> cborTest = json::to_cbor(jTest);
+    std::string cborTestStr(cborTest.begin(), cborTest.end());
+    LOG_INFO(std::format("CBOR test output: {}", cborTestStr));
 
     auto cameraGO = std::make_unique<GameObject>();
     auto cameraGOTF = cameraGO->addComponent<Transform>();

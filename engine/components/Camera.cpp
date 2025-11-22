@@ -13,12 +13,11 @@ void Camera::onInspectorGUI() {
 
 // GL Camera: https://learnopengl.com/Getting-started/Camera
 glm::mat4 Camera::view() const {
-    if (auto* tf = owner()->getComponent<Transform>()) {
+    if (const auto* tf = owner()->getComponent<Transform>()) {
         const glm::vec3 eye = tf->position;
-        const glm::vec3 at = eye + glm::vec3(0.0f, 0.0f, 10.0f);
-        const glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+        const auto at = eye + glm::vec3(0.0f, 0.0f, 10.0f);
+        const auto up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-        /// TODO: add roll rotation
         glm::mat4 view = glm::lookAt(eye, at, up);
         return view;
     }
@@ -28,8 +27,8 @@ glm::mat4 Camera::view() const {
 }
 
 glm::mat4 Camera::proj() const {
-    const float aspect = (m_ctx->window.height > 0)
-        ? static_cast<float>(m_ctx->window.width) / static_cast<float>(m_ctx->window.height)
+    const float aspect = (getCtxSettings().height > 0)
+        ? static_cast<float>(getCtxSettings().width) / static_cast<float>(getCtxSettings().height)
         : 1.0f;
     return glm::perspective( // Perspective projection matrix
         glm::radians(fovDeg), // Vertical field of view
