@@ -15,6 +15,8 @@ public:
     glm::vec4 color;
 
     explicit QuadRenderer(const glm::vec4& color);
+    explicit QuadRenderer();
+
     ~QuadRenderer() override;
 
     void render(GameObject& owner) override;

@@ -1,0 +1,57 @@
+{
+    "version": 1,
+    "gameObjects": [
+        {
+            "name": "Quad1",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "type": "QuadRenderer",
+                    "Color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "RotatorComp",
+                    "Speed": 45
+                }
+            ]
+        },
+        {
+            "name": "Quad2",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "type": "QuadRenderer",
+                    "Color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "RotatorComp",
+                    "Speed": 45
+                }
+            ]
+        }
+    ]
+}

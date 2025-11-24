@@ -1,5 +1,10 @@
 #pragma once
 
+inline void GameObject::addComponent(std::unique_ptr<Component> component) {
+    component->setOwner(this);
+    m_components.push_back(std::move(component));
+}
+
 template<ComponentType T, typename... Args>
 T* GameObject::addComponent(Args&&... args) {
     auto component = std::make_unique<T>(std::forward<Args>(args)...);

@@ -75,6 +75,8 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
 #pragma endregion
 }
 
+QuadRenderer::QuadRenderer() : QuadRenderer(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}) { }
+
 QuadRenderer::~QuadRenderer() {
     BGFX_SAFE_DESTROY_HANDLE(m_vb);
     BGFX_SAFE_DESTROY_HANDLE(m_ib);

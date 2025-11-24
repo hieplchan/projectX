@@ -6,9 +6,9 @@ ComponentFactoryFuncMap buildFactoryFuncMap() {
     ComponentFactoryFuncMap factoryMap;
 
     #define REGISTER_COMPONENT_TYPE(Type) \
-    factoryMap.try_emplace(#Type, [](const json& jData) -> ComponentPtr { \
+    factoryMap.try_emplace(#Type, [](const json& jData) -> std::unique_ptr<Component> { \
         auto obj = std::make_unique<Type>(); \
-        populateCompFromJson<Type>(obj.get(), jData); \
+        populateComponentFromJson<Type>(obj.get(), jData); \
         return obj; \
     });
 
@@ -19,7 +19,7 @@ ComponentFactoryFuncMap buildFactoryFuncMap() {
 }
 } // anonymous namespace
 
-ComponentPtr createCompFromJson(std::string_view typeName, const json& jData) {
+std::unique_ptr<Component> createComponentFromJson(std::string_view typeName, const json& jData) {
     static const ComponentFactoryFuncMap factoryMap = buildFactoryFuncMap();
     if (auto it = factoryMap.find(typeName); it != factoryMap.end()) {
         return it->second(jData);
@@ -30,6 +30,6 @@ ComponentPtr createCompFromJson(std::string_view typeName, const json& jData) {
 }
 
 template<ComponentType T>
-void populateCompFromJson(T* comp, const json& jData) {
+void populateComponentFromJson(T* comp, const json& jData) {
 
 }

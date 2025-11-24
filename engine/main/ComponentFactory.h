@@ -10,17 +10,16 @@
 #include "ComponentList.h"
 
 using json = nlohmann::json;
-using ComponentPtr = std::unique_ptr<Component>;
-using ComponentFactoryFunc = std::function<ComponentPtr(const json&)>;
+using ComponentFactoryFunc = std::function<std::unique_ptr<Component>(const json&)>;
 using ComponentFactoryFuncMap = std::unordered_map<std::string_view, ComponentFactoryFunc>;
 
-ComponentPtr createCompFromJson(
+std::unique_ptr<Component> createComponentFromJson(
     std::string_view typeName,
     const json& jData
 );
 
 template<ComponentType T>
-void populateCompFromJson(
+void populateComponentFromJson(
     T* comp,
     const json& jData
 );

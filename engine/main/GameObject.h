@@ -32,6 +32,9 @@ public:
     void render();
 
     /** Add a component to the game object */
+    void addComponent(std::unique_ptr<Component> component);
+
+    /** Add a component to the game object */
     template<ComponentType T, typename... Args>
     T* addComponent(Args&&... args);
 

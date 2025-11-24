@@ -5,7 +5,7 @@
 #include <Logger.h>
 #include <Engine.h>
 #include <GameObject.h>
-#include <ComponentTypes.h>
+#include <ComponentList.h>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
