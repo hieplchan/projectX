@@ -25,7 +25,7 @@ std::unique_ptr<Component> createComponentFromJson(std::string_view typeName, co
         return it->second(jData);
     }
 
-    LOG_ERROR("ComponentFactory: Unknown component type {}", typeName);
+    LOG_ERROR(std::format("ComponentFactory: Unknown component type {}", typeName));
     return nullptr;
 }
 
