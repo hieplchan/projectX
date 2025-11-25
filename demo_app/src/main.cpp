@@ -23,12 +23,13 @@ int main() {
     // std::string cborTestStr(cborTest.begin(), cborTest.end());
     // LOG_INFO(std::format("CBOR test output: {}", cborTestStr));
 
-    // auto cameraGO = std::make_unique<GameObject>();
-    // auto cameraGOTF = cameraGO->addComponent<Transform>();
-    // auto cameraGOCam = cameraGO->addComponent<Camera>();
-    // cameraGO->setName("Main Camera");
-    // cameraGOTF->position = glm::vec3{ 0.0f, 0.0f, -10.0f };
-    // cameraGOCam->fovDeg = 30.0f;
+    auto cameraGO = std::make_unique<GameObject>();
+    auto cameraGOTF = cameraGO->addComponent<Transform>();
+    auto cameraGOCam = cameraGO->addComponent<Camera>();
+    cameraGO->setName("Main Camera");
+    cameraGOTF->position = glm::vec3{ 0.0f, 0.0f, -10.0f };
+    cameraGOCam->fovDeg = 30.0f;
+    engine.addGameObject(std::move(cameraGO));
 
     // // Create simple game object with QuadRenderer component
     // auto quadGO = std::make_unique<GameObject>();
@@ -38,10 +39,9 @@ int main() {
     // quadGO->addComponent<RotatorComp>();
     // quadGOTF->rotation.y = 45.0f;
 
-    // engine.addGameObject(std::move(cameraGO));
     // engine.addGameObject(std::move(quadGO));
 
-    // tryLoadSceneFromFile("scene1.json", engine);
+    bool ret = tryLoadSceneFromFile("scene1.json", engine);
 
     engine.run();
 }
