@@ -11,7 +11,6 @@
 
 using json = nlohmann::json;
 
-
 bool tryLoadSceneFromFile(const std::filesystem::path& filePath, Engine& engine) {
     std::ifstream ifs(filePath.string());
     if (!ifs.is_open()) {
@@ -22,7 +21,7 @@ bool tryLoadSceneFromFile(const std::filesystem::path& filePath, Engine& engine)
     json jData = json::parse(ifs);
 
     // Load gameObjects
-    if (jData["gameObjects"].is_null() || !jData["gameObject"].is_array()) {
+    if (jData["gameObjects"].is_null() || !jData["gameObjects"].is_array()) {
         LOG_ERROR("{} not contain gameObjects", filePath.string());
         LOG_ERROR("{}", jData.dump());
         return false;
