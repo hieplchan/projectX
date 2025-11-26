@@ -41,7 +41,9 @@ int main() {
 
     // engine.addGameObject(std::move(quadGO));
 
-    bool ret = tryLoadSceneFromFile("scene1.json", engine);
+    if (!tryLoadSceneFromFile("scene1.json", engine)) {
+        LOG_ERROR("Failed to load scene from file!");
+    }
 
     engine.run();
 }
