@@ -30,12 +30,10 @@ void populateComponentFromJson(T* comp, const json& jData) {
             LOG_WARN("jData not contain {}", key);
             continue;
         }
-
         if (!jData[key].is_array() || jData[key].size() != 3) {
             LOG_WARN("jData {} not vec3", key);
             continue;
         }
-
         comp->*(f.vec3) = glm::vec3 {
             jData[key][0].get<float>(),
             jData[key][1].get<float>(),
