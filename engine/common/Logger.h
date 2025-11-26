@@ -30,7 +30,9 @@ public:
 
 // If you already have a formatted string, use LOG*_MSG; otherwise, use LOG* with fmt/args
 #define LOG_INFO(fmt, ...)  Logger::log("[info]", __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_WARN(fmt, ...)  Logger::log("[warn]", __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
 #define LOG_ERROR(fmt, ...) Logger::log("[err]", __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
 
 #define LOG_INFO_MSG(msg)   Logger::log_msg("[info]", __FILE__, __func__, __LINE__, msg)
+#define LOG_WARN_MSG(msg)   Logger::log_msg("[warn]", __FILE__, __func__, __LINE__, msg)
 #define LOG_ERROR_MSG(msg)  Logger::log_msg("[err]", __FILE__, __func__, __LINE__, msg)
