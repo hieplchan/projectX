@@ -28,11 +28,11 @@ public:
 #endif
 };
 
-inline constexpr Vec3Field<Transform> kTransformVec3s[] = {
+inline constexpr std::array<Vec3Field<Transform>, 3> kTransformVec3s = {{
     { .label = "Position", .vec3 = &Transform::position, .step = 0.1f, .min = -1000.0f, .max = 1000.0f },
     { .label = "Rotation", .vec3 = &Transform::rotation, .step = 0.1f, .min = 0.0f, .max = 360.0f },
     { .label = "Scale", .vec3 = &Transform::scale, .step = 0.1f, .min = 0.0f, .max = 1000.0f },
-};
+}};
 
 template <>
 constexpr Property<Transform> buildMetadata<Transform>() {

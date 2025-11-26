@@ -17,9 +17,3 @@ std::unique_ptr<Component> createComponentFromJson(
     std::string_view typeName,
     const json& jData
 );
-
-template<ComponentType T>
-void populateComponentFromJson(
-    T* comp,
-    const json& jData
-);
