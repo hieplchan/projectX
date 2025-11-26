@@ -9,7 +9,6 @@
 
 class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
 public:
-
     explicit Transform() = default;
     ~Transform() override = default;
 
@@ -19,9 +18,6 @@ public:
 
     // Compute the transformation matrix
     glm::mat4 matrix() const;
-
-    void update(GameObject& owner, float deltaTime) override {}
-    void render(GameObject& owner) override {}
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;

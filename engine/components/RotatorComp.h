@@ -25,34 +25,33 @@ public:
 
         if (Transform* tf = owner.getComponent<Transform>()) {
             switch (axis) {
-                case Axis::X: tf->rotation.x += speed * deltaTime; break;
-                case Axis::Y: tf->rotation.y += speed * deltaTime; break;
-                case Axis::Z: tf->rotation.z += speed * deltaTime; break;
+                using enum Axis;
+                case X: tf->rotation.x += speed * deltaTime; break;
+                case Y: tf->rotation.y += speed * deltaTime; break;
+                case Z: tf->rotation.z += speed * deltaTime; break;
             }
         }
     }
-
-    void render(GameObject& owner) override {}
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;
 #endif
 };
 
-inline constexpr BoolField<RotatorComp> kRotatorCompBools[] = {
+inline constexpr std::array<BoolField<RotatorComp>, 1> kRotatorCompBools = {{
     { .label = "Enabled", .member = &RotatorComp::enabled }
-};
+}};
 
-inline constexpr NumericField<RotatorComp, float> kRotatorCompFloats[] = {
+inline constexpr std::array<NumericField<RotatorComp, float>, 1> kRotatorCompFloats = {{
     { .label = "Speed", .member = &RotatorComp::speed, .step = 1.0f, .min = 0.0f, .max = 360.0f }
-};
+}};
 
-inline const EnumField<RotatorComp> kRotatorEnumsComp[] = {
+inline const std::array<EnumField<RotatorComp>, 1> kRotatorEnumsComp = {{
     make_enum_field("Axis", &RotatorComp::axis)
-};
+}};
 
 template <>
-inline constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
+constexpr Property<RotatorComp> buildMetadata<RotatorComp>() {
     return Property<RotatorComp> {
         .name = "RotatorComp",
         .bools = std::span{kRotatorCompBools},

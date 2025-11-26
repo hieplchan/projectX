@@ -17,15 +17,33 @@ void populateComponentFromJson(T* comp, const json& jData) {
     }
 
     for (const NumericField<T, int>& f : typeInfo.ints) {
-        // LOG_INFO("Parse NumericField<int> {}", f.label);
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
+        if (!jData[key].is_number_integer()) {
+            LOG_WARN("jData {} not int", key);
+            continue;
+        }
+        comp->*(f.member) = jData[key].get<int>();
     }
 
     for (const NumericField<T, float>& f : typeInfo.floats) {
-        // LOG_INFO("Parse NumericField<int> {}", f.label);
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
+        if (!jData[key].is_number_float()) {
+            LOG_WARN("jData {} not float", key);
+            continue;
+        }
+        comp->*(f.member) = jData[key].get<float>();
     }
 
     for (const Vec3Field<T>& f : typeInfo.vec3s) {
-        std::string key = std::string(f.label);
+        const std::string_view& key = f.label;
         if (!jData.contains(key)) {
             LOG_WARN("jData not contain {}", key);
             continue;

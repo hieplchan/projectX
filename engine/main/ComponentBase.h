@@ -63,4 +63,12 @@ public:
     constexpr std::string_view name() const override {
         return reflect<T>().name;
     }
+
+    void update(GameObject& owner, float deltaTime) override {
+        // Default: do nothing
+    }
+
+    void render(GameObject& owner) override {
+        // Default: do nothing
+    }
 };
