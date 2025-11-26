@@ -9,7 +9,16 @@ void populateComponentFromJson(T* comp, const json& jData) {
     // LOG_INFO("Populating component of type {}", typeInfo.name);
 
     for (const BoolField<T>& f : typeInfo.bools) {
-        // LOG_INFO("Parse BoolField {}", f.label);
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
+        if (!jData[key].is_boolean()) {
+            LOG_WARN("jData {} not bool", key);
+            continue;
+        }
+        comp->*(f.member) = jData[key].get<bool>();
     }
 
     for (const EnumField<T>& f : typeInfo.enums) {
