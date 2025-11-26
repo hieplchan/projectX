@@ -6,7 +6,6 @@ namespace {
 template<ComponentType T>
 void populateComponentFromJson(T* comp, const json& jData) {
     const Property<T>& typeInfo = reflect<T>();
-    // LOG_INFO("Populating component of type {}", typeInfo.name);
 
     for (const BoolField<T>& f : typeInfo.bools) {
         const std::string_view& key = f.label;
@@ -69,7 +68,21 @@ void populateComponentFromJson(T* comp, const json& jData) {
     }
 
     for (const ColorField<T>& f : typeInfo.colors) {
-        // LOG_INFO("Parse ColorField {}", f.label);
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
+        if (!jData[key].is_array() || jData[key].size() != 4) {
+            LOG_WARN("jData {} not vec4", key);
+            continue;
+        }
+        comp->*(f.color) = glm::vec4 {
+            jData[key][0].get<float>(),
+            jData[key][1].get<float>(),
+            jData[key][2].get<float>(),
+            jData[key][3].get<float>()
+        };
     }
 }
 
