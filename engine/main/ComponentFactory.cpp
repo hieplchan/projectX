@@ -1,12 +1,14 @@
+#include <algorithm>
+#include <ranges>
+
 #include <Logger.h>
 #include <ComponentFactory.h>
 #include <Metadata.h>
 
 namespace {
+#pragma region JSON Parsing Helpers
 template<ComponentType T>
-void populateComponentFromJson(T* comp, const json& jData) {
-    const Property<T>& typeInfo = reflect<T>();
-
+void parseBoolFields(T* comp, const json& jData, const Property<T>& typeInfo) {
     for (const BoolField<T>& f : typeInfo.bools) {
         const std::string_view& key = f.label;
         if (!jData.contains(key)) {
@@ -19,11 +21,41 @@ void populateComponentFromJson(T* comp, const json& jData) {
         }
         comp->*(f.member) = jData[key].get<bool>();
     }
+}
 
+// json enum can be String or Int
+template<ComponentType T>
+void parseEnumFields(T* comp, const json& jData, const Property<T>& typeInfo) {
     for (const EnumField<T>& f : typeInfo.enums) {
-        // LOG_INFO("Parse EnumField {}", f.label);
-    }
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
 
+        if (jData[key].is_string()) { // json enum can be String
+            std::string enumStr = jData[key].get<std::string>();
+            auto it = std::ranges::find(f.names, enumStr);
+            if (it == f.names.end()) {
+                LOG_WARN("jData {} enum string {} not found", key, enumStr);
+                continue;
+            }
+            comp->*(f.member) = f.values[std::distance(f.names.begin(), it)];
+        } else if (jData[key].is_number_integer()) { // json enum can also be Int
+            int enumInt = jData[key].get<int>();
+            if (auto it = std::ranges::find(f.values, enumInt); it == f.values.end()) {
+                LOG_WARN("jData {} enum int {} not found", key, enumInt);
+                continue;
+            }
+            comp->*(f.member) = enumInt;
+        } else {
+            LOG_WARN("jData {} not enum or int", key);
+        }
+    }
+}
+
+template<ComponentType T>
+void parseNumericIntFields(T* comp, const json& jData, const Property<T>& typeInfo) {
     for (const NumericField<T, int>& f : typeInfo.ints) {
         const std::string_view& key = f.label;
         if (!jData.contains(key)) {
@@ -36,21 +68,27 @@ void populateComponentFromJson(T* comp, const json& jData) {
         }
         comp->*(f.member) = jData[key].get<int>();
     }
+}
 
+template<ComponentType T>
+void parseNumericFloatFields(T* comp, const json& jData, const Property<T>& typeInfo) {
     for (const NumericField<T, float>& f : typeInfo.floats) {
         const std::string_view& key = f.label;
         if (!jData.contains(key)) {
             LOG_WARN("jData not contain {}", key);
             continue;
         }
-        if (!jData[key].is_number_float()) {
-            LOG_WARN("jData {} not float", key);
+        if (!jData[key].is_number()) {
+            LOG_WARN("jData {} not number", key);
             continue;
         }
         comp->*(f.member) = jData[key].get<float>();
     }
+}
 
-    for (const Vec3Field<T>& f : typeInfo.vec3s) {
+template<ComponentType T>
+void parseVec3Fields(T* comp, const json& jData, const Property<T>& typeInfo) {
+for (const Vec3Field<T>& f : typeInfo.vec3s) {
         const std::string_view& key = f.label;
         if (!jData.contains(key)) {
             LOG_WARN("jData not contain {}", key);
@@ -66,7 +104,10 @@ void populateComponentFromJson(T* comp, const json& jData) {
             jData[key][2].get<float>()
         };
     }
+}
 
+template<ComponentType T>
+void parseColorFields(T* comp, const json& jData, const Property<T>& typeInfo) {
     for (const ColorField<T>& f : typeInfo.colors) {
         const std::string_view& key = f.label;
         if (!jData.contains(key)) {
@@ -84,6 +125,19 @@ void populateComponentFromJson(T* comp, const json& jData) {
             jData[key][3].get<float>()
         };
     }
+}
+#pragma endregion
+
+template<ComponentType T>
+void populateComponentFromJson(T* comp, const json& jData) {
+    const Property<T>& typeInfo = reflect<T>();
+
+    parseBoolFields<T>(comp, jData, typeInfo);
+    parseEnumFields<T>(comp, jData, typeInfo);
+    parseNumericIntFields<T>(comp, jData, typeInfo);
+    parseNumericFloatFields<T>(comp, jData, typeInfo);
+    parseVec3Fields<T>(comp, jData, typeInfo);
+    parseColorFields<T>(comp, jData, typeInfo);
 }
 
 ComponentFactoryFuncMap buildFactoryFuncMap() {

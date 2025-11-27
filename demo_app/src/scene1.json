@@ -7,19 +7,19 @@
                 {
                     "type": "Transform",
                     "Position": [
-                        0.0,
+                        0,
                         0.6,
-                        0.0
+                        0
                     ],
                     "Rotation": [
-                        0.0,
-                        30.0,
-                        8.0
+                        0,
+                        30,
+                        8
                     ],
                     "Scale": [
-                        2.0,
-                        2.0,
-                        0.0
+                        2,
+                        2,
+                        1
                     ]
                 },
                 {
@@ -33,8 +33,9 @@
                 },
                 {
                     "type": "RotatorComp",
-                    "Speed": 180.0,
-                    "Enabled": true
+                    "Speed": 180,
+                    "Enabled": true,
+                    "Axis": "Y"
                 }
             ]
         },
@@ -44,9 +45,19 @@
                 {
                     "type": "Transform",
                     "Position": [
-                        0.0,
-                        0.0,
-                        0.0
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
                     ]
                 },
                 {
@@ -60,8 +71,9 @@
                 },
                 {
                     "type": "RotatorComp",
-                    "Speed": -45.0,
-                    "Enabled": false
+                    "Speed": -180,
+                    "Enabled": false,
+                    "Axis": "Z"
                 }
             ]
         }
