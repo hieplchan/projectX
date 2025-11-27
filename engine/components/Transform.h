@@ -5,11 +5,10 @@
 
 #include "engine_export.h"
 
-#include <Component.h>
+#include <ComponentBase.h>
 
 class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
 public:
-
     explicit Transform() = default;
     ~Transform() override = default;
 
@@ -20,19 +19,16 @@ public:
     // Compute the transformation matrix
     glm::mat4 matrix() const;
 
-    void update(GameObject& owner, float deltaTime) override {}
-    void render(GameObject& owner) override {}
-
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;
 #endif
 };
 
-inline constexpr Vec3Field<Transform> kTransformVec3s[] = {
+inline constexpr std::array<Vec3Field<Transform>, 3> kTransformVec3s = {{
     { .label = "Position", .vec3 = &Transform::position, .step = 0.1f, .min = -1000.0f, .max = 1000.0f },
     { .label = "Rotation", .vec3 = &Transform::rotation, .step = 0.1f, .min = 0.0f, .max = 360.0f },
     { .label = "Scale", .vec3 = &Transform::scale, .step = 0.1f, .min = 0.0f, .max = 1000.0f },
-};
+}};
 
 template <>
 constexpr Property<Transform> buildMetadata<Transform>() {

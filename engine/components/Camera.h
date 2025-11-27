@@ -5,7 +5,7 @@
 
 #include "engine_export.h"
 
-#include <Component.h>
+#include <ComponentBase.h>
 
 class ENGINE_EXPORT Camera : public ComponentBase<Camera> {
 public:
@@ -22,19 +22,16 @@ public:
     // Transforms camera space -> clip space
     glm::mat4 proj() const;
 
-    void render(GameObject& owner) override {};
-    void update(GameObject& owner, float deltaTime) override {}
-
 #ifdef ENABLE_IMGUI
     void onInspectorGUI() override;
 #endif
 };
 
-inline constexpr NumericField<Camera, float> kCameraFloats[] = {
+inline constexpr std::array<NumericField<Camera, float>, 3> kCameraFloats = {{
     { .label = "FOV", .member = &Camera::fovDeg, .step = 1.0f, .min = 0.0f, .max = 180.0f },
     { .label = "ZNear", .member = &Camera::zNear, .step = 1.0f, .min = 0.1f, .max = 100.0f },
     { .label = "ZFar", .member = &Camera::zFar, .step = 1.0f, .min = 0.1f, .max = 100.0f }
-};
+}};
 
 template <>
 constexpr Property<Camera> buildMetadata<Camera>() {
