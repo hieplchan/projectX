@@ -2,6 +2,35 @@
     "version": 1,
     "gameObjects": [
         {
+            "name": "Main Camera",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        -10
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "Camera",
+                    "FOV": 30,
+                    "ZNear": 0.1,
+                    "ZFar": 100
+                }
+            ]
+        },
+        {
             "name": "Quad1",
             "components": [
                 {
