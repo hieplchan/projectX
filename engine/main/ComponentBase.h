@@ -37,10 +37,19 @@ public:
     }
 
 #ifdef ENABLE_IMGUI
-    virtual void onInspectorGUI() {}
+    virtual void onInspectorGUI() = 0;
 #endif
 
 protected:
+    WindowSettings getCtxSettings() const {
+        return m_ctx->window;
+    }
+
+    GameObject* getOwner() const {
+        return m_owner;
+    }
+
+private:
     std::shared_ptr<RuntimeContext> m_ctx;
     GameObject* m_owner = nullptr;
 };
@@ -53,5 +62,13 @@ class ComponentBase : public Component {
 public:
     constexpr std::string_view name() const override {
         return reflect<T>().name;
+    }
+
+    void update(GameObject& owner, float deltaTime) override {
+        // Default: do nothing
+    }
+
+    void render(GameObject& owner) override {
+        // Default: do nothing
     }
 };

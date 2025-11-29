@@ -1,0 +1,110 @@
+{
+    "version": 1,
+    "gameObjects": [
+        {
+            "name": "Main Camera",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        -10
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "Camera",
+                    "FOV": 30,
+                    "ZNear": 0.1,
+                    "ZFar": 100
+                }
+            ]
+        },
+        {
+            "name": "Quad1",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0.6,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        30,
+                        8
+                    ],
+                    "Scale": [
+                        2,
+                        2,
+                        1
+                    ]
+                },
+                {
+                    "type": "QuadRenderer",
+                    "Color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "RotatorComp",
+                    "Speed": 180,
+                    "Enabled": true,
+                    "Axis": "Y"
+                }
+            ]
+        },
+        {
+            "name": "Quad2",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "QuadRenderer",
+                    "Color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "RotatorComp",
+                    "Speed": -180,
+                    "Enabled": false,
+                    "Axis": "Z"
+                }
+            ]
+        }
+    ]
+}

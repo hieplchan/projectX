@@ -3,8 +3,10 @@
 #include <vector>
 #include <memory>
 
+#include <map>
+
 #include "common/runtime_context.h"
-#include "Component.h"
+#include <ComponentBase.h>
 
 /**
  * @brief Game object that manages components
@@ -19,7 +21,7 @@ public:
     const std::string& name() const noexcept {
         return m_name;
     }
-    void setName(const std::string& name) {
+    void setName(std::string_view name) {
         m_name = name;
     }
 
@@ -28,6 +30,9 @@ public:
 
     /** Render all components */
     void render();
+
+    /** Add a component to the game object */
+    void addComponent(std::unique_ptr<Component> component);
 
     /** Add a component to the game object */
     template<ComponentType T, typename... Args>
