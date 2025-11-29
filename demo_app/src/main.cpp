@@ -4,12 +4,8 @@
 
 #include <Logger.h>
 #include <Engine.h>
-#include <GameObject.h>
 #include <ComponentList.h>
 #include <SceneLoader.h>
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
 
 int main() {
     Engine engine;
