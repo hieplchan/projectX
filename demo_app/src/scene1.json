@@ -7,7 +7,7 @@
                 {
                     "type": "Transform",
                     "Position": [
-                        0,
+                        1,
                         0,
                         -10
                     ],
@@ -37,17 +37,17 @@
                     "type": "Transform",
                     "Position": [
                         0,
-                        0.6,
+                        1.2,
                         0
                     ],
                     "Rotation": [
                         0,
-                        30,
-                        8
+                        0,
+                        0
                     ],
                     "Scale": [
-                        2,
-                        2,
+                        1,
+                        1,
                         1
                     ]
                 },
@@ -64,12 +64,50 @@
                     "type": "RotatorComp",
                     "Speed": 180,
                     "Enabled": true,
-                    "Axis": "Y"
+                    "Axis": "Z"
                 }
             ]
         },
         {
             "name": "Quad2",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        -0.5,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        45
+                    ],
+                    "Scale": [
+                        2,
+                        2,
+                        2
+                    ]
+                },
+                {
+                    "type": "QuadRenderer",
+                    "Color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "RotatorComp",
+                    "Speed": -360,
+                    "Enabled": true,
+                    "Axis": "Y"
+                }
+            ]
+        },
+        {
+            "name": "Sprite1",
             "components": [
                 {
                     "type": "Transform",
@@ -90,19 +128,8 @@
                     ]
                 },
                 {
-                    "type": "QuadRenderer",
-                    "Color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "type": "RotatorComp",
-                    "Speed": -180,
-                    "Enabled": false,
-                    "Axis": "Z"
+                    "type": "SpriteRenderer",
+                    "TexturePath": "character.png"
                 }
             ]
         }

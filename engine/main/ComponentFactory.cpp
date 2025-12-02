@@ -87,6 +87,22 @@ void parseNumericFloatFields(T* comp, const json& jData, const Property<T>& type
 }
 
 template<ComponentType T>
+void parseStringFields(T* comp, const json& jData, const Property<T>& typeInfo) {
+    for (const StringField<T>& f : typeInfo.strings) {
+        const std::string_view& key = f.label;
+        if (!jData.contains(key)) {
+            LOG_WARN("jData not contain {}", key);
+            continue;
+        }
+        if (!jData[key].is_string()) {
+            LOG_WARN("jData {} not string", key);
+            continue;
+        }
+        comp->*(f.member) = jData[key].get<std::string>();
+    }
+}
+
+template<ComponentType T>
 void parseVec3Fields(T* comp, const json& jData, const Property<T>& typeInfo) {
 for (const Vec3Field<T>& f : typeInfo.vec3s) {
         const std::string_view& key = f.label;
@@ -136,6 +152,7 @@ void populateComponentFromJson(T* comp, const json& jData) {
     parseEnumFields<T>(comp, jData, typeInfo);
     parseNumericIntFields<T>(comp, jData, typeInfo);
     parseNumericFloatFields<T>(comp, jData, typeInfo);
+    parseStringFields<T>(comp, jData, typeInfo);
     parseVec3Fields<T>(comp, jData, typeInfo);
     parseColorFields<T>(comp, jData, typeInfo);
 }
