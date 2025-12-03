@@ -31,6 +31,33 @@
             ]
         },
         {
+            "name": "TwinBee Guy",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "SpriteRenderer",
+                    "TexturePath": "sprites/TwinBee.png"
+                }
+            ]
+        },
+        {
             "name": "Quad1",
             "components": [
                 {
@@ -103,33 +130,6 @@
                     "Speed": -360,
                     "Enabled": true,
                     "Axis": "Y"
-                }
-            ]
-        },
-        {
-            "name": "Sprite1",
-            "components": [
-                {
-                    "type": "Transform",
-                    "Position": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "type": "SpriteRenderer",
-                    "TexturePath": "character.png"
                 }
             ]
         }
