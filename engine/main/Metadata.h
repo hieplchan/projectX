@@ -27,6 +27,12 @@ struct NumericField {
 };
 
 template <typename Owner>
+struct StringField {
+    std::string_view label;
+    std::string Owner::* member;
+};
+
+template <typename Owner>
 struct Vec3Field {
     std::string_view label;
     glm::vec3 Owner::* vec3;
@@ -55,6 +61,7 @@ struct Property {
     std::span<const EnumField<Owner>>               enums   {};
     std::span<const NumericField<Owner, int>>       ints    {};
     std::span<const NumericField<Owner, float>>     floats  {};
+    std::span<const StringField<Owner>>             strings {};
     std::span<const Vec3Field<Owner>>               vec3s   {};
     std::span<const ColorField<Owner>>              colors  {};
 };
