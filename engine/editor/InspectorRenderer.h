@@ -1,13 +1,14 @@
 #pragma once
 
 #ifdef ENABLE_IMGUI
+#include <glm/gtc/type_ptr.hpp>
+
 #include <Metadata.h>
 #include <imgui.h>
-#include <glm/gtc/type_ptr.hpp>
+#include <imgui_stdlib.h>
 
 namespace Inspector {
 
-#define BUFFER_SIZE 1024
 template <typename Object>
 void drawFromProperty(Object* obj, const Property<Object>& prop) {
     ImGui::PushID(obj);
@@ -64,19 +65,10 @@ void drawFromProperty(Object* obj, const Property<Object>& prop) {
     }
 
     for (const auto& field: prop.strings) {
-        // imgui want writeable buffer
-        char buffer[BUFFER_SIZE];
-        std::string_view curr = (obj->*(field.member));
-
-        // copy safely
-        size_t len = std::min(curr.size(), static_cast<size_t>(BUFFER_SIZE - 1));
-        std::memcpy(buffer, curr.data(), len);
-        buffer[len] = '\0';
-
-        if (ImGui::InputText(field.label.data(), buffer, BUFFER_SIZE)) {
-            // assign back
-            (obj->*(field.member)) = std::string(buffer);
-        }
+        ImGui::InputText(
+            field.label.data(),
+            &(obj->*(field.member))
+        );
     }
 
     for (const auto& field : prop.vec3s) {
