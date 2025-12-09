@@ -26,8 +26,8 @@ inline std::optional<std::vector<uint8_t>> tryLoadFileWithSDL(const std::filesys
     }
 
     std::vector<uint8_t> buf(static_cast<size_t>(size));
-    size_t readSize = SDL_RWread(rw, buf.data(), 1, buf.size());
-    if (readSize != buf.size()) {
+    if (size_t readSize = SDL_RWread(rw, buf.data(), 1, buf.size());
+        readSize != buf.size()) {
         LOG_ERROR(std::format("Read error ({} of {} bytes): {}", readSize, buf.size(), path.string()));
         SDL_RWclose(rw);
         return std::nullopt;
