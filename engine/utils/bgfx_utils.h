@@ -6,6 +6,7 @@
 #include <filesystem>
 
 #include <bgfx/bgfx.h>
+#include <bx/error.h>
 #include <bimg/decode.h>
 #include <bx/allocator.h>
 
@@ -69,13 +70,16 @@ inline bgfx::TextureHandle loadTexture(const std::string& texturePath) {
     }
 
     // auto detect format & decode image
+    bx::Error err;
     bimg::ImageContainer* imgContainer = bimg::imageParse(
         &g_allocator,
         data->data(),
-        static_cast<uint32_t>(data->size())
+        static_cast<uint32_t>(data->size()),
+        bimg::TextureFormat::Count,
+        &err
     );
     if (!imgContainer) {
-        LOG_ERROR("Failed to parse image {}", path.string());
+        LOG_ERROR("Failed to parse image {}, err: {}", path.string(), err.getMessage().getCPtr());
         return BGFX_INVALID_HANDLE;
     }
 
