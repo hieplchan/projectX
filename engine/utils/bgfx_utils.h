@@ -73,4 +73,29 @@ inline bgfx::TextureHandle loadTexture(std::filesystem::path path) {
         data->data(),
         static_cast<uint32_t>(data->size())
     );
+    if (!imgContainer) {
+        LOG_ERROR("Failed to parse image {}", path.string());
+        return BGFX_INVALID_HANDLE;
+    }
+
+    // create bgfx texture
+    const bgfx::Memory* mem = bgfx::makeRef(imgContainer->m_data, imgContainer->m_size);
+    bgfx::TextureHandle tex = bgfx::createTexture2D(
+        static_cast<uint16_t>(imgContainer->m_width),
+        static_cast<uint16_t>(imgContainer->m_height),
+        imgContainer->m_numMips > 1,
+        imgContainer->m_numLayers,
+        static_cast<bgfx::TextureFormat::Enum>(imgContainer->m_format),
+        0, // default no flags
+        mem
+    );
+
+    // cleanup
+    bimg::imageFree(imgContainer);
+    if (!bgfx::isValid(tex)) {
+        LOG_ERROR("Failed to create texture {}", path.string());
+        return BGFX_INVALID_HANDLE;
+    }
+
+    return tex;
 }
