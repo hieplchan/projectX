@@ -3,9 +3,8 @@
 #include "Transform.h"
 #include "QuadRenderer.h"
 
-#if defined(ENABLE_IMGUI)
+#ifdef ENABLE_IMGUI
 #include <InspectorRenderer.h>
-
 void QuadRenderer::onInspectorGUI() {
     Inspector::drawFromProperty<QuadRenderer>(this, reflect<QuadRenderer>());
 }
@@ -59,7 +58,6 @@ namespace {
 }
 
 QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
-#pragma region Load Shaders
     PosColorVertex::init();
     vbHandle = bgfx::createVertexBuffer(
         // Static data can be passed with bgfx::makeRef
@@ -69,10 +67,12 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     ibHandle = bgfx::createIndexBuffer(
         // Static data can be passed with bgfx::makeRef
         bgfx::makeRef(s_cubeTriList.data(), sizeof(s_cubeTriList)));
-    bgfx::ShaderHandle vsh = loadShader("vs_quad");
-    bgfx::ShaderHandle fsh = loadShader("fs_quad");
+    bgfx::ShaderHandle vsh = loadShader(kVertexShaderName);
+    bgfx::ShaderHandle fsh = loadShader(kFragmentShaderName);
     progHandle = bgfx::createProgram(vsh, fsh, true);
-#pragma endregion
+    if (!bgfx::isValid(progHandle)) {
+        LOG_ERROR("QuadRenderer: Failed to create shader program");
+    }
 }
 
 QuadRenderer::QuadRenderer() : QuadRenderer(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}) { }

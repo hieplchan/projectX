@@ -6,10 +6,18 @@
 
 class ENGINE_EXPORT SpriteRenderer : public ComponentBase<SpriteRenderer> {
 public:
+    explicit SpriteRenderer();
+    ~SpriteRenderer() override;
+
     void onDeserialized() override;
 
     std::string texFilePath;
+
     bgfx::TextureHandle texHandle{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
+
+    static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";
+    static constexpr std::string_view kFragmentShaderName = "fs_sprite.bin";
 
 #ifdef ENABLE_IMGUI
     void onInspectorGUI() override;

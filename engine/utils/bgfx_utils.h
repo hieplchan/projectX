@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <format>
 #include <filesystem>
@@ -23,8 +24,8 @@ using OptionalByteBuffer = std::optional<std::vector<uint8_t>>;
         } \
     } while (0)
 
-inline bgfx::ShaderHandle loadShader(const std::string& name) {
-    const std::filesystem::path path = std::filesystem::path(kShaderDir) / (name + ".bin");
+inline bgfx::ShaderHandle loadShader(std::string_view name) {
+    const std::filesystem::path path = std::filesystem::path(kShaderDir) / name;
     OptionalByteBuffer data = tryLoadFileWithSDL(path);
     if (!data.has_value()) {
         LOG_ERROR("Failed to read shader {}", path.string());
@@ -39,7 +40,7 @@ inline bgfx::ShaderHandle loadShader(const std::string& name) {
     return sh;
 }
 
-inline bgfx::ProgramHandle loadProgram(const std::string& vsName, const std::string& fsName) {
+inline bgfx::ProgramHandle loadProgram(std::string_view vsName, std::string_view fsName) {
     bgfx::ShaderHandle vsh = loadShader(vsName);
     bgfx::ShaderHandle fsh = loadShader(fsName);
     if (!bgfx::isValid(vsh) || !bgfx::isValid(fsh)) {

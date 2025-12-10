@@ -21,9 +21,13 @@ public:
     void render(GameObject& owner) override;
 
     glm::vec4 color;
+
     bgfx::VertexBufferHandle vbHandle{ bgfx::kInvalidHandle };
     bgfx::IndexBufferHandle ibHandle{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
+
+    static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
+    static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;
