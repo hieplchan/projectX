@@ -6,8 +6,7 @@
 
 class ENGINE_EXPORT SpriteRenderer : public ComponentBase<SpriteRenderer> {
 public:
-    SpriteRenderer() = default;
-    ~SpriteRenderer() override = default;
+    void onDeserialized() override;
 
     std::string texturePath;
 

@@ -26,15 +26,21 @@ public:
 
     virtual std::string_view name() const { return ""; }
 
-    virtual void update(GameObject& owner, float deltaTime) = 0;
-    virtual void render(GameObject& owner) = 0;
-
     void setOwner(GameObject* owner) noexcept {
         m_owner = owner;
     }
     [[nodiscard]] GameObject* owner() const noexcept {
         return m_owner;
     }
+
+#pragma region Lifecycle
+    virtual void onDeserialized() = 0;
+
+    // Game loop calls
+    virtual void update(GameObject& owner, float deltaTime) = 0;
+    virtual void render(GameObject& owner) = 0;
+#pragma endregion
+
 
 #ifdef ENABLE_IMGUI
     virtual void onInspectorGUI() = 0;
@@ -62,6 +68,10 @@ class ComponentBase : public Component {
 public:
     constexpr std::string_view name() const override {
         return reflect<T>().name;
+    }
+
+    void onDeserialized() override {
+        // Default: do nothing
     }
 
     void update(GameObject& owner, float deltaTime) override {

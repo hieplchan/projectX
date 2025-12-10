@@ -23,7 +23,7 @@ using OptionalByteBuffer = std::optional<std::vector<uint8_t>>;
     } while (0)
 
 inline bgfx::ShaderHandle loadShader(const std::string& name) {
-    const std::filesystem::path path = std::filesystem::path(shaderDir) / (name + ".bin");
+    const std::filesystem::path path = std::filesystem::path(kShaderDir) / (name + ".bin");
     OptionalByteBuffer data = tryLoadFileWithSDL(path);
     if (!data.has_value()) {
         LOG_ERROR("Failed to read shader {}", path.string());
@@ -57,7 +57,8 @@ inline bgfx::ProgramHandle loadProgram(const std::string& vsName, const std::str
     return program;
 }
 
-inline bgfx::TextureHandle loadTexture(std::filesystem::path path) {
+inline bgfx::TextureHandle loadTexture(const std::string& texturePath) {
+    auto path = std::filesystem::path(kTextureDir) / texturePath;
     static bx::DefaultAllocator g_allocator;
 
     // load file

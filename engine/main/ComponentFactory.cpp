@@ -164,6 +164,7 @@ ComponentFactoryFuncMap buildFactoryFuncMap() {
     factoryMap.try_emplace(#Type, [](const json& jData) -> std::unique_ptr<Component> { \
         auto obj = std::make_unique<Type>(); \
         populateComponentFromJson<Type>(obj.get(), jData); \
+        obj->onDeserialized(); \
         return obj; \
     });
 

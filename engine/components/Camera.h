@@ -13,9 +13,6 @@ public:
     float zNear = 0.1f;
     float zFar = 100.0f;
 
-    explicit Camera() = default;
-    ~Camera() override = default;
-
     // Transforms world space -> camera space.
     glm::mat4 view() const;
 
