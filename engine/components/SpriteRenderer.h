@@ -8,7 +8,8 @@ class ENGINE_EXPORT SpriteRenderer : public ComponentBase<SpriteRenderer> {
 public:
     void onDeserialized() override;
 
-    std::string texturePath;
+    std::string texFilePath;
+    bgfx::TextureHandle texHandle{ bgfx::kInvalidHandle };
 
 #ifdef ENABLE_IMGUI
     void onInspectorGUI() override;
@@ -16,7 +17,7 @@ public:
 };
 
 inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrings = {{
-    { .label = "TexturePath", .member = &SpriteRenderer::texturePath }
+    { .label = "TexturePath", .member = &SpriteRenderer::texFilePath }
 }};
 
 template <>

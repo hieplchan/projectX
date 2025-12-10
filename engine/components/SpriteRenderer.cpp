@@ -14,8 +14,10 @@ void SpriteRenderer::onInspectorGUI() {
 #endif
 
 void SpriteRenderer::onDeserialized() {
-    bgfx::TextureHandle tex = loadTexture(texturePath);
+    bgfx::TextureHandle tex = loadTexture(texFilePath);
     if (!bgfx::isValid(tex)) {
-        LOG_ERROR("SpriteRenderer: Failed to load texture {}", texturePath);
+        LOG_ERROR("SpriteRenderer: Failed to load texture {}", texFilePath);
+        return;
     }
+    texHandle = tex;
 }

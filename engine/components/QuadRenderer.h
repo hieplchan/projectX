@@ -21,9 +21,9 @@ public:
     void render(GameObject& owner) override;
 
     glm::vec4 color;
-    bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };
-    bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
-    bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
+    bgfx::VertexBufferHandle vbHandle{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle ibHandle{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;

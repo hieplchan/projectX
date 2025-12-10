@@ -61,26 +61,26 @@ namespace {
 QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
 #pragma region Load Shaders
     PosColorVertex::init();
-    m_vb = bgfx::createVertexBuffer(
+    vbHandle = bgfx::createVertexBuffer(
         // Static data can be passed with bgfx::makeRef
         bgfx::makeRef(s_cubeVertices.data(), sizeof(s_cubeVertices)),
         PosColorVertex::ms_decl);
 
-    m_ib = bgfx::createIndexBuffer(
+    ibHandle = bgfx::createIndexBuffer(
         // Static data can be passed with bgfx::makeRef
         bgfx::makeRef(s_cubeTriList.data(), sizeof(s_cubeTriList)));
     bgfx::ShaderHandle vsh = loadShader("vs_quad");
     bgfx::ShaderHandle fsh = loadShader("fs_quad");
-    m_prog = bgfx::createProgram(vsh, fsh, true);
+    progHandle = bgfx::createProgram(vsh, fsh, true);
 #pragma endregion
 }
 
 QuadRenderer::QuadRenderer() : QuadRenderer(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}) { }
 
 QuadRenderer::~QuadRenderer() {
-    BGFX_SAFE_DESTROY_HANDLE(m_vb);
-    BGFX_SAFE_DESTROY_HANDLE(m_ib);
-    BGFX_SAFE_DESTROY_HANDLE(m_prog);
+    BGFX_SAFE_DESTROY_HANDLE(vbHandle);
+    BGFX_SAFE_DESTROY_HANDLE(ibHandle);
+    BGFX_SAFE_DESTROY_HANDLE(progHandle);
 }
 
 void QuadRenderer::render(GameObject& owner) {
@@ -90,12 +90,12 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setTransform(glm::value_ptr(model));
 
     //// Set vertex and index buffer.
-    bgfx::setVertexBuffer(0, m_vb);
-    bgfx::setIndexBuffer(m_ib);
+    bgfx::setVertexBuffer(0, vbHandle);
+    bgfx::setIndexBuffer(ibHandle);
 
     //// Set render states.
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(getCtxSettings().viewIds.world, m_prog);
+    bgfx::submit(getCtxSettings().viewIds.world, progHandle);
 }
