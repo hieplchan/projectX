@@ -9,7 +9,7 @@
 #include <ComponentBase.h>
 #include "Transform.h"
 
-class ENGINE_EXPORT RotatorComp : public ComponentBase<RotatorComp> {
+class ENGINE_EXPORT RotatorComp final : public ComponentBase<RotatorComp> {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 

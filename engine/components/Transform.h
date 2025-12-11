@@ -7,7 +7,7 @@
 
 #include <ComponentBase.h>
 
-class ENGINE_EXPORT Transform : public ComponentBase<Transform> {
+class ENGINE_EXPORT Transform final : public ComponentBase<Transform> {
 public:
     glm::vec3 position{ 0.0f, 0.0f, 0.0f };
     glm::vec3 rotation{ 0.0f, 0.0f, 0.0f }; // Euler angles in degrees

@@ -5,7 +5,7 @@
 
 #include <ComponentBase.h>
 
-class ENGINE_EXPORT SpriteRenderer : public ComponentBase<SpriteRenderer> {
+class ENGINE_EXPORT SpriteRenderer final : public ComponentBase<SpriteRenderer> {
 public:
     explicit SpriteRenderer();
     ~SpriteRenderer() override;

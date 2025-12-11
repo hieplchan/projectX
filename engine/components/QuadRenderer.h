@@ -11,7 +11,7 @@ struct Pos2D {
     float y;
 };
 
-class ENGINE_EXPORT QuadRenderer : public ComponentBase<QuadRenderer> {
+class ENGINE_EXPORT QuadRenderer final : public ComponentBase<QuadRenderer> {
 public:
     explicit QuadRenderer(const glm::vec4& color);
     explicit QuadRenderer();
