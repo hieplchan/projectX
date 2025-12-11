@@ -1,4 +1,5 @@
 #pragma once
+#include <bgfx/bgfx.h>
 
 #include "engine_export.h"
 
@@ -12,6 +13,7 @@ public:
     void onDeserialized() override;
 
     std::string texFilePath;
+    glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
 
     bgfx::TextureHandle texHandle{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
@@ -27,12 +29,16 @@ public:
 inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrings = {{
     { .label = "TexturePath", .member = &SpriteRenderer::texFilePath }
 }};
+inline constexpr std::array<ColorField<SpriteRenderer>, 1> kSpriteRendererColors = {{
+    { .label = "Tint", .color = &SpriteRenderer::color}
+}};
 
 template <>
 constexpr Property<SpriteRenderer> buildMetadata<SpriteRenderer>() {
     return Property<SpriteRenderer> {
         .name = "SpriteRenderer",
-        .strings = std::span{kSpriteRendererStrings}
+        .strings = std::span{kSpriteRendererStrings},
+        .colors = std::span{kSpriteRendererColors}
     };
 }
 

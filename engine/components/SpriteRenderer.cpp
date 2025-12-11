@@ -1,5 +1,3 @@
-#include <bgfx/bgfx.h>
-
 #include <bgfx_utils.h>
 #include "Logger.h"
 #include "Transform.h"

@@ -53,7 +53,13 @@
                 },
                 {
                     "type": "SpriteRenderer",
-                    "TexturePath": "Carp.png"
+                    "TexturePath": "Carp.png",
+                    "Tint": [
+                        0,
+                        1,
+                        1,
+                        1
+                    ]
                 }
             ]
         },
@@ -80,7 +86,13 @@
                 },
                 {
                     "type": "SpriteRenderer",
-                    "TexturePath": "TwinBee.png"
+                    "TexturePath": "TwinBee.png",
+                    "Tint": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
                 }
             ]
         },
