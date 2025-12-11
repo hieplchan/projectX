@@ -60,13 +60,20 @@ namespace {
 QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     PosColorVertex::init();
     m_hVertBuf = bgfx::createVertexBuffer(
-        // Static data can be passed with bgfx::makeRef
-        bgfx::makeRef(s_cubeVertices.data(), sizeof(s_cubeVertices)),
-        PosColorVertex::ms_decl);
+        bgfx::makeRef(
+            s_cubeVertices.data(),
+            sizeof(s_cubeVertices)
+        ),
+        PosColorVertex::ms_decl
+    );
 
     m_hIndexBuf = bgfx::createIndexBuffer(
-        // Static data can be passed with bgfx::makeRef
-        bgfx::makeRef(s_cubeTriList.data(), sizeof(s_cubeTriList)));
+        bgfx::makeRef(
+            s_cubeTriList.data(),
+            sizeof(s_cubeTriList)
+        )
+    );
+
     bgfx::ShaderHandle vsh = loadShader(kVertexShaderName);
     bgfx::ShaderHandle fsh = loadShader(kFragmentShaderName);
     m_hProg = bgfx::createProgram(vsh, fsh, true);

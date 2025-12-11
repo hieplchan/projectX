@@ -13,15 +13,17 @@ public:
     void onDeserialized() override;
 
     std::string texFilePath;
-    glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+    glm::vec4 tint{ 1.0f };
 
 private:
-    bgfx::UniformHandle m_uTint{ bgfx::kInvalidHandle };
-    bgfx::TextureHandle m_hTex{ bgfx::kInvalidHandle };
-    bgfx::UniformHandle m_uTexSampler{ bgfx::kInvalidHandle };
-
     static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";
     static constexpr std::string_view kFragmentShaderName = "fs_sprite.bin";
+    bgfx::UniformHandle m_uTint{ bgfx::kInvalidHandle };
+    bgfx::UniformHandle m_uTexSampler{ bgfx::kInvalidHandle };
+
+    bgfx::VertexBufferHandle m_hVertBuf{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle m_hIndexBuf{ bgfx::kInvalidHandle };
+    bgfx::TextureHandle m_hTex{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle m_hProg{ bgfx::kInvalidHandle };
 
 #ifdef ENABLE_IMGUI
@@ -34,7 +36,7 @@ inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrin
     { .label = "TexturePath", .member = &SpriteRenderer::texFilePath }
 }};
 inline constexpr std::array<ColorField<SpriteRenderer>, 1> kSpriteRendererColors = {{
-    { .label = "Tint", .color = &SpriteRenderer::color}
+    { .label = "Tint", .color = &SpriteRenderer::tint}
 }};
 
 template <>

@@ -18,10 +18,13 @@ SpriteRenderer::SpriteRenderer() {
         LOG_ERROR("SpriteRenderer: Failed to create shader program");
     }
 
-    bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+    m_uTint = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+    m_uTexSampler = bgfx::createUniform("s_tex0", bgfx::UniformType::Sampler);
 }
 
 SpriteRenderer::~SpriteRenderer() {
+    BGFX_SAFE_DESTROY_HANDLE(m_uTint);
+    BGFX_SAFE_DESTROY_HANDLE(m_uTexSampler);
     BGFX_SAFE_DESTROY_HANDLE(m_hTex);
     BGFX_SAFE_DESTROY_HANDLE(m_hProg);
 }

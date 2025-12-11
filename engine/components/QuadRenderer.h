@@ -23,12 +23,12 @@ public:
     glm::vec4 color;
 
 private:
+    static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
+    static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
+
     bgfx::VertexBufferHandle m_hVertBuf{ bgfx::kInvalidHandle };
     bgfx::IndexBufferHandle m_hIndexBuf{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle m_hProg{ bgfx::kInvalidHandle };
-
-    static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
-    static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
 
 #if defined(ENABLE_IMGUI)
 public:
