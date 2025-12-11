@@ -59,18 +59,18 @@ namespace {
 
 QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
     PosColorVertex::init();
-    vbHandle = bgfx::createVertexBuffer(
+    m_hVertBuf = bgfx::createVertexBuffer(
         // Static data can be passed with bgfx::makeRef
         bgfx::makeRef(s_cubeVertices.data(), sizeof(s_cubeVertices)),
         PosColorVertex::ms_decl);
 
-    ibHandle = bgfx::createIndexBuffer(
+    m_hIndexBuf = bgfx::createIndexBuffer(
         // Static data can be passed with bgfx::makeRef
         bgfx::makeRef(s_cubeTriList.data(), sizeof(s_cubeTriList)));
     bgfx::ShaderHandle vsh = loadShader(kVertexShaderName);
     bgfx::ShaderHandle fsh = loadShader(kFragmentShaderName);
-    progHandle = bgfx::createProgram(vsh, fsh, true);
-    if (!bgfx::isValid(progHandle)) {
+    m_hProg = bgfx::createProgram(vsh, fsh, true);
+    if (!bgfx::isValid(m_hProg)) {
         LOG_ERROR("QuadRenderer: Failed to create shader program");
     }
 }
@@ -78,9 +78,9 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
 QuadRenderer::QuadRenderer() : QuadRenderer(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}) { }
 
 QuadRenderer::~QuadRenderer() {
-    BGFX_SAFE_DESTROY_HANDLE(vbHandle);
-    BGFX_SAFE_DESTROY_HANDLE(ibHandle);
-    BGFX_SAFE_DESTROY_HANDLE(progHandle);
+    BGFX_SAFE_DESTROY_HANDLE(m_hVertBuf);
+    BGFX_SAFE_DESTROY_HANDLE(m_hIndexBuf);
+    BGFX_SAFE_DESTROY_HANDLE(m_hProg);
 }
 
 void QuadRenderer::render(GameObject& owner) {
@@ -90,12 +90,12 @@ void QuadRenderer::render(GameObject& owner) {
     bgfx::setTransform(glm::value_ptr(model));
 
     //// Set vertex and index buffer.
-    bgfx::setVertexBuffer(0, vbHandle);
-    bgfx::setIndexBuffer(ibHandle);
+    bgfx::setVertexBuffer(0, m_hVertBuf);
+    bgfx::setIndexBuffer(m_hIndexBuf);
 
     //// Set render states.
     bgfx::setState(BGFX_STATE_DEFAULT);
 
     //// Submit primitive for rendering to view 0.
-    bgfx::submit(getCtxSettings().viewIds.world, progHandle);
+    bgfx::submit(getCtxSettings().viewIds.world, m_hProg);
 }

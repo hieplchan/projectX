@@ -13,15 +13,19 @@ public:
     void onDeserialized() override;
 
     std::string texFilePath;
-    glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
+    glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-    bgfx::TextureHandle texHandle{ bgfx::kInvalidHandle };
-    bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
+private:
+    bgfx::UniformHandle m_uTint{ bgfx::kInvalidHandle };
+    bgfx::TextureHandle m_hTex{ bgfx::kInvalidHandle };
+    bgfx::UniformHandle m_uTexSampler{ bgfx::kInvalidHandle };
 
     static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";
     static constexpr std::string_view kFragmentShaderName = "fs_sprite.bin";
+    bgfx::ProgramHandle m_hProg{ bgfx::kInvalidHandle };
 
 #ifdef ENABLE_IMGUI
+public:
     void onInspectorGUI() override;
 #endif
 };

@@ -22,14 +22,16 @@ public:
 
     glm::vec4 color;
 
-    bgfx::VertexBufferHandle vbHandle{ bgfx::kInvalidHandle };
-    bgfx::IndexBufferHandle ibHandle{ bgfx::kInvalidHandle };
-    bgfx::ProgramHandle progHandle{ bgfx::kInvalidHandle };
+private:
+    bgfx::VertexBufferHandle m_hVertBuf{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle m_hIndexBuf{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle m_hProg{ bgfx::kInvalidHandle };
 
     static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
     static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
 
 #if defined(ENABLE_IMGUI)
+public:
     void onInspectorGUI() override;
 #endif
 };

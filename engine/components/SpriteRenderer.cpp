@@ -13,15 +13,17 @@ void SpriteRenderer::onInspectorGUI() {
 SpriteRenderer::SpriteRenderer() {
     bgfx::ShaderHandle vsh = loadShader(kVertexShaderName);
     bgfx::ShaderHandle fsh = loadShader(kFragmentShaderName);
-    progHandle = bgfx::createProgram(vsh, fsh, true);
-    if (!bgfx::isValid(progHandle)) {
+    m_hProg = bgfx::createProgram(vsh, fsh, true);
+    if (!bgfx::isValid(m_hProg)) {
         LOG_ERROR("SpriteRenderer: Failed to create shader program");
     }
+
+    bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
 }
 
 SpriteRenderer::~SpriteRenderer() {
-    BGFX_SAFE_DESTROY_HANDLE(texHandle);
-    BGFX_SAFE_DESTROY_HANDLE(progHandle);
+    BGFX_SAFE_DESTROY_HANDLE(m_hTex);
+    BGFX_SAFE_DESTROY_HANDLE(m_hProg);
 }
 
 void SpriteRenderer::onDeserialized() {
@@ -30,5 +32,5 @@ void SpriteRenderer::onDeserialized() {
         LOG_ERROR("SpriteRenderer: Failed to load texture {}", texFilePath);
         return;
     }
-    texHandle = tex;
+    m_hTex = tex;
 }
