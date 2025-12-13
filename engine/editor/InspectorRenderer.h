@@ -1,9 +1,11 @@
 #pragma once
 
 #ifdef ENABLE_IMGUI
+#include <glm/gtc/type_ptr.hpp>
+
 #include <Metadata.h>
 #include <imgui.h>
-#include <glm/gtc/type_ptr.hpp>
+#include <imgui_stdlib.h>
 
 namespace Inspector {
 
@@ -59,6 +61,13 @@ void drawFromProperty(Object* obj, const Property<Object>& prop) {
             field.step,
             field.min,
             field.max
+        );
+    }
+
+    for (const auto& field: prop.strings) {
+        ImGui::InputText(
+            field.label.data(),
+            &(obj->*(field.member))
         );
     }
 

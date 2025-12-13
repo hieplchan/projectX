@@ -7,14 +7,11 @@
 
 #include <ComponentBase.h>
 
-class ENGINE_EXPORT Camera : public ComponentBase<Camera> {
+class ENGINE_EXPORT Camera final : public ComponentBase<Camera> {
 public:
-    float fovDeg = 60.0f;
-    float zNear = 0.1f;
-    float zFar = 100.0f;
-
-    explicit Camera() = default;
-    ~Camera() override = default;
+    [[field]] float fovDeg = 60.0f;
+    [[field]] float zNear = 0.1f;
+    [[field]] float zFar = 100.0f;
 
     // Transforms world space -> camera space.
     glm::mat4 view() const;
@@ -23,6 +20,7 @@ public:
     glm::mat4 proj() const;
 
 #ifdef ENABLE_IMGUI
+public:
     void onInspectorGUI() override;
 #endif
 };

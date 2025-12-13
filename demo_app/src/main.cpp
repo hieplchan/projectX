@@ -12,7 +12,7 @@ int main() {
 
     LOG_INFO(std::format("Demo app started at: {}", std::chrono::system_clock::now()));
 
-    if (!tryLoadSceneFromFile("scene1.json", engine)) {
+    if (!tryLoadSceneFromFile("assets/scenes/scene1.json", engine)) {
         LOG_ERROR("Failed to load scene from file!");
     }
 

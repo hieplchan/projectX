@@ -7,7 +7,7 @@
                 {
                     "type": "Transform",
                     "Position": [
-                        0,
+                        1,
                         0,
                         -10
                     ],
@@ -31,23 +31,89 @@
             ]
         },
         {
+            "name": "Carp",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "SpriteRenderer",
+                    "TexturePath": "Carp.png",
+                    "Tint": [
+                        0,
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TwinBee Guy",
+            "components": [
+                {
+                    "type": "Transform",
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "type": "SpriteRenderer",
+                    "TexturePath": "TwinBee.png",
+                    "Tint": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Quad1",
             "components": [
                 {
                     "type": "Transform",
                     "Position": [
                         0,
-                        0.6,
+                        1.2,
                         0
                     ],
                     "Rotation": [
                         0,
-                        30,
-                        8
+                        0,
+                        0
                     ],
                     "Scale": [
-                        2,
-                        2,
+                        1,
+                        1,
                         1
                     ]
                 },
@@ -64,7 +130,7 @@
                     "type": "RotatorComp",
                     "Speed": 180,
                     "Enabled": true,
-                    "Axis": "Y"
+                    "Axis": "Z"
                 }
             ]
         },
@@ -75,18 +141,18 @@
                     "type": "Transform",
                     "Position": [
                         0,
-                        0,
+                        -0.5,
                         0
                     ],
                     "Rotation": [
                         0,
                         0,
-                        0
+                        45
                     ],
                     "Scale": [
-                        1,
-                        1,
-                        1
+                        2,
+                        2,
+                        2
                     ]
                 },
                 {
@@ -100,9 +166,9 @@
                 },
                 {
                     "type": "RotatorComp",
-                    "Speed": -180,
-                    "Enabled": false,
-                    "Axis": "Z"
+                    "Speed": -360,
+                    "Enabled": true,
+                    "Axis": "Y"
                 }
             ]
         }

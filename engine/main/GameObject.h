@@ -25,12 +25,17 @@ public:
         m_name = name;
     }
 
+    void setContext(std::shared_ptr<RuntimeContext> ctx);
+
+#pragma region Lifecycle
     /** Update all components */
     void update(float deltaTime);
 
     /** Render all components */
     void render();
+#pragma endregion
 
+#pragma region Component Management
     /** Add a component to the game object */
     void addComponent(std::unique_ptr<Component> component);
 
@@ -41,8 +46,7 @@ public:
     /** Get first component of specified type */
     template<ComponentType T>
     T* getComponent();
-
-    void setContext(std::shared_ptr<RuntimeContext> ctx);
+#pragma endregion
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI();

@@ -11,21 +11,25 @@ struct Pos2D {
     float y;
 };
 
-class ENGINE_EXPORT QuadRenderer : public ComponentBase<QuadRenderer> {
+class ENGINE_EXPORT QuadRenderer final : public ComponentBase<QuadRenderer> {
 public:
-    explicit QuadRenderer(const glm::vec4& color);
-    explicit QuadRenderer();
+    [[field]] glm::vec4 color;
 
+    explicit QuadRenderer();
     ~QuadRenderer() override;
 
+private:
     void render(GameObject& owner) override;
 
-    glm::vec4 color;
-    bgfx::VertexBufferHandle m_vb{ bgfx::kInvalidHandle };
-    bgfx::IndexBufferHandle m_ib{ bgfx::kInvalidHandle };
-    bgfx::ProgramHandle m_prog{ bgfx::kInvalidHandle };
+    static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
+    static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
+
+    bgfx::VertexBufferHandle    m_hVertBuf{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle     m_hIndexBuf{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle         m_hProg{ bgfx::kInvalidHandle };
 
 #if defined(ENABLE_IMGUI)
+public:
     void onInspectorGUI() override;
 #endif
 };

@@ -19,7 +19,7 @@ target_include_directories(engine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/components
     ${CMAKE_CURRENT_SOURCE_DIR}/editor
     ${CMAKE_CURRENT_SOURCE_DIR}/common
-    ${CMAKE_CURRENT_SOURCE_DIR}/misc
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
 
     ${CMAKE_CURRENT_BINARY_DIR} # for engine_export.h
 
@@ -30,7 +30,12 @@ target_include_directories(engine PUBLIC
     ${CMAKE_SOURCE_DIR}/thirdparty/magic_enum/include
 )
 
-target_link_libraries(engine PRIVATE SDL2 bgfx imgui bgfx-imgui-backend nlohmann_json::nlohmann_json)
+target_link_libraries(engine PRIVATE
+    SDL2
+    bx bimg bimg_decode bgfx
+    imgui bgfx-imgui-backend
+    nlohmann_json::nlohmann_json
+)
 
 target_compile_definitions(engine PUBLIC
     $<$<CONFIG:Debug>:ENABLE_IMGUI>

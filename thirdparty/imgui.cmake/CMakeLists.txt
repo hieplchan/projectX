@@ -10,6 +10,7 @@ add_library(imgui STATIC ${IMGUI_SOURCES})
 
 target_include_directories(imgui PUBLIC
   ${IMGUI_DIR}/
+  ${IMGUI_DIR}/misc/cpp/
   ${IMGUI_DIR}/backends/
 )
 

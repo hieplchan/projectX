@@ -21,3 +21,10 @@ add_custom_command(TARGET demo_app POST_BUILD
         $<TARGET_FILE:engine>
         $<TARGET_FILE_DIR:demo_app>
 )
+
+# Copy assets folder to output directory
+add_custom_command(TARGET demo_app POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/demo_app/assets
+        $<TARGET_FILE_DIR:demo_app>/assets
+)
