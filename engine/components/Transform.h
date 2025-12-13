@@ -9,12 +9,11 @@
 
 class ENGINE_EXPORT Transform final : public ComponentBase<Transform> {
 public:
-    glm::vec3 position{ 0.0f, 0.0f, 0.0f };
-    glm::vec3 rotation{ 0.0f, 0.0f, 0.0f }; // Euler angles in degrees
-    glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
+    [[field]] glm::vec3 position{ 0.0f, 0.0f, 0.0f };
+    [[field]] glm::vec3 rotation{ 0.0f, 0.0f, 0.0f }; // Euler angles in degrees
+    [[field]] glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
 
-    // Compute the transformation matrix
-    glm::mat4 matrix() const;
+    glm::mat4 matrix() const; // Transformation matrix
 
 #if defined(ENABLE_IMGUI)
     void onInspectorGUI() override;

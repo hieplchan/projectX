@@ -9,9 +9,9 @@
 
 class ENGINE_EXPORT Camera final : public ComponentBase<Camera> {
 public:
-    float fovDeg = 60.0f;
-    float zNear = 0.1f;
-    float zFar = 100.0f;
+    [[field]] float fovDeg = 60.0f;
+    [[field]] float zNear = 0.1f;
+    [[field]] float zFar = 100.0f;
 
     // Transforms world space -> camera space.
     glm::mat4 view() const;

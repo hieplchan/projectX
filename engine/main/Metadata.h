@@ -5,6 +5,12 @@
 #include <glm/glm.hpp>
 #include <magic_enum/magic_enum.hpp>
 
+#pragma region Attributes
+namespace attr {
+    struct field {};
+}
+#pragma endregion
+
 // Owner: our engine object, mimic Unreal UObject
 #pragma region Field Definition
 template <typename T>

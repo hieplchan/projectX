@@ -7,24 +7,25 @@
 
 class ENGINE_EXPORT SpriteRenderer final : public ComponentBase<SpriteRenderer> {
 public:
+    [[field]] std::string texFilePath;
+    [[field]] glm::vec4 tint{ 1.0f };
+
     explicit SpriteRenderer();
     ~SpriteRenderer() override;
 
     void onDeserialized() override;
 
-    std::string texFilePath;
-    glm::vec4 tint{ 1.0f };
-
 private:
     static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";
     static constexpr std::string_view kFragmentShaderName = "fs_sprite.bin";
+
     bgfx::UniformHandle m_uTint{ bgfx::kInvalidHandle };
     bgfx::UniformHandle m_uTexSampler{ bgfx::kInvalidHandle };
 
-    bgfx::VertexBufferHandle m_hVertBuf{ bgfx::kInvalidHandle };
-    bgfx::IndexBufferHandle m_hIndexBuf{ bgfx::kInvalidHandle };
-    bgfx::TextureHandle m_hTex{ bgfx::kInvalidHandle };
-    bgfx::ProgramHandle m_hProg{ bgfx::kInvalidHandle };
+    bgfx::VertexBufferHandle    m_hVertBuf{ bgfx::kInvalidHandle };
+    bgfx::IndexBufferHandle     m_hIndexBuf{ bgfx::kInvalidHandle };
+    bgfx::TextureHandle         m_hTex{ bgfx::kInvalidHandle };
+    bgfx::ProgramHandle         m_hProg{ bgfx::kInvalidHandle };
 
 #ifdef ENABLE_IMGUI
 public:
