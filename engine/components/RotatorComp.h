@@ -17,9 +17,7 @@ public:
     [[field]] Axis axis;
     [[field]] float speed;
 
-    explicit RotatorComp(Axis axis = Axis::Y, float speed = 45.0f)
-        : axis(axis), speed(speed) {}
-
+private:
     void update(GameObject& owner, float deltaTime) override {
         if (!enabled) return;
 
@@ -34,6 +32,7 @@ public:
     }
 
 #if defined(ENABLE_IMGUI)
+public:
     void onInspectorGUI() override;
 #endif
 };

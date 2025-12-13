@@ -15,14 +15,12 @@ class ENGINE_EXPORT QuadRenderer final : public ComponentBase<QuadRenderer> {
 public:
     [[field]] glm::vec4 color;
 
-    explicit QuadRenderer(const glm::vec4& color);
     explicit QuadRenderer();
-
     ~QuadRenderer() override;
 
+private:
     void render(GameObject& owner) override;
 
-private:
     static constexpr std::string_view kVertexShaderName = "vs_quad.bin";
     static constexpr std::string_view kFragmentShaderName = "fs_quad.bin";
 

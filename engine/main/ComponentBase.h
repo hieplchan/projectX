@@ -36,6 +36,7 @@ public:
     }
 
 #pragma region Lifecycle
+    // Init phase one-time calls
     virtual void onDeserialized() = 0;
 
     // Game loop calls

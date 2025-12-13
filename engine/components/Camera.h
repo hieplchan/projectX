@@ -20,6 +20,7 @@ public:
     glm::mat4 proj() const;
 
 #ifdef ENABLE_IMGUI
+public:
     void onInspectorGUI() override;
 #endif
 };

@@ -12,7 +12,6 @@ public:
 
     explicit SpriteRenderer();
     ~SpriteRenderer() override;
-
     void onDeserialized() override;
 
 private:

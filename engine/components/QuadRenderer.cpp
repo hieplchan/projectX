@@ -57,7 +57,7 @@ namespace {
     }
 }
 
-QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
+QuadRenderer::QuadRenderer() {
     PosColorVertex::init();
     m_hVertBuf = bgfx::createVertexBuffer(
         bgfx::makeRef(
@@ -81,8 +81,6 @@ QuadRenderer::QuadRenderer(const glm::vec4& color) : color(color) {
         LOG_ERROR("QuadRenderer: Failed to create shader program");
     }
 }
-
-QuadRenderer::QuadRenderer() : QuadRenderer(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}) { }
 
 QuadRenderer::~QuadRenderer() {
     BGFX_SAFE_DESTROY_HANDLE(m_hVertBuf);
