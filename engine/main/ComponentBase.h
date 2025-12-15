@@ -6,8 +6,6 @@
 #include <common/runtime_context.h>
 #include <Metadata.h>
 
-using namespace attr;
-
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;
 
