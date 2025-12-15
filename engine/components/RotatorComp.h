@@ -9,17 +9,15 @@
 #include <ComponentBase.h>
 #include "Transform.h"
 
-class ENGINE_EXPORT RotatorComp : public ComponentBase<RotatorComp> {
+class ENGINE_EXPORT RotatorComp final : public ComponentBase<RotatorComp> {
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 
-    bool enabled = true;
-    Axis axis;
-    float speed;
+    [[field]] bool enabled = true;
+    [[field]] Axis axis;
+    [[field]] float speed;
 
-    explicit RotatorComp(Axis axis = Axis::Y, float speed = 45.0f)
-        : axis(axis), speed(speed) {}
-
+private:
     void update(GameObject& owner, float deltaTime) override {
         if (!enabled) return;
 
@@ -34,6 +32,7 @@ public:
     }
 
 #if defined(ENABLE_IMGUI)
+public:
     void onInspectorGUI() override;
 #endif
 };

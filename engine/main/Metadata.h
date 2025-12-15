@@ -5,6 +5,12 @@
 #include <glm/glm.hpp>
 #include <magic_enum/magic_enum.hpp>
 
+#pragma region Attributes
+namespace attr {
+    struct field {};
+}
+#pragma endregion
+
 // Owner: our engine object, mimic Unreal UObject
 #pragma region Field Definition
 template <typename T>
@@ -24,6 +30,12 @@ struct NumericField {
     std::string_view label;
     T Owner::* member;
     T step, min, max;
+};
+
+template <typename Owner>
+struct StringField {
+    std::string_view label;
+    std::string Owner::* member;
 };
 
 template <typename Owner>
@@ -55,6 +67,7 @@ struct Property {
     std::span<const EnumField<Owner>>               enums   {};
     std::span<const NumericField<Owner, int>>       ints    {};
     std::span<const NumericField<Owner, float>>     floats  {};
+    std::span<const StringField<Owner>>             strings {};
     std::span<const Vec3Field<Owner>>               vec3s   {};
     std::span<const ColorField<Owner>>              colors  {};
 };
