@@ -5,6 +5,7 @@
 
 #include <common/runtime_context.h>
 #include <Metadata.h>
+#include <InspectorRenderer.h>
 
 template<typename T>
 concept ComponentType = std::derived_from<T, class Component>;
@@ -83,3 +84,17 @@ public:
         // Default: do nothing
     }
 };
+
+#pragma region Utils
+
+#ifdef ENABLE_IMGUI
+    #define X_COMPONENT(CompType) \
+        public: \
+            void onInspectorGUI() override { \
+                Inspector::drawFromProperty<CompType>(this, reflect<CompType>()); \
+            }
+#else
+    #define X_COMPONENT(CompType)
+#endif
+
+#pragma endregion

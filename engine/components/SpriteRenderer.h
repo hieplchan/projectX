@@ -6,6 +6,8 @@
 #include <ComponentBase.h>
 
 class ENGINE_EXPORT SpriteRenderer final : public ComponentBase<SpriteRenderer> {
+X_COMPONENT(SpriteRenderer)
+
 public:
     [[field]] std::string texFilePath;
     [[field]] glm::vec4 tint{ 1.0f };
@@ -25,11 +27,6 @@ private:
     bgfx::IndexBufferHandle     m_hIndexBuf{ bgfx::kInvalidHandle };
     bgfx::TextureHandle         m_hTex{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle         m_hProg{ bgfx::kInvalidHandle };
-
-#ifdef ENABLE_IMGUI
-public:
-    void onInspectorGUI() override;
-#endif
 };
 
 inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrings = {{

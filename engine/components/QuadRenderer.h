@@ -12,6 +12,8 @@ struct Pos2D {
 };
 
 class ENGINE_EXPORT QuadRenderer final : public ComponentBase<QuadRenderer> {
+X_COMPONENT(QuadRenderer)
+
 public:
     [[field]] glm::vec4 color;
 
@@ -27,11 +29,6 @@ private:
     bgfx::VertexBufferHandle    m_hVertBuf{ bgfx::kInvalidHandle };
     bgfx::IndexBufferHandle     m_hIndexBuf{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle         m_hProg{ bgfx::kInvalidHandle };
-
-#if defined(ENABLE_IMGUI)
-public:
-    void onInspectorGUI() override;
-#endif
 };
 
 inline constexpr std::array<ColorField<QuadRenderer>, 1> kQuadRendererColors = {{

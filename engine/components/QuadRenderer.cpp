@@ -3,13 +3,6 @@
 #include "Transform.h"
 #include "QuadRenderer.h"
 
-#ifdef ENABLE_IMGUI
-#include <InspectorRenderer.h>
-void QuadRenderer::onInspectorGUI() {
-    Inspector::drawFromProperty<QuadRenderer>(this, reflect<QuadRenderer>());
-}
-#endif
-
 namespace {
     struct PosColorVertex
     {

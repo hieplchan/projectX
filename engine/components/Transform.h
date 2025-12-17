@@ -8,16 +8,23 @@
 #include <ComponentBase.h>
 
 class ENGINE_EXPORT Transform final : public ComponentBase<Transform> {
+X_COMPONENT(Transform)
+
 public:
     [[field]] glm::vec3 position{ 0.0f, 0.0f, 0.0f };
     [[field]] glm::vec3 rotation{ 0.0f, 0.0f, 0.0f }; // Euler angles in degrees
     [[field]] glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
 
-    glm::mat4 matrix() const; // Transformation matrix
-
-#if defined(ENABLE_IMGUI)
-    void onInspectorGUI() override;
-#endif
+    // Transformation matrix
+    glm::mat4 matrix() const {
+            glm::mat4 M(1.0f);
+        M = glm::translate(M, position);
+        M = glm::rotate(M, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        M = glm::rotate(M, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        M = glm::rotate(M, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        M = glm::scale(M, scale);
+        return M;
+    }
 };
 
 inline constexpr std::array<Vec3Field<Transform>, 3> kTransformVec3s = {{
