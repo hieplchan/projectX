@@ -16,6 +16,7 @@ public:
     ~SpriteRenderer() override;
 
     void onDeserialized() override;
+    void render(GameObject& owner) override;
 
 private:
     static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";

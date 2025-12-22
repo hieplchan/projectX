@@ -1,4 +1,7 @@
 #include <bgfx_utils.h>
+
+#include <common/common_include.h>
+#include <GameObject.h>
 #include "Logger.h"
 #include "Transform.h"
 #include "SpriteRenderer.h"
@@ -73,4 +76,26 @@ void SpriteRenderer::onDeserialized() {
         return;
     }
     m_hTex = tex;
+}
+
+void SpriteRenderer::render(GameObject& owner) {
+    const auto* tf = getOwner()->getComponent<Transform>();
+    const glm::mat4 model = tf ? tf->matrix() : glm::mat4(1.0f);
+
+    bgfx::setTransform(glm::value_ptr(model));
+
+    //// Set vertex and index buffer.
+    bgfx::setVertexBuffer(0, m_hVertBuf);
+    bgfx::setIndexBuffer(m_hIndexBuf);
+
+    // bind texture and tint
+    bgfx::setTexture(0, m_uTexSampler, m_hTex);
+    bgfx::setUniform(m_uTint, glm::value_ptr(tint));
+
+    // state (write rgb + alpha, alpha blend)
+    // const uint64_t state = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA;
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+
+    // submit - use engine's world view id
+    bgfx::submit(getCtxSettings().viewIds.world, m_hProg);
 }
