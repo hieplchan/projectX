@@ -15,7 +15,7 @@ class ENGINE_EXPORT QuadRenderer final : public ComponentBase<QuadRenderer> {
 X_COMPONENT(QuadRenderer)
 
 public:
-    [[field]] glm::vec4 color;
+    [[field]] glm::vec4 color{ 1.0f };
 
     explicit QuadRenderer();
     ~QuadRenderer() override;

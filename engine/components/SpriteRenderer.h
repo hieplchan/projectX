@@ -14,6 +14,7 @@ public:
 
     explicit SpriteRenderer();
     ~SpriteRenderer() override;
+
     void onDeserialized() override;
 
 private:
@@ -32,6 +33,7 @@ private:
 inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrings = {{
     { .label = "TexturePath", .member = &SpriteRenderer::texFilePath }
 }};
+
 inline constexpr std::array<ColorField<SpriteRenderer>, 1> kSpriteRendererColors = {{
     { .label = "Tint", .color = &SpriteRenderer::tint}
 }};
