@@ -94,7 +94,7 @@ void SpriteRenderer::render(GameObject& owner) {
 
     // state (write rgb + alpha, alpha blend)
     // const uint64_t state = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA;
-    bgfx::setState(BGFX_STATE_WRITE_R);
+    bgfx::setState(BGFX_STATE_WRITE_RGB);
 
     // submit - use engine's world view id
     bgfx::submit(getCtxSettings().viewIds.world, m_hProg);

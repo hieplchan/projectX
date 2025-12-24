@@ -36,7 +36,7 @@
                 {
                     "type": "Transform",
                     "Position": [
-                        -1.5,
+                        0,
                         0,
                         0
                     ],
@@ -56,39 +56,6 @@
                     "TexturePath": "Carp.png",
                     "Tint": [
                         0,
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "TwinBee Guy",
-            "components": [
-                {
-                    "type": "Transform",
-                    "Position": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "type": "SpriteRenderer",
-                    "TexturePath": "TwinBee.png",
-                    "Tint": [
-                        1,
                         1,
                         1,
                         1

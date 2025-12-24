@@ -8,5 +8,5 @@ uniform vec4 u_tint;   // tint color from C++
 void main()
 {
     vec4 texColor = texture2D(s_tex0, v_texcoord0);
-    gl_FragColor = texColor * u_tint;   // apply tint (rgba multiplication)
+    gl_FragColor = texColor;
 }
