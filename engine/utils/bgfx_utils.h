@@ -10,6 +10,7 @@
 #include <bx/error.h>
 #include <bimg/decode.h>
 #include <bx/allocator.h>
+#include <magic_enum/magic_enum.hpp>
 
 #include <common/constants.h>
 #include <utils/file_utils.h>
@@ -83,6 +84,15 @@ inline bgfx::TextureHandle loadTexture(const std::string& texturePath) {
         LOG_ERROR("Failed to parse image {}, err: {}", path.string(), err.getMessage().getCPtr());
         return BGFX_INVALID_HANDLE;
     }
+
+    LOG_INFO("Loaded image {} ({}x{}, mips: {}, layers: {}, format: {})",
+        path.string(),
+        imgContainer->m_width,
+        imgContainer->m_height,
+        static_cast<int>(imgContainer->m_numMips),
+        static_cast<int>(imgContainer->m_numLayers),
+        magic_enum::enum_name(imgContainer->m_format)
+    );
 
     // create bgfx texture
     const bgfx::Memory* mem = bgfx::makeRef(imgContainer->m_data, imgContainer->m_size);

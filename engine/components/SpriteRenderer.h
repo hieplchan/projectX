@@ -6,13 +6,20 @@
 #include <ComponentBase.h>
 
 class ENGINE_EXPORT SpriteRenderer final : public ComponentBase<SpriteRenderer> {
+X_COMPONENT(SpriteRenderer)
+
 public:
     [[field]] std::string texFilePath;
     [[field]] glm::vec4 tint{ 1.0f };
 
+    glm::vec2 size{ 1.0f, 1.0f };
+    glm::vec2 pivot{ 0.5f, 0.5f };
+
     explicit SpriteRenderer();
     ~SpriteRenderer() override;
+
     void onDeserialized() override;
+    void render(GameObject& owner) override;
 
 private:
     static constexpr std::string_view kVertexShaderName = "vs_sprite.bin";
@@ -25,16 +32,12 @@ private:
     bgfx::IndexBufferHandle     m_hIndexBuf{ bgfx::kInvalidHandle };
     bgfx::TextureHandle         m_hTex{ bgfx::kInvalidHandle };
     bgfx::ProgramHandle         m_hProg{ bgfx::kInvalidHandle };
-
-#ifdef ENABLE_IMGUI
-public:
-    void onInspectorGUI() override;
-#endif
 };
 
 inline constexpr std::array<StringField<SpriteRenderer>, 1> kSpriteRendererStrings = {{
     { .label = "TexturePath", .member = &SpriteRenderer::texFilePath }
 }};
+
 inline constexpr std::array<ColorField<SpriteRenderer>, 1> kSpriteRendererColors = {{
     { .label = "Tint", .color = &SpriteRenderer::tint}
 }};

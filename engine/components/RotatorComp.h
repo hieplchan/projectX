@@ -10,6 +10,8 @@
 #include "Transform.h"
 
 class ENGINE_EXPORT RotatorComp final : public ComponentBase<RotatorComp> {
+X_COMPONENT(RotatorComp)
+
 public:
     enum class Axis : int { X = 0, Y = 1, Z = 2};
 
@@ -30,11 +32,6 @@ private:
             }
         }
     }
-
-#if defined(ENABLE_IMGUI)
-public:
-    void onInspectorGUI() override;
-#endif
 };
 
 inline constexpr std::array<BoolField<RotatorComp>, 1> kRotatorCompBools = {{

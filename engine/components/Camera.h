@@ -8,6 +8,8 @@
 #include <ComponentBase.h>
 
 class ENGINE_EXPORT Camera final : public ComponentBase<Camera> {
+X_COMPONENT(Camera)
+
 public:
     [[field]] float fovDeg = 60.0f;
     [[field]] float zNear = 0.1f;
@@ -18,11 +20,6 @@ public:
 
     // Transforms camera space -> clip space
     glm::mat4 proj() const;
-
-#ifdef ENABLE_IMGUI
-public:
-    void onInspectorGUI() override;
-#endif
 };
 
 inline constexpr std::array<NumericField<Camera, float>, 3> kCameraFloats = {{
