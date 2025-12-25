@@ -12,6 +12,9 @@ public:
     [[field]] std::string texFilePath;
     [[field]] glm::vec4 tint{ 1.0f };
 
+    glm::vec2 size{ 1.0f, 1.0f };
+    glm::vec2 pivot{ 0.5f, 0.5f };
+
     explicit SpriteRenderer();
     ~SpriteRenderer() override;
 

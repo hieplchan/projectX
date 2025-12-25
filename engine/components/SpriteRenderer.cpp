@@ -81,8 +81,17 @@ void SpriteRenderer::onDeserialized() {
 void SpriteRenderer::render(GameObject& owner) {
     const auto* tf = getOwner()->getComponent<Transform>();
     const glm::mat4 model = tf ? tf->matrix() : glm::mat4(1.0f);
+    // bgfx::setTransform(glm::value_ptr(model));
 
-    bgfx::setTransform(glm::value_ptr(model));
+    // apply pivot and size: quad is -0.5..0.5 so scale by size, translate to pivot
+    glm::mat4 m = model;
+    // translate by pivot in local quad space
+    m = glm::translate(m, glm::vec3((0.5f - pivot.x) * size.x, (0.5f - pivot.y) * size.y, 0.0f));
+    m = glm::scale(m, glm::vec3(size.x, size.y, 1.0f));
+
+    float mtx[16];
+    memcpy(mtx, glm::value_ptr(m), sizeof(mtx));
+    bgfx::setTransform(mtx);
 
     //// Set vertex and index buffer.
     bgfx::setVertexBuffer(0, m_hVertBuf);
@@ -90,7 +99,7 @@ void SpriteRenderer::render(GameObject& owner) {
 
     // bind texture and tint
     bgfx::setTexture(0, m_uTexSampler, m_hTex);
-    bgfx::setUniform(m_uTint, glm::value_ptr(tint));
+    // bgfx::setUniform(m_uTint, glm::value_ptr(tint));
 
     // state (write rgb + alpha, alpha blend)
     // const uint64_t state = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA;
