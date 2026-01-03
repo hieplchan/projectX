@@ -3,14 +3,6 @@
 #include "Transform.h"
 #include "Camera.h"
 
-#ifdef ENABLE_IMGUI
-#include <InspectorRenderer.h>
-
-void Camera::onInspectorGUI() {
-    Inspector::drawFromProperty<Camera>(this, reflect<Camera>());
-}
-#endif
-
 // GL Camera: https://learnopengl.com/Getting-started/Camera
 glm::mat4 Camera::view() const {
     if (const auto* tf = owner()->getComponent<Transform>()) {
